@@ -1,0 +1,16 @@
+/* src/pages/ActivityDetails.css */
+
+/* Ensures the sticky-top element has a top offset,
+ * and a z-index to appear above other content. */
+.sticky-top-custom {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 100px; /* Adjust this value to match your navbar's height + some padding */
+    z-index: 1020; /* Below navbar (1050), but above most content */
+}
+
+/* Add some extra space on the right column to prevent overlap */
+.right-sidebar {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
