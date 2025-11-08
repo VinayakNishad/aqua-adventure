@@ -14,7 +14,7 @@ import "../App.css";
 import { ArrowRightCircle, Clock, Sunset, Check2Circle } from "react-bootstrap-icons";
 import LocationSteps from "../components/LocationSteps";
 
-const API = "http://localhost:5000/api";
+const API = process.env.REACT_APP_API_URL;
 
 // Helper functions (renderStars, formatTime) and ReviewsSection component remain unchanged
 const renderStars = (rating) => {
