@@ -8,7 +8,7 @@ const VideoGallery = () => {
   const [videos, setVideos] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/videos")
+      .get(`${process.env.REACT_APP_API_URL}/videos`)
       .then((res) => setVideos(res.data))
       .catch((err) => console.error("Error fetching videos:", err));
   }, []);
