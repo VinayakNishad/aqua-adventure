@@ -38,7 +38,7 @@ const AdminLogin = () => {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       if (userCredential.user.email === "vn07244@gmail.com") {
         toast.success("Login Successful..");
-        setTimeout(() => navigate("/bookings", { replace: true }), 1500);
+        setTimeout(() => navigate(`${process.env.REACT_APP_API_URL}/bookings`, { replace: true }), 1500);
       } else {
         await auth.signOut(); // Sign out non-admin users immediately
         toast.error("Access Denied: You are not an authorized admin.");
