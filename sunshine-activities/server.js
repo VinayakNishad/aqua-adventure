@@ -11,7 +11,7 @@ import activityRoutes from "./routes/activities.js";
 import enquiryRoutes from "./routes/enquiryRoutes.js";
 import reviewsRoutes from "./routes/reviews.js";
 import videoRoutes from "./routes/VideoRoutes.js";
-import packageRoutes from "./routes/packageRoutes.js"; // ✅ better name
+import packageRoutes from "./routes/packageRoutes.js"; 
 import googleApiRoutes from "./routes/googleApiRoutes.js";
 dotenv.config();
 
@@ -19,6 +19,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
+const frontendURL = "https://aqua-adventure.vercel.app";
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
@@ -32,7 +33,7 @@ app.use(
 //  API KEY
 app.use(
   cors({
-    origin: "*",   // allow all origins
+    origin: [frontendURL, "http://localhost:3000"]
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: false, // must be false if origin is "*"
   })
