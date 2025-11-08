@@ -1,15 +1,19 @@
 // firebaseAdmin.js
 import admin from "firebase-admin";
-import { readFileSync } from "fs";
+const admin = require("firebase-admin");
 
-const serviceAccount = JSON.parse(
-  readFileSync("./paradisewatersports-firebase-adminsdk-fbsvc-94a72c33a5.json", "utf8")
-);
+// 1. Get the string from the environment variable
+const serviceAccountString = process.env.FIREBASE_SERVICE_ACCOUNT;
 
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-  });
+if (!serviceAccountString) {
+  throw new Error("FIREBASE_SERVICE_ACCOUNT env var is not set.");
 }
 
+// 2. Parse the string as JSON
+const serviceAccount = JSON.parse(serviceAccountString);
+
+// 3. Initialize the app
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
 export default admin;
