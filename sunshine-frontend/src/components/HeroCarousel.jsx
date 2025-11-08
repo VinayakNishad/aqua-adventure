@@ -7,7 +7,7 @@ import ConfirmationModal from "./ConfirmationModal"; // Adjust path if needed
 import "./HeroCarousel.css"; // Import the CSS file
 import "react-toastify/dist/ReactToastify.css";
 
-const API = "http://localhost:5000/api";
+const API = process.env.REACT_APP_API_URL;
 
 // SVG Icon for Delete (No changes needed here)
 const DeleteIcon = () => (
