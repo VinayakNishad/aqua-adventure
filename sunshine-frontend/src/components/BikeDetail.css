@@ -1,0 +1,97 @@
+/* Container for banner */
+.bike-banner {
+  position: relative;
+  width: 100%;
+  max-width: 80%;
+  margin: 20px auto;
+  overflow: hidden; /* This is crucial for cropping the image */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 12px; /* Optional: adds rounded corners */
+}
+
+/* Image styling */
+.banner-image {
+  width: 100%;
+  height: 100%; /* Ensure it can fill container's height */
+  display: block;
+  object-fit: cover; /* This crops the image to fit, preserving aspect ratio */
+  transition: transform 0.4s ease;
+}
+
+/* Slight zoom on hover */
+.bike-banner:hover .banner-image {
+  transform: scale(1.03);
+}
+
+/* Floating call button */
+.floating-call-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: #25d366;
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease;
+  z-index: 2;
+}
+
+/* The continuous glowing ring */
+.pulse-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%; /* Made it 100% of the parent button */
+  height: 100%; /* Made it 100% of the parent button */
+  border-radius: 50%;
+  background-color: rgba(37, 211, 102, 0.3);
+  transform: translate(-50%, -50%) scale(1);
+  animation: pulse-animation 2s infinite ease-out;
+  z-index: -1;
+}
+
+/* Continuous pulse animation */
+@keyframes pulse-animation {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+  }
+  70% {
+    transform: translate(-50%, -50%) scale(1.8);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+}
+
+/* Hover only slightly enlarges icon */
+.floating-call-btn:hover {
+  transform: scale(1.08);
+}
+
+/* === RESPONSIVE CHANGES START HERE === */
+@media (max-width: 768px) {
+  .bike-banner {
+    max-width: 95%;
+    /* Set a fixed height to make the banner taller on mobile */
+    height: 250px; /* You can adjust this value */
+  }
+
+  .floating-call-btn {
+    bottom: 15px;
+    right: 15px;
+    /* Slightly bigger for easier tapping */
+    width: 50px;
+    height: 50px;
+  }
+  
+  /* No need for a separate rule for .pulse-ring, it now scales with the button */
+}
