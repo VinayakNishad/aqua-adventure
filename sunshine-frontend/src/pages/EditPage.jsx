@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FiUpload, FiXCircle } from "react-icons/fi";
 
-const API = "http://localhost:5000/api";
+const API = process.env.REACT_APP_API_URL;
 
 const EditActivity = () => {
   const { id } = useParams();
