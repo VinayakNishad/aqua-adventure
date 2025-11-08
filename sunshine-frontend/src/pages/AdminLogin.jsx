@@ -26,7 +26,7 @@ const AdminLogin = () => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       // Check for user and if they are the admin
       if (user && user.email === "vn07244@gmail.com") {
-        navigate("/bookings", { replace: true });
+        navigate(`${process.env.REACT_APP_API_URL}/bookings, { replace: true });
       }
     });
     return () => unsubscribe();
