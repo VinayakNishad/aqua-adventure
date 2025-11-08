@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom";
 
 // Ensure your API endpoint is correct
-const API = "http://localhost:5000/api";
+const API = process.env.REACT_APP_API_URL;
 
 const AddActivity = () => {
     const [title, setTitle] = useState("");
