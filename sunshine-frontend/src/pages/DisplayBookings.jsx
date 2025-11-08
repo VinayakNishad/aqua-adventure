@@ -176,7 +176,7 @@ const DisplayBookings = () => {
     try {
       await signOut(auth);
       toast.success("Logged out successfully");
-      navigate("/", { replace: true });
+      navigate(`${process.env.REACT_APP_API_URL}/`, { replace: true });
     } catch (err) {
       toast.error(err.message);
     }
@@ -190,7 +190,7 @@ const DisplayBookings = () => {
 
     try {
       setUploading(true);
-      await axios.post("http://localhost:5000/api/ads", formData, {
+      await axios.post(`${process.env.REACT_APP_API_URL}/ads`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       toast.success("Ad uploaded successfully");
@@ -206,7 +206,7 @@ const DisplayBookings = () => {
 
   const handleApprove = async (enquiryToApprove) => {
     try {
-      await axios.put(`http://localhost:5000/api/enquiries/${enquiryToApprove._id}/approve`);
+      await axios.put(`${process.env.REACT_APP_API_URL}/enquiries/${enquiryToApprove._id}/approve`);
       setEnquiries(prevEnquiries =>
         prevEnquiries.map(enquiry =>
           enquiry._id === enquiryToApprove._id ? { ...enquiry, status: 1 } : enquiry
@@ -223,7 +223,7 @@ const DisplayBookings = () => {
   const handleReject = async (id) => {
     if (window.confirm("Are you sure you want to reject and delete this booking?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/enquiries/${id}`);
+        await axios.delete(`${process.env.REACT_APP_API_URL}/enquiries/${id}`);
         setEnquiries(prevEnquiries => prevEnquiries.filter(enquiry => enquiry._id !== id));
         toast.success("Booking rejected and deleted successfully!");
       } catch (err) {
