@@ -176,7 +176,7 @@ const DisplayBookings = () => {
     try {
       await signOut(auth);
       toast.success("Logged out successfully");
-      navigate(`${process.env.REACT_APP_API_URL}/`, { replace: true });
+      navigate("/", { replace: true });
     } catch (err) {
       toast.error(err.message);
     }
