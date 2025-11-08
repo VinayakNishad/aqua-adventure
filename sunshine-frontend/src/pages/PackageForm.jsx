@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"; // Imported useEffect
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 
-const API = "http://localhost:5000/api";
+const API = process.env.REACT_APP_API_URL;
 
 const PackageForm = ({ onCreated }) => {
   const [name, setName] = useState("");
