@@ -53,7 +53,7 @@ const GoogleReviews = () => {
         const fetchData = async () => {
             try {
                 const [reviewsRes] = await Promise.all([
-                    axios.get("http://localhost:5000/api/google/reviews"),
+                    axios.get(`${process.env.REACT_APP_API_URL}/google/reviews`),
                     
                 ]);
                 setReviews(reviewsRes.data);
