@@ -89,7 +89,7 @@ const WelcomeModal = () => {
       <Modal.Header closeButton className="border-0 pb-0" />
       <Modal.Body className="p-3 p-sm-4 text-center">
         <h5 className="fw-bold mb-3 fs-3">
-          Welcome to Our WaterSports Adventure!
+          Welcome to Our Paradise Scuba Adventure!
         </h5>
         <p className="text-muted medium mb-4">
           Fill in your details below and our team will reach out to you with

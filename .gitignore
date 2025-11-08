@@ -1,5 +1,5 @@
 .env
-node_modules/
-dist/
+node_modules
 build/
 .vscode/
+paradisewatersports-firebase-adminsdk-fbsvc-94a72c33a5.json
