@@ -88,7 +88,7 @@ const DisplayBookings = () => {
   useEffect(() => {
     const fetchEnquiries = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/enquiries');
+        const response = await axios.get(`${process.env.REACT_APP_API_URL}/enquiries`);
         // Sort by creation date, newest first
         const sortedData = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         setEnquiries(sortedData);
