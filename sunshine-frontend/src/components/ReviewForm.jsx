@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 // <-- 1. Import icons from react-icons
 import { FaStar,  FaExclamationCircle } from "react-icons/fa";
 
-const API = "http://localhost:5000/api";
+const API = process.env.REACT_APP_API_URL;
 
 const StarRating = ({ rating, onRatingChange }) => {
   return (
