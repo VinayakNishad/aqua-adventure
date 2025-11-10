@@ -8,7 +8,6 @@ import VideoGallery from "../components/VideoGallery";
 import ContactForm from "../components/ContactForm";
 import Footer from "../components/Footer";
 import FAQ from "../components/FAQ";
-import WelcomeModal from "../components/WelcomeModal";
 import WhatsAppIcon from "../components/WhatsaAppIcon";
 import GoogleReviews from "./googleReview";
 import BikeDetail from "../components/BikeDetail";
@@ -17,7 +16,6 @@ const Home = () => {
     <div>
       <Navbar />
       <HeroCarousel />
-      <WelcomeModal />
       <Packages />
       <About />
       <VideoGallery />
