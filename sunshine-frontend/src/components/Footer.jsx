@@ -154,7 +154,7 @@ const Footer = () => {
                     <div className="footer-contact">
                         <h5>Contact Us</h5>
                         <ul>
-                            <li><a href="https://share.google/XchyGu41ekfSAZpmw" target="_blank" rel="noopener noreferrer"><LocationIcon /> Nerul, Goa</a></li>
+                            <li><a href="https://share.google/XchyGu41ekfSAZpmw" target="_blank" rel="noopener noreferrer"><LocationIcon /> Jetty Nerul, Goa</a></li>
                            <li><a href="tel:+919763703724"><PhoneIcon /> +91 9763703724</a></li>
                            <li><a href="https://wa.me/919763703724" target="_blank" rel="noopener noreferrer"><WhatsAppIcon /> WhatsApp</a></li>
                             <li ><a href="mailto:paradisewatersportsandscuba@gmail.com" ><EmailIcon /> paradisescubagoa@gmail.com</a></li>
@@ -163,7 +163,7 @@ const Footer = () => {
                     <div className="footer-social">
                         <h5>Follow Us</h5>
                         <div className="footer-social-links">
-                            <a href="https://www.instagram.com/nerulparadise2023?utm_source=qr&igsh=MWhna2hodDYxdzQ1cg==" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><InstagramIcon /></a>
+                            <a href="https://www.instagram.com/paradisescubagoa2025?igsh=eWJ6MzcxajRyNHI0" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><InstagramIcon /></a>
                             <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><FacebookIcon /></a>
                             <a href="https://youtube.com/@paradisewatersportsandscuba?si=R_Ee9BGATpFJumuZ" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><YoutubeIcon /></a>
                         </div>
