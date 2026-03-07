@@ -18,7 +18,6 @@ import PackageDetail from "./pages/PackageDetail";
 import EditPackage from "./pages/EditPackage";
 import EditPage from "./pages/EditPage";
 import AddActivity from "./pages/AddActivity";
-import Loader from "./components/Loader";
 import ActivitiesSection from "./components/ActivitiesSection";
 const App = () => {
   useEffect(() => {
@@ -27,18 +26,6 @@ const App = () => {
       once: true,
     });
   }, []);
-   const [loading, setLoading] = useState(true);
-    useEffect(() => {
-    // Simulate a small delay (you can adjust it)
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (loading) {
-    return <Loader />;
-  }
 
   const ProtectedRoute = ({ children }) => {
     return auth.currentUser ? children : <Navigate to="/" />;
