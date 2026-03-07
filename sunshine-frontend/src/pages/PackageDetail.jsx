@@ -276,6 +276,7 @@ const PackageDetail = () => {
                 <div className="ratio ratio-16x9">
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3844.730208216731!2d73.77773757512401!3d15.498937485101022!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbfc17d3db27edd%3A0xa46115cf9765581b!2sParadise%20Watersports!5e0!3m2!1sen!2sin!4v1759642658765!5m2!1sen!2sin"
+                    title="Paradise Watersports Location"
                     width="600"
                     height="450"
                     style={{ border: 0 }}

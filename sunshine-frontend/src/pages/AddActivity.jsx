@@ -9,7 +9,6 @@ const API = process.env.REACT_APP_API_URL;
 
 const AddActivity = () => {
     const [title, setTitle] = useState("");
-    const [shortDescription, setShortDescription] = useState("");
     const [description, setDescription] = useState("");
     const [duration, setDuration] = useState("");
     const [category, setCategory] = useState("");
