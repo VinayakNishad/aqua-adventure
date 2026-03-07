@@ -8,6 +8,15 @@ const storage = new CloudinaryStorage({
   params: {
     folder: "uploads", // all uploads go in this folder
     allowed_formats: ["jpg", "png", "jpeg", "webp"],
+    transformation: [
+      {
+        width: 1600,
+        height: 1600,
+        crop: "limit",
+        quality: "auto:good",
+        fetch_format: "auto",
+      },
+    ],
   },
 });
 
