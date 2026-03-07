@@ -1,5 +1,4 @@
 import React from "react";
-import { TextWrap } from "react-bootstrap-icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from '../assets/nerualparadise.png';
 // --- Self-Contained SVG Icons ---

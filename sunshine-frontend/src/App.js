@@ -9,7 +9,6 @@ import "aos/dist/aos.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { auth } from "./pages/firebaseconfig";
 import AdminLogin from "./pages/AdminLogin";
-import { useState } from "react";
 import ReviewPage from "./pages/ReviewPage";
 import AddVideoForm from "./pages/AddVideoForm";
 import Packages from "./pages/packages";
@@ -22,7 +21,7 @@ import ActivitiesSection from "./components/ActivitiesSection";
 const App = () => {
   useEffect(() => {
     AOS.init({
-      duration: 1000,
+      duration: 500,
       once: true,
     });
   }, []);

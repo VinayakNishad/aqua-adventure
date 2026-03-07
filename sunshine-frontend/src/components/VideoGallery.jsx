@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./VideoGallery.css";
-import AddVideoForm from "../pages/AddVideoForm";
-import { auth } from "../pages/firebaseconfig"; // import firebase auth
 
 const VideoGallery = () => {
   const [videos, setVideos] = useState([]);

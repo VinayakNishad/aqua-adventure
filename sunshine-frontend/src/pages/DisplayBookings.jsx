@@ -655,7 +655,7 @@ const DisplayBookings = () => {
                               onClick={() =>
                                 handleSendReview(`${enquiry.countryCode}${enquiry.phone}`, enquiry, enquiry._id)
                               }
-                              disabled={!enquiry.activityId && !enquiry.packageId || sentFeedbackIds.has(enquiry._id)}
+                              disabled={((!enquiry.activityId && !enquiry.packageId) || sentFeedbackIds.has(enquiry._id))}
                             >
                               {sentFeedbackIds.has(enquiry._id) ? "Feedback Sent" : "Send Feedback"}
                             </button>
