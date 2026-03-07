@@ -124,7 +124,6 @@ const EditActivity = () => {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
         .edit-page { font-family: 'Poppins', sans-serif; background-color: #f4f7fa; padding: 2rem 1rem; min-height: 100vh; }
         .edit-form-container { background: #fff; max-width: 800px; margin: auto; padding: 2.5rem; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
         .form-header { text-align: center; margin-bottom: 2rem; }

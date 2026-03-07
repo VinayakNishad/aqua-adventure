@@ -71,7 +71,6 @@ const AddActivity = () => {
         <>
             <style>{`
                 /* Your CSS styles remain unchanged */
-                @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
                 
                 .add-activity-page {
                     font-family: 'Poppins', sans-serif;

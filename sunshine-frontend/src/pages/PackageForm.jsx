@@ -113,7 +113,6 @@ useEffect(() => {
     <>
       <style>{`
         /* --- (Existing styles are unchanged) --- */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
         
         .package-form-container {
             font-family: 'Poppins', sans-serif;

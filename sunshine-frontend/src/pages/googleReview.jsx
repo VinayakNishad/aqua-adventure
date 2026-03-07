@@ -96,8 +96,8 @@ const GoogleReviews = () => {
                 .section-header h2 { margin-bottom: 0 !important; }
                 
                 /* --- NEW: Style for the "Write a Review" button --- */
-                .write-review-btn { background-color: #4285F4; color: white; padding: 0.75rem 1.5rem; border-radius: 50px; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 0.5rem; transition: background-color 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: none; }
-                .write-review-btn:hover { background-color: #3367D6; color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+                .write-review-btn { background-color: #1967d2; color: white; padding: 0.75rem 1.5rem; border-radius: 50px; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 0.5rem; transition: background-color 0.3s ease, box-shadow 0.3s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: none; }
+                .write-review-btn:hover { background-color: #1557b0; color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
 
                 .review-card { background-color: #fff; border: none; border-radius: 15px; padding: 1.5rem; display: flex; flex-direction: column; height: 100%; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
                 .review-header { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; }
