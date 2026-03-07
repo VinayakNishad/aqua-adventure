@@ -44,10 +44,10 @@ const VideoGallery = () => {
   return (
     <section id="channel" className="py-5 bg-white">
       <div className="container">
-        <h2 className="text-center mb-4" data-aos="fade-right">
+        <h2 className="text-center mb-4" data-aos="fade-up">
           Our Water Sports Activities
         </h2>
-        <p className="text-center text-muted mb-4" data-aos="fade-left">
+        <p className="text-center text-muted mb-4" data-aos="fade-up">
           Watch our customers having a blast as they enjoy thrilling dolphin views!
         </p>
 
