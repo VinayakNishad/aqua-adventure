@@ -53,7 +53,7 @@ const ReviewsSection = ({ pkg, onImageClick }) => {
       <Card className="p-4 mb-4 shadow-sm">
         <Row className="align-items-center">
           <Col xs={12} md={5} className="text-center mb-3 mb-md-0">
-            <h1 className="display-4 mb-0 fw-bold">{pkg.avgRating?.toFixed(1) || "0.0"}</h1>
+            <div className="display-4 mb-0 fw-bold">{pkg.avgRating?.toFixed(1) || "0.0"}</div>
             <div style={{ fontSize: "1.5rem", color: "#ffc107" }}>{renderStars(pkg.avgRating || 0)}</div>
             <small className="text-muted">Based on {totalReviews} {totalReviews === 1 ? "review" : "reviews"}</small>
           </Col>
@@ -83,7 +83,7 @@ const ReviewsSection = ({ pkg, onImageClick }) => {
           </div>
            <span className="ms-5 text-warning mt-0">{renderStars(r.rating)}{" "}<span className="text-muted">({r.rating})</span></span>
           <p className="ms-2 mb-1">{r.comment}</p>
-          {r.image && <img src={r.image} alt="review" className="mt-2 ms-2 rounded img-fluid" style={{ maxWidth: "150px", cursor: "pointer" }} onClick={() => onImageClick(r.image)} />}
+          {r.image && <img src={r.image} alt="review" className="mt-2 ms-2 rounded img-fluid" style={{ maxWidth: "150px", cursor: "pointer" }} onClick={() => onImageClick(r.image)} loading="lazy" />}
         </Card>
       ))}
       {pkg.reviews?.length > 3 && (
@@ -138,6 +138,7 @@ const PackageDetail = () => {
     <>
       <NavbarComp />
 
+      <main>
       <Container className="my-2">
         <Row>
           <Col lg={7}>
@@ -192,6 +193,7 @@ const PackageDetail = () => {
                                   alt={activity.title}
                                   style={{ height: 'auto', objectFit: 'fill', cursor: 'pointer' }}
                                   onClick={() => setPreviewImage(image.url)}
+                                  loading="lazy"
                                 />
                               </Carousel.Item>
                             ))}
@@ -199,7 +201,7 @@ const PackageDetail = () => {
                         )}
 
                         <Card.Body>
-                          <Card.Title className="fw-bold">{activity.title}</Card.Title>
+                          <Card.Title as="h3" className="fw-bold">{activity.title}</Card.Title>
 
                           <Card.Text className="text-muted mb-2">
                             ({activity.category})
@@ -249,9 +251,9 @@ const PackageDetail = () => {
               {/* Price Card */}
               <Card className="p-4 shadow mb-4">
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                  <h4 className="mb-0 text-muted">Price per person</h4>
+                  <h3 className="mb-0 text-muted">Price per person</h3>
                   <div className="text-end">
-                    <h3 className="fw-bold mb-0 text-primary d-inline-block me-2">₹{pkg.price}</h3>
+                    <div className="fw-bold mb-0 text-primary d-inline-block me-2" style={{ fontSize: "1.75rem" }}>₹{pkg.price}</div>
                     <del className="text-muted">₹{originalPrice}</del>
                     <Badge bg="danger" className="ms-2">10% OFF</Badge>
                   </div>
@@ -272,7 +274,7 @@ const PackageDetail = () => {
 
               {/* Location Card */}
               <Card className="p-4 shadow">
-                <h4 className="mb-3">Location</h4>
+                <h3 className="mb-3">Location</h3>
                 <div className="ratio ratio-16x9">
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3844.730208216731!2d73.77773757512401!3d15.498937485101022!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bbfc17d3db27edd%3A0xa46115cf9765581b!2sParadise%20Watersports!5e0!3m2!1sen!2sin!4v1759642658765!5m2!1sen!2sin"
@@ -292,13 +294,14 @@ const PackageDetail = () => {
 
         </Row>
       </Container>
+      </main>
 
       {/* --- MODIFICATION START --- */}
       <div className="mobile-booking-bar d-lg-none">
         <div className="d-flex justify-content-between align-items-center">
           <div>
             <div className="d-flex align-items-center">
-              <h5 className="mb-0 fw-bold me-2">₹{pkg.price}</h5>
+              <div className="mb-0 fw-bold me-2" style={{ fontSize: "1.25rem" }}>₹{pkg.price}</div>
               <del className="text-muted small">₹{originalPrice}</del>
               <Badge bg="danger" pill className="ms-2" style={{ fontSize: "0.6rem" }}>10% OFF</Badge>
             </div>

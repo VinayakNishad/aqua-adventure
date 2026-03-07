@@ -1,23 +1,27 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Home from "./pages/Home";
-import DisplayBookings from "./pages/DisplayBookings";
 import AOS from "aos";
-import GoogleReviews from "./pages/googleReview";
-import ScrollToTopArrow from "./components/ScrollToTopArrow";
+import { auth } from "./pages/firebaseconfig";
 import "aos/dist/aos.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { auth } from "./pages/firebaseconfig";
-import AdminLogin from "./pages/AdminLogin";
-import ReviewPage from "./pages/ReviewPage";
-import AddVideoForm from "./pages/AddVideoForm";
-import Packages from "./pages/packages";
-import PackageForm from "./pages/PackageForm";
-import PackageDetail from "./pages/PackageDetail";
-import EditPackage from "./pages/EditPackage";
-import EditPage from "./pages/EditPage";
-import AddActivity from "./pages/AddActivity";
-import ActivitiesSection from "./components/ActivitiesSection";
+
+// Eager load only critical components
+import Home from "./pages/Home";
+import ScrollToTopArrow from "./components/ScrollToTopArrow";
+
+// Lazy load all other routes for code splitting
+const AdminLogin = React.lazy(() => import("./pages/AdminLogin"));
+const DisplayBookings = React.lazy(() => import("./pages/DisplayBookings"));
+const GoogleReviews = React.lazy(() => import("./pages/googleReview"));
+const ReviewPage = React.lazy(() => import("./pages/ReviewPage"));
+const AddVideoForm = React.lazy(() => import("./pages/AddVideoForm"));
+const Packages = React.lazy(() => import("./pages/packages"));
+const PackageForm = React.lazy(() => import("./pages/PackageForm"));
+const PackageDetail = React.lazy(() => import("./pages/PackageDetail"));
+const EditPackage = React.lazy(() => import("./pages/EditPackage"));
+const EditPage = React.lazy(() => import("./pages/EditPage"));
+const AddActivity = React.lazy(() => import("./pages/AddActivity"));
+const ActivitiesSection = React.lazy(() => import("./components/ActivitiesSection"));
 const App = () => {
   useEffect(() => {
     AOS.init({
@@ -32,7 +36,14 @@ const App = () => {
 
   return (
     <Router>
-      <Routes>
+      <React.Suspense fallback={
+        <div className="d-flex justify-content-center align-items-center vh-100">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      }>
+        <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/admin-login" element={<AdminLogin />} />
          <Route
@@ -100,6 +111,7 @@ const App = () => {
 
         <Route path="*" element={<h1>404 Not Found</h1>} />
       </Routes>
+      </React.Suspense>
       <ScrollToTopArrow />
     </Router>
   );

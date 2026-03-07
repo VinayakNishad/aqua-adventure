@@ -56,7 +56,6 @@ const BookingForm = ({ activityId, packageId, title, onClose }) => {
       <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar />
 
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
         .booking-form-wrapper { font-family: 'Poppins', sans-serif; padding: 0.5rem }
         .form-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e9ecef; padding-bottom: 1rem; margin-bottom: 1.5rem;  }
         .form-header-title { font-size: 1.25rem; font-weight: 600; color: #333; margin: 0; width: 90%; }
