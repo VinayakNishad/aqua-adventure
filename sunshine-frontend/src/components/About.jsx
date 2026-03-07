@@ -17,7 +17,7 @@ const About = () => {
         <Row className="align-items-center">
           {/* Left Side - Image Carousel */}
           <Col md={6} className="mb-4 mb-md-0">
-            <Carousel fade indicators={false} controls interval={3000} className="shadow" data-aos="fade-left">
+            <Carousel fade indicators={false} controls interval={2000} className="shadow" data-aos="fade-up">
               {carouselImages.map((image, index) => (
                 <Carousel.Item key={index}>
                   <Image
