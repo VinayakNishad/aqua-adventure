@@ -1,5 +1,6 @@
 import React from "react";
 import "./ActivityCard.css"; // Make sure this CSS file exists
+import { getOptimizedCloudinaryUrl } from "../utils/cloudinary";
 
 
 // SVG Icons for Admin controls
@@ -38,9 +39,16 @@ const ActivityCard = ({ activity, isAdmin, onUpdate, onDelete }) => {
         )}
 
         <img
-          src={imageUrl}
+          src={getOptimizedCloudinaryUrl(imageUrl, {
+            width: 720,
+            height: 480,
+            crop: "fill",
+          })}
           className="card-img-top"
           alt={title}
+          loading="lazy"
+          decoding="async"
+          sizes="(max-width: 768px) 100vw, 33vw"
           style={{
             height: "180px",
             objectFit: "cover",

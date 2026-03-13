@@ -5,6 +5,7 @@ import { onAuthStateChanged, getIdTokenResult } from "firebase/auth";
 import { auth } from "../pages/firebaseconfig";
 import { ToastContainer, toast } from 'react-toastify';
 import { Carousel } from "react-bootstrap";
+import { getOptimizedCloudinaryUrl } from "../utils/cloudinary";
 
 const API = process.env.REACT_APP_API_URL;
 
@@ -36,8 +37,15 @@ const ActivityCard = ({ activity, isAdmin, onUpdate, onDelete }) => {
                             <Carousel.Item key={imageObj.public_id || index}>
                                 <img
                                     className="d-block w-100 card-img"
-                                    src={imageObj.url}
+                                    src={getOptimizedCloudinaryUrl(imageObj.url, {
+                                        width: 900,
+                                        height: 600,
+                                        crop: "fill",
+                                    })}
                                     alt={`Slide ${index + 1}`}
+                                    loading="lazy"
+                                    decoding="async"
+                                    sizes="(max-width: 768px) 100vw, 33vw"
                                 />
                             </Carousel.Item>
                         ))}

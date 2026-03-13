@@ -13,6 +13,8 @@ const storage = new CloudinaryStorage({
         width: 1600,
         height: 1600,
         crop: "limit",
+        dpr: "auto",
+        flags: "progressive",
         quality: "auto:good",
         fetch_format: "auto",
       },

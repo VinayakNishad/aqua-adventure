@@ -6,6 +6,7 @@ import { ToastContainer, toast } from "react-toastify";
 import ConfirmationModal from "./ConfirmationModal"; // Adjust path if needed
 import "./HeroCarousel.css"; // Import the CSS file
 import "react-toastify/dist/ReactToastify.css";
+import { getOptimizedCloudinaryUrl } from "../utils/cloudinary";
 
 const API = process.env.REACT_APP_API_URL;
 
@@ -25,7 +26,6 @@ const HeroCarousel = () => {
   const [deleting, setDeleting] = useState(false);
   const intervalRef = useRef(null);
 
-  // ✅ Check admin role using custom claims (no hardcoded email!)
   useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -120,7 +120,18 @@ const HeroCarousel = () => {
             key={ad._id}
             className={`carousel-slide ${index === currentIndex ? "active" : ""}`}
           >
-            <img src={ad.imageUrl} alt={`Ad ${index + 1}`} className="carousel-image" />
+            <img
+              src={getOptimizedCloudinaryUrl(ad.imageUrl, {
+                width: 1600,
+                height: 900,
+                crop: "fill",
+              })}
+              alt={`Ad ${index + 1}`}
+              className="carousel-image"
+              loading={index === 0 ? "eager" : "lazy"}
+              fetchPriority={index === 0 ? "high" : "auto"}
+              decoding="async"
+            />
             {isAdmin && (
               <button
                 onClick={() => confirmDelete(ad)}

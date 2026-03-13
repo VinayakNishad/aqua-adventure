@@ -6,6 +6,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from "react-toastify";
 import { Carousel } from "react-bootstrap";
 import BookingForm from "../components/BookingForm";
+import { getOptimizedCloudinaryUrl } from "../utils/cloudinary";
 // NOTE: Adjust paths for firebaseconfig and BookingForm as per your project structure
 
 const WHATSAPP_NUMBER = "919763703724";
@@ -181,7 +182,7 @@ const Packages = () => {
                     <p>Explore a world of Paradise watersports and scuba! with grand island, water sports and scuba with beautiful scenic sight scene view!</p>
                 </div>
                 <div className="packages-grid">
-                    {packages.map(pkg => {
+                    {packages.map((pkg, packageIndex) => {
 
                         const originalPrice = Math.ceil(pkg.price * 1.10); // 10% higher, rounded up
 
@@ -198,7 +199,19 @@ const Packages = () => {
                                         <Carousel fade interval={2000} controls={pkg.images.length > 1} indicators={pkg.images.length > 1}>
                                             {pkg.images.map((imgUrl, idx) => (
                                                 <Carousel.Item key={idx}>
-                                                    <img className="d-block w-100 carousel-img" src={imgUrl} alt={`${pkg.name} slide ${idx + 1}`} />
+                                                    <img
+                                                        className="d-block w-100 carousel-img"
+                                                        src={getOptimizedCloudinaryUrl(imgUrl, {
+                                                            width: 960,
+                                                            height: 540,
+                                                            crop: "fill",
+                                                        })}
+                                                        alt={`${pkg.name} slide ${idx + 1}`}
+                                                        loading={packageIndex < 2 && idx === 0 ? "eager" : "lazy"}
+                                                        fetchPriority={packageIndex < 2 && idx === 0 ? "high" : "auto"}
+                                                        decoding="async"
+                                                        sizes="(max-width: 768px) 100vw, 50vw"
+                                                    />
                                                 </Carousel.Item>
                                             ))}
                                         </Carousel>
