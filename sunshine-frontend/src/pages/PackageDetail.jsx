@@ -13,6 +13,7 @@ import FAQ from "../components/FAQ";
 import "../App.css";
 import { ArrowRightCircle, Clock, Sunset, Check2Circle } from "react-bootstrap-icons";
 import LocationSteps from "../components/LocationSteps";
+import { getOptimizedCloudinaryUrl } from "../utils/cloudinary";
 
 const API = process.env.REACT_APP_API_URL;
 
@@ -83,7 +84,7 @@ const ReviewsSection = ({ pkg, onImageClick }) => {
           </div>
            <span className="ms-5 text-warning mt-0">{renderStars(r.rating)}{" "}<span className="text-muted">({r.rating})</span></span>
           <p className="ms-2 mb-1">{r.comment}</p>
-          {r.image && <img src={r.image} alt="review" className="mt-2 ms-2 rounded img-fluid" style={{ maxWidth: "150px", cursor: "pointer" }} onClick={() => onImageClick(r.image)} loading="lazy" />}
+          {r.image && <img src={getOptimizedCloudinaryUrl(r.image, { width: 300, height: 300, crop: "fill" })} alt="review" className="mt-2 ms-2 rounded img-fluid" style={{ maxWidth: "150px", cursor: "pointer" }} onClick={() => onImageClick(r.image)} loading="lazy" decoding="async" />}
         </Card>
       ))}
       {pkg.reviews?.length > 3 && (
@@ -148,10 +149,18 @@ const PackageDetail = () => {
                   <Carousel.Item key={index} interval={4000}>
                     <img
                       className="d-block w-100"
-                      src={image}
+                      src={getOptimizedCloudinaryUrl(image, {
+                        width: 1280,
+                        height: 720,
+                        crop: "fill",
+                      })}
                       alt={`${pkg.name} - slide ${index + 1}`}
                       style={{ height: "400px", objectFit: "cover", cursor: "pointer" }}
                       onClick={() => setPreviewImage(image)}
+                      loading={index === 0 ? "eager" : "lazy"}
+                      fetchPriority={index === 0 ? "high" : "auto"}
+                      decoding="async"
+                      sizes="(max-width: 992px) 100vw, 66vw"
                     />
                   </Carousel.Item>
                 ))}
@@ -189,11 +198,16 @@ const PackageDetail = () => {
                               <Carousel.Item key={image.public_id}>
                                 <img
                                   className="d-block w-100"
-                                  src={image.url}
+                                  src={getOptimizedCloudinaryUrl(image.url, {
+                                    width: 800,
+                                    height: 500,
+                                    crop: "fill",
+                                  })}
                                   alt={activity.title}
                                   style={{ height: 'auto', objectFit: 'fill', cursor: 'pointer' }}
                                   onClick={() => setPreviewImage(image.url)}
                                   loading="lazy"
+                                  decoding="async"
                                 />
                               </Carousel.Item>
                             ))}
@@ -345,7 +359,10 @@ const PackageDetail = () => {
             ✖
           </button>
           <img
-            src={previewImage}
+            src={getOptimizedCloudinaryUrl(previewImage, {
+              width: 1600,
+              crop: "limit",
+            })}
             alt="preview"
             className="img-fluid"
             style={{
