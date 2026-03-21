@@ -26,6 +26,23 @@ const HeroCarousel = () => {
   const [deleting, setDeleting] = useState(false);
   const intervalRef = useRef(null);
 
+  const buildHeroSrcSet = (imageUrl) => {
+    const candidates = [640, 960, 1280, 1600];
+
+    return candidates
+      .map((width) => {
+        const height = Math.round((width * 9) / 16);
+        const optimized = getOptimizedCloudinaryUrl(imageUrl, {
+          width,
+          height,
+          crop: "fill",
+          quality: "auto:good",
+        });
+        return `${optimized} ${width}w`;
+      })
+      .join(", ");
+  };
+
   useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -122,12 +139,17 @@ const HeroCarousel = () => {
           >
             <img
               src={getOptimizedCloudinaryUrl(ad.imageUrl, {
-                width: 1600,
-                height: 900,
+                width: 1280,
+                height: 720,
                 crop: "fill",
+                quality: "auto:good",
               })}
+              srcSet={buildHeroSrcSet(ad.imageUrl)}
+              sizes="(max-width: 768px) 100vw, 1200px"
               alt={`Ad ${index + 1}`}
               className="carousel-image"
+              width="1600"
+              height="900"
               loading={index === 0 ? "eager" : "lazy"}
               fetchPriority={index === 0 ? "high" : "auto"}
               decoding="async"

@@ -19,7 +19,7 @@
 .carousel-image {
   width: 100%;
   height: 100%;
-  object-fit: fit-contain; /* Changed from 'cover' to 'contain' to match your style */
+  object-fit: contain;
 }
 
 /* Control Buttons (Prev/Next) */

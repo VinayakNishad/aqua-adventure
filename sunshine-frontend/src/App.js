@@ -30,6 +30,46 @@ const App = () => {
     });
   }, []);
 
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production") return undefined;
+
+    let cancelled = false;
+    const GA_ID = "G-M6RM9TGHH8";
+
+    const loadAnalytics = () => {
+      if (cancelled || document.getElementById("gtag-script")) return;
+
+      const script = document.createElement("script");
+      script.id = "gtag-script";
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
+      document.head.appendChild(script);
+
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function gtag() {
+        window.dataLayer.push(arguments);
+      };
+
+      window.gtag("js", new Date());
+      window.gtag("config", GA_ID);
+    };
+
+    const schedule = () => {
+      if (typeof window.requestIdleCallback === "function") {
+        window.requestIdleCallback(loadAnalytics, { timeout: 3000 });
+      } else {
+        window.setTimeout(loadAnalytics, 1500);
+      }
+    };
+
+    window.addEventListener("load", schedule, { once: true });
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener("load", schedule);
+    };
+  }, []);
+
   const ProtectedRoute = ({ children }) => {
     return auth.currentUser ? children : <Navigate to="/" />;
   };
