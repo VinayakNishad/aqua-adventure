@@ -146,7 +146,7 @@ const HeroCarousel = () => {
               })}
               srcSet={buildHeroSrcSet(ad.imageUrl)}
               sizes="(max-width: 768px) 100vw, 1200px"
-              alt={`Ad ${index + 1}`}
+              alt={ad.title || ad.altText || `Scuba diving in Goa experience ${index + 1}`}
               className="carousel-image"
               width="1600"
               height="900"
