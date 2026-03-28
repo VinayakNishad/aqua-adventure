@@ -44,6 +44,7 @@ const DeferredSection = ({ children, minHeight = 120 }) => {
 const Home = () => {
   return (
     <div>
+      <h1 className="visually-hidden">Scuba Diving in Goa with Paradise Scuba Goa</h1>
       <Navbar />
       <HeroCarousel />
       <Packages />
