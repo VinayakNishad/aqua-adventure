@@ -12,7 +12,6 @@
 	left: 50%;
 	bottom: 0;
 	width: 0;
-	 backdrop-filter: blur(12px);
 	height: 2px;
 	background: var(--bs-primary);
 	border-radius: 2px;
