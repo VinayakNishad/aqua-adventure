@@ -24,9 +24,17 @@ const AddActivity = React.lazy(() => import("./pages/AddActivity"));
 const ActivitiesSection = React.lazy(() => import("./components/ActivitiesSection"));
 const App = () => {
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
     AOS.init({
-      duration: 500,
+      duration: 450,
+      easing: "ease-out-cubic",
+      offset: 60,
       once: true,
+      mirror: false,
+      debounceDelay: 80,
+      throttleDelay: 120,
+      disable: prefersReducedMotion,
     });
   }, []);
 

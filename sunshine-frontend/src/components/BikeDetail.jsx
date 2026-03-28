@@ -1,7 +1,7 @@
 import React from "react";
 import "./BikeDetail.css";
 import { Phone } from "lucide-react";
-import rentimage from "../assets/rentcar.png";
+import rentimage from "../assets/rentcar.webp";
 
 const BikeDetail = () => {
   const phoneNumber = "919763703724"; // Your WhatsApp number (with country code)
