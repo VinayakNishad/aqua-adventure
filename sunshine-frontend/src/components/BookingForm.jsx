@@ -67,12 +67,12 @@ const BookingForm = ({ activityId, packageId, title, onClose }) => {
        
         .phone-input { border-radius: 0 8px 8px 0; }
         .form-footer { display: flex; justify-content: space-between; padding-top: 1.5rem; border-top: 1px solid #e9ecef; margin-top: 1.5rem; gap: 12px; flex-direction: row; }
-        .btn { padding: 0.75rem 1rem; border-radius: 8px; font-weight: 500; cursor: pointer; border: none; width: 100%; font-size: 1rem; align-items: center; display: inline-flex; justify-content: center; }
-        .btn-secondary { color: #007bff; text-wrap: nowrap; border: 1px solid #007bff; background-color: white; }
-        .btn-secondary:hover { background-color: #007bff; color: white; }
-        .btn-primary { background-color: #007bff; color: white; text-wrap: nowrap; }
-        .btn-primary:hover { background-color: #0056b3; }
-        .btn:disabled { background-color: #adb5bd; cursor: not-allowed; }
+        .booking-form-wrapper .btn { padding: 0.75rem 1rem; border-radius: 8px; font-weight: 500; cursor: pointer; border: none; width: 100%; font-size: 1rem; align-items: center; display: inline-flex; justify-content: center; }
+        .booking-form-wrapper .btn-secondary { color: #007bff; text-wrap: nowrap; border: 1px solid #007bff; background-color: white; }
+        .booking-form-wrapper .btn-secondary:hover { background-color: #007bff; color: white; }
+        .booking-form-wrapper .btn-primary { background-color: #007bff; color: white; text-wrap: nowrap; }
+        .booking-form-wrapper .btn-primary:hover { background-color: #0056b3; }
+        .booking-form-wrapper .btn:disabled { background-color: #adb5bd; cursor: not-allowed; }
       `}</style>
 
       <div className="booking-form-wrapper">
