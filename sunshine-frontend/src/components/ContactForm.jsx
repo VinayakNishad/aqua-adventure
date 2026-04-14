@@ -37,7 +37,7 @@ const ContactForm = () => {
                     {/* Left Column - Form */}
 
                     {/* Right Column - About Watersports */}
-                    <Col md={6} data-aos="fade-up" className="p-4">
+                    <Col md={6} className="p-4">
                         <h2 className="text-primary mb-3 " >
                             <GiWaveCrest style={{ marginRight: "8px" }} />
                             Experience the Thrill
@@ -68,7 +68,7 @@ const ContactForm = () => {
                             </li>
                         </ul>
                     </Col>
-                    <Col md={6} className="mb-4 mb-md-0" data-aos="fade-up">
+                    <Col md={6} className="mb-4 mb-md-0">
                         <Card className="shadow border-0 rounded-4">
                             <Card.Body className="p-4">
                                 <h2 className="d-block text-center mb-4 text-primary">

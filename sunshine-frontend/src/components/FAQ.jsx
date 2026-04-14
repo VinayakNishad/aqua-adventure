@@ -4,17 +4,15 @@ import faqData from "../data/FAQDetails.json";
 
 const FAQ = () => {
   return (
-    <section id="faq" className="py-5" data-aos="fade-up">
+    <section id="faq" className="py-5">
       <Container>
-        <h2 className="text-center mb-4" data-aos="fade-up">Frequently Asked Questions</h2>
+        <h2 className="text-center mb-4">Frequently Asked Questions</h2>
         <Accordion defaultActiveKey="0" flush>
           {faqData.map((faq, index) => (
             <Accordion.Item
               eventKey={index.toString()}
               key={index}
-              data-aos="fade-up"
-              data-aos-delay={index * 80}
-              data-aos-duration="600"
+              
             >
               <Accordion.Header>{faq.question}</Accordion.Header>
               <Accordion.Body className="text-muted" style={{ letterSpacing: "0.5px", lineHeight: "1.8" }}>{faq.answer}</Accordion.Body>

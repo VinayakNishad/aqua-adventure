@@ -121,25 +121,25 @@ const GeneralInfoPage = () => {
                 <div className="info-container">
 
                     {/* --- Why Choose Us Section --- */}
-                    <section className="section" data-aos="fade-up">
-                        <h2 className="section-title" data-aos="fade-up">Why Choose Paradise WaterSports?</h2>
+                    <section className="section">
+                        <h2 className="section-title">Why Choose Paradise WaterSports?</h2>
                         <div className="why-choose-us-grid">
-                            <div className="info-card" data-aos="fade-up">
+                            <div className="info-card">
                                 <div className="info-card-icon"><UsersIcon /></div>
                                 <h4>10+ Years</h4>
                                 <p>Of experience in watersports, scuba diving, and other adventure activities.</p>
                             </div>
-                            <div className="info-card" data-aos="fade-up">
+                            <div className="info-card">
                                 <div className="info-card-icon"><StarIcon /></div>
                                 <h4>4.8 / 5.0</h4>
                                 <p>Cumulative ratings of our trips across all platforms.</p>
                             </div>
-                            <div className="info-card" data-aos="fade-up">
+                            <div className="info-card">
                                 <div className="info-card-icon"><HeartIcon /></div>
                                 <h4>Instructor-Led</h4>
                                 <p>Expert-guided trips with meticulous planning for your safety and enjoyment.</p>
                             </div>
-                            <div className="info-card" data-aos="fade-up">
+                            <div className="info-card">
                                 <div className="info-card-icon"><SupportIcon /></div>
                                 <h4>24/7 Support</h4>
                                 <p>We are always here to help you before, during, and after your trip.</p>
@@ -148,12 +148,12 @@ const GeneralInfoPage = () => {
                     </section>
 
                     {/* --- Know Before You Go Section --- */}
-                    <section className="section" data-aos="fade-up">
-                        <h2 className="section-title" data-aos="fade-up">Know Before You Go</h2>
+                    <section className="section">
+                        <h2 className="section-title">Know Before You Go</h2>
                         <div className="know-before-grid">
                             <div>
                                 <h3 className="list-title text-success"><CheckCircleIcon /> What to Carry</h3>
-                                <ul className="info-list" data-aos="fade-up">
+                                <ul className="info-list">
                                     <li>Valid government-issued ID proof.</li>
                                     <li>Comfortable swimwear and an extra pair of clothes.</li>
                                     <li>Sunscreen, sunglasses, and a hat to protect from the sun.</li>
@@ -162,8 +162,8 @@ const GeneralInfoPage = () => {
                                 </ul>
                             </div>
                             <div>
-                                <h3 className="list-title text-danger" data-aos="fade-up"><AlertTriangleIcon /> Important Precautions</h3>
-                                <ul className="info-list" data-aos="fade-up">
+                                <h3 className="list-title text-danger"><AlertTriangleIcon /> Important Precautions</h3>
+                                <ul className="info-list">
                                     <li>Always listen carefully to the instructor's safety briefing.</li>
                                     <li>Avoid consuming heavy meals or alcoholic beverages before activities.</li>
                                     <li>Inform our staff of any medical conditions like asthma, heart problems, etc.</li>
