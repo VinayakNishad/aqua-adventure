@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import AOS from "aos";
 import { auth } from "./pages/firebaseconfig";
-import "aos/dist/aos.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 // Eager load only critical components
@@ -23,21 +21,6 @@ const EditPage = React.lazy(() => import("./pages/EditPage"));
 const AddActivity = React.lazy(() => import("./pages/AddActivity"));
 const ActivitiesSection = React.lazy(() => import("./components/ActivitiesSection"));
 const App = () => {
-  useEffect(() => {
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    AOS.init({
-      duration: 450,
-      easing: "ease-out-cubic",
-      offset: 60,
-      once: true,
-      mirror: false,
-      debounceDelay: 80,
-      throttleDelay: 120,
-      disable: prefersReducedMotion,
-    });
-  }, []);
-
   useEffect(() => {
     if (process.env.NODE_ENV !== "production") return undefined;
 
@@ -85,11 +68,7 @@ const App = () => {
   return (
     <Router>
       <React.Suspense fallback={
-        <div className="d-flex justify-content-center align-items-center vh-100">
-          <div className="spinner-border text-primary" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        </div>
+        <div style={{ minHeight: "1px" }} aria-hidden="true" />
       }>
         <Routes>
         <Route path="/" element={<Home />} />

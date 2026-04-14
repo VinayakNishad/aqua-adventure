@@ -44,15 +44,15 @@ const VideoGallery = () => {
   return (
     <section id="channel" className="py-5 bg-white">
       <div className="container">
-        <h2 className="text-center mb-4" data-aos="fade-up">
+        <h2 className="text-center mb-4">
           Our Water Sports Activities
         </h2>
-        <p className="text-center text-muted mb-4" data-aos="fade-up">
+        <p className="text-center text-muted mb-4">
           Watch our customers having a blast as they enjoy thrilling dolphin views!
         </p>
 
 
-        <div className="video-scroll" data-aos="fade-up">
+        <div className="video-scroll">
           {videos.map((video) => (
             <div key={video._id} className="video-card">
               <div className="video-wrapper">

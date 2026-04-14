@@ -25,7 +25,7 @@ const ActivityCard = ({ activity, isAdmin, onUpdate, onDelete }) => {
   const imageUrl = images && images.length > 0 ? images[0].url : "https://via.placeholder.com/300x200?text=No+Image";
 
   return (
-    <div className="card-wrapper position-relative" data-aos="zoom-in">
+    <div className="card-wrapper position-relative">
       <div className="card shadow-sm h-100" style={{ width: "18rem", borderRadius: "12px" }}>
         {isAdmin && (
           <div className="admin-icons">

@@ -17,7 +17,7 @@ const About = () => {
         <Row className="align-items-center">
           {/* Left Side - Image Carousel */}
           <Col md={6} className="mb-4 mb-md-0">
-            <Carousel fade indicators={false} controls interval={2000} className="shadow" data-aos="fade-up">
+            <Carousel fade indicators={false} controls interval={2000} className="shadow">
               {carouselImages.map((image, index) => (
                 <Carousel.Item key={index}>
                   <Image
@@ -34,14 +34,14 @@ const About = () => {
 
           {/* Right Side - Text */}
           <Col md={6}>
-            <h2 className="mb-3 text-center" data-aos="fade-up">About Paradise Watersports</h2>
-            <p className="text-muted text-center" data-aos="fade-up">
+            <h2 className="mb-3 text-center">About Paradise Watersports</h2>
+            <p className="text-muted text-center">
               Welcome to <strong className="text-dark">Paradise Watersports</strong>, your go-to destination
               for thrilling water sports in Goa. Whether you are seeking an
               adrenaline rush or a relaxing time on the waves, we’ve got
               activities tailored for everyone.
             </p>
-            <p className="text-muted text-center" data-aos="fade-up">
+            <p className="text-muted text-center">
               From <em>Scuba diving</em> to <em>Dolphin rides</em>{" "},
                we ensure you have the safest and
               most unforgettable experiences. Our expert team guarantees fun,
