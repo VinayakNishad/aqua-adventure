@@ -146,7 +146,6 @@ const Packages = () => {
                 .original-price { font-size: 1rem; color: #6c757d; text-decoration: line-through; }
                 .discount-badge { font-size: 0.6rem; font-weight: bold; color: #28a745; background-color: #d1e7dd; padding: 4px 8px; border-radius: 6px; }
 
-                /* ✅ NEW/UPDATED Styles for Description */
                 .package-description {
                     font-size: 0.9rem;
                     color: #666;

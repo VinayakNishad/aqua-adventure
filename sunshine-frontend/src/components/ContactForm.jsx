@@ -34,9 +34,6 @@ const ContactForm = () => {
         <section id="contact">
             <Container>
                 <Row className="align-items-center" >
-                    {/* Left Column - Form */}
-
-                    {/* Right Column - About Watersports */}
                     <Col md={6} className="p-4">
                         <h2 className="text-primary mb-3 " >
                             <GiWaveCrest style={{ marginRight: "8px" }} />
