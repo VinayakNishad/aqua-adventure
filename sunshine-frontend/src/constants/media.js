@@ -116,6 +116,34 @@ export const PHOTO_CREDITS = Object.freeze([
     licenseUrl: "https://creativecommons.org/licenses/by/2.0",
     source: "https://commons.wikimedia.org/wiki/File:Parasailing_on_the_Calangute_beach,_Goa.jpg",
   },
+  {
+    subject: "Old Central Jail at Aguada, Goa",
+    author: "Nikhilb239",
+    license: "CC BY 3.0",
+    licenseUrl: "https://creativecommons.org/licenses/by/3.0",
+    source: "https://commons.wikimedia.org/wiki/File:Old_Central_Jail_Goa_012016.jpg",
+  },
+  {
+    subject: "Fort Aguada lighthouse, Goa",
+    author: "AaronC's Photos",
+    license: "CC BY-SA 2.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/2.0",
+    source: "https://commons.wikimedia.org/wiki/File:Fort_Aguada_Light_House_1.jpg",
+  },
+  {
+    subject: "Fort Aguada, Goa",
+    author: "Sanjay gorivale",
+    license: "CC BY-SA 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0",
+    source: "https://commons.wikimedia.org/wiki/File:Aguada_Fort,_India_Goa.jpg",
+  },
+  {
+    subject: "Reis Magos Fort, Goa",
+    author: "iMahesh",
+    license: "CC BY-SA 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0",
+    source: "https://commons.wikimedia.org/wiki/File:Reis_Magos_from_the_Fort_entrance.jpg",
+  },
 ]);
 
 export const RESPONSIVE_WIDTHS = Object.freeze([640, 960, 1280, 1920, 2560]);
