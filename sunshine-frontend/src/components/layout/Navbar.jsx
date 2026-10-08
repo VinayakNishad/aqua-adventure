@@ -40,7 +40,7 @@ const NavbarComp = () => {
       transition="true"
       expanded={expanded}
       className={`site-navbar ${scrolled ? "site-navbar--scrolled" : ""}`}
-      style={{ zIndex: 2000 }}
+      style={{ zIndex: 1030 }}
     >
       <Container>
         <Navbar.Brand as={Link} to="/">

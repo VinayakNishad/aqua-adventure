@@ -1,0 +1,62 @@
+.info-accordion {
+  --bs-accordion-border-color: rgba(11, 111, 164, 0.12);
+  --bs-accordion-border-radius: var(--radius-md);
+  --bs-accordion-inner-border-radius: var(--radius-md);
+  --bs-accordion-active-bg: var(--ocean-100);
+  --bs-accordion-active-color: var(--ocean-900);
+  --bs-accordion-btn-focus-box-shadow: 0 0 0 0.2rem rgba(11, 111, 164, 0.2);
+}
+
+.info-accordion .accordion-button {
+  gap: 0.6rem;
+  font-weight: 600;
+}
+
+.info-accordion .accordion-button .bi {
+  font-size: 1.1rem;
+  color: var(--ocean-500);
+}
+
+.info-checklist,
+.pickup-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.info-checklist li {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+}
+
+.pickup-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px dashed rgba(11, 111, 164, 0.15);
+}
+
+.pickup-list__type {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.policy-list {
+  display: grid;
+  gap: 0.9rem;
+  margin: 0;
+}
+
+.policy-list dt {
+  font-weight: 600;
+}
+
+.policy-list dd {
+  margin: 0.15rem 0 0;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}

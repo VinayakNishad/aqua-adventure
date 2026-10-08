@@ -1,0 +1,9 @@
+.star-rating {
+  color: var(--sunset-gold);
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+.star-rating__empty {
+  color: rgba(0, 0, 0, 0.15);
+}

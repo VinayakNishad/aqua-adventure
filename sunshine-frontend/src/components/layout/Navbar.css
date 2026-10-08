@@ -88,7 +88,7 @@
 
 @media (max-width: 991.98px) {
   .site-drawer.offcanvas {
-    z-index: 2100;
+    z-index: 1045;
     width: min(320px, 82vw);
     color: #fff;
     border-left: 1px solid rgba(255, 255, 255, 0.12);
@@ -99,7 +99,7 @@
   }
 
   .site-drawer-backdrop {
-    z-index: 2090;
+    z-index: 1040;
   }
 
   .site-drawer-backdrop.show {
