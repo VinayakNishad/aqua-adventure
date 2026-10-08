@@ -27,7 +27,7 @@
   --text-strong: #0d1b2a;
   --text-muted: #51606f;
 
-  --font-display: "Righteous", "Poppins", system-ui, sans-serif;
+  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
   --font-body: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
   --radius-lg: 20px;
@@ -59,7 +59,8 @@ h1,
 h2,
 .display-4 {
   font-family: var(--font-display);
-  letter-spacing: 0.01em;
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 /* Section headings get a sunset gradient underline. */
