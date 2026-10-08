@@ -3,6 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { createActivity } from "../../services/activityService";
+import "./CreateActivityPage.css";
 
 // Ensure your API endpoint is correct
 
@@ -65,123 +66,6 @@ const AddActivity = () => {
 
   return (
     <>
-      <style>{`
-                /* Your CSS styles remain unchanged */
-                
-                .add-activity-page {
-                    font-family: 'Poppins', sans-serif;
-                    background-color: #f4f7fa;
-                    min-height: 100vh;
-                    padding: 2rem 1rem;
-                }
-
-                .form-container {
-                    background-color: #ffffff;
-                    padding: 2.5rem;
-                    border-radius: 12px;
-                    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-                    max-width: 800px;
-                    margin: auto;
-                }
-
-                .form-container h2 {
-                    text-align: center;
-                    font-weight: 600;
-                    color: #333;
-                    margin-bottom: 2rem;
-                }
-
-                .form-grid {
-                    display: grid;
-                    grid-template-columns: 1fr;
-                    gap: 1.5rem;
-                }
-
-                @media (min-width: 768px) {
-                    .form-grid {
-                        grid-template-columns: 1fr 1fr;
-                    }
-                }
-
-                .form-group {
-                    display: flex;
-                    flex-direction: column;
-                }
-                
-                .full-width {
-                    grid-column: 1 / -1;
-                }
-
-                .form-label {
-                    font-weight: 500;
-                    margin-bottom: 0.5rem;
-                    color: #555;
-                }
-
-                .form-control, .form-textarea {
-                    width: 100%;
-                    padding: 0.8rem 1rem;
-                    border: 1px solid #ddd;
-                    border-radius: 8px;
-                    font-size: 1rem;
-                    transition: border-color 0.3s, box-shadow 0.3s;
-                }
-
-                .form-control:focus, .form-textarea:focus {
-                    outline: none;
-                    border-color: #007bff;
-                    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
-                }
-
-                .image-upload-box {
-                    border: 2px dashed #ddd;
-                    border-radius: 8px;
-                    padding: 1.5rem;
-                    text-align: center;
-                    cursor: pointer;
-                    transition: border-color 0.3s, background-color 0.3s;
-                }
-                .image-upload-box:hover {
-                    border-color: #007bff;
-                    background-color: #f8f9fa;
-                }
-                
-                .image-previews {
-                    display: flex;
-                    gap: 1rem;
-                    flex-wrap: wrap;
-                    margin-top: 1rem;
-                }
-                
-                .preview-image {
-                    width: 100px;
-                    height: 100px;
-                    object-fit: cover;
-                    border-radius: 8px;
-                    border: 1px solid #ddd;
-                }
-
-                .submit-btn {
-                    background-color: #007bff;
-                    color: white;
-                    border: none;
-                    padding: 0.9rem 1.5rem;
-                    border-radius: 8px;
-                    font-weight: 500;
-                    cursor: pointer;
-                    transition: background-color 0.3s, transform 0.2s;
-                    width: 100%;
-                }
-
-                .submit-btn:hover {
-                    background-color: #0056b3;
-                    transform: translateY(-2px);
-                }
-                .submit-btn:disabled {
-                    background-color: #6c757d;
-                    cursor: not-allowed;
-                }
-            `}</style>
       <div className="add-activity-page">
         <ToastContainer
           position="top-right"

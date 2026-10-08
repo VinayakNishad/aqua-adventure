@@ -2,11 +2,11 @@ import React from "react";
 import "./BikeDetail.css";
 import { Phone } from "lucide-react";
 import rentimage from "../../assets/rentcar.webp";
+import { buildWhatsAppUrl } from "../../utils/whatsapp";
 
 const BikeDetail = () => {
-  const phoneNumber = "919763703724"; // Your WhatsApp number (with country code)
   const message = `Hi, I'm interested in renting a vehicle. Please share more details.`;
-  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+  const whatsappUrl = buildWhatsAppUrl(message);
 
   const handleCall = () => {
     window.open(whatsappUrl, "_blank");

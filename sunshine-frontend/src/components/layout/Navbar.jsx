@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/nerualparadise.webp";
+import { SECTION_IDS } from "../../constants/home";
+import useScrolled from "../../hooks/useScrolled";
 import "./Navbar.css";
 
 const NavbarComp = () => {
   const [expanded, setExpanded] = useState(false);
-  const [activeLink, setActiveLink] = useState("home");
+  const [activeLink, setActiveLink] = useState(SECTION_IDS.HOME);
   const location = useLocation();
   const navigate = useNavigate();
+  const scrolled = useScrolled();
 
   const handleNavClick = (link, path = "/") => {
     setActiveLink(link);
@@ -31,13 +34,12 @@ const NavbarComp = () => {
 
   return (
     <Navbar
-      bg="white blur-effect"
       variant="light"
       expand="lg"
       sticky="top"
       transition="true"
       expanded={expanded}
-      className="shadow-lg"
+      className={`site-navbar ${scrolled ? "site-navbar--scrolled" : ""}`}
       style={{ zIndex: 2000 }}
     >
       <Container>
@@ -58,43 +60,43 @@ const NavbarComp = () => {
           <Nav className="ms-auto text-center" style={{ gap: "2px" }}>
             <Nav.Link
               className="nav-link-custom"
-              onClick={() => handleNavClick("carousal")}
-              active={activeLink === "carousal"}
+              onClick={() => handleNavClick(SECTION_IDS.HOME)}
+              active={activeLink === SECTION_IDS.HOME}
             >
               Home
             </Nav.Link>
             <Nav.Link
               className="nav-link-custom"
-              onClick={() => handleNavClick("packages")}
-              active={activeLink === "packages"}
+              onClick={() => handleNavClick(SECTION_IDS.PACKAGES)}
+              active={activeLink === SECTION_IDS.PACKAGES}
             >
               Packages
             </Nav.Link>
             <Nav.Link
               className="nav-link-custom"
-              onClick={() => handleNavClick("about")}
-              active={activeLink === "about"}
+              onClick={() => handleNavClick(SECTION_IDS.ABOUT)}
+              active={activeLink === SECTION_IDS.ABOUT}
             >
               About
             </Nav.Link>
             <Nav.Link
               className="nav-link-custom"
-              onClick={() => handleNavClick("channel")}
-              active={activeLink === "channel"}
+              onClick={() => handleNavClick(SECTION_IDS.CHANNEL)}
+              active={activeLink === SECTION_IDS.CHANNEL}
             >
               Channel
             </Nav.Link>
             <Nav.Link
               className="nav-link-custom"
-              onClick={() => handleNavClick("faq")}
-              active={activeLink === "faq"}
+              onClick={() => handleNavClick(SECTION_IDS.FAQ)}
+              active={activeLink === SECTION_IDS.FAQ}
             >
               FAQ
             </Nav.Link>
             <Nav.Link
               className="nav-link-contact"
-              onClick={() => handleNavClick("contact")}
-              active={activeLink === "contact"}
+              onClick={() => handleNavClick(SECTION_IDS.CONTACT)}
+              active={activeLink === SECTION_IDS.CONTACT}
             >
               Contact
             </Nav.Link>

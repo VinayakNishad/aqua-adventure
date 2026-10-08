@@ -1,10 +1,10 @@
 import React from "react";
 import { FaWhatsapp } from "react-icons/fa";
-import "./WhatsAppIcon.css"; // We will create this file next for styling
+import "./WhatsAppButton.css";
+import { buildWhatsAppUrl } from "../../utils/whatsapp";
 
-const WhatsAppIcon = () => {
-  const whatsappNumber = "+919763703724";
-  const whatsappUrl = `https://wa.me/${whatsappNumber.replace(/\D/g, "")}`;
+const WhatsAppButton = () => {
+  const whatsappUrl = buildWhatsAppUrl();
 
   return (
     <a
@@ -19,4 +19,4 @@ const WhatsAppIcon = () => {
   );
 };
 
-export default WhatsAppIcon;
+export default WhatsAppButton;

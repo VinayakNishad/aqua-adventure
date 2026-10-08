@@ -1,0 +1,21 @@
+.home-page {
+  overflow-x: clip;
+}
+
+.home-page main > .reveal > section,
+.home-page__ocean-band section {
+  background: transparent !important;
+}
+
+.home-page__ocean-band {
+  background: linear-gradient(180deg, var(--ocean-100), #f6fcff);
+}
+
+.home-page__ocean-band .wave-divider--light .wave--front {
+  fill: var(--ocean-100);
+}
+
+.home-page__ocean-band .wave-divider {
+  transform: rotate(180deg);
+  margin-bottom: -1px;
+}

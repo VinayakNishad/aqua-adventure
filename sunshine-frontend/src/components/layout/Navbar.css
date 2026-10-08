@@ -44,3 +44,39 @@
   transform: scale(1.05);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+/* ---------- Glass navbar that condenses on scroll ---------- */
+.site-navbar {
+  --bs-secondary: var(--ocean-700);
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: saturate(160%) blur(16px);
+  -webkit-backdrop-filter: saturate(160%) blur(16px);
+  border-bottom: 1px solid rgba(11, 111, 164, 0.08);
+  transition:
+    padding 0.35s var(--ease-out-expo),
+    background-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.site-navbar--scrolled {
+  padding-block: 0.25rem;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 30px rgba(6, 42, 69, 0.12);
+}
+
+.site-navbar .navbar-brand img {
+  transition: max-height 0.35s var(--ease-out-expo);
+}
+
+.site-navbar--scrolled .navbar-brand img {
+  max-height: 42px !important;
+}
+
+.site-navbar .nav-link-custom::after {
+  background: var(--gradient-sunset);
+}
+
+.site-navbar .nav-link-contact {
+  background: var(--gradient-sunset);
+  box-shadow: 0 6px 18px rgba(255, 107, 74, 0.35);
+}

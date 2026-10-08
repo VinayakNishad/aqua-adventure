@@ -1,0 +1,64 @@
+.wave-divider {
+  position: relative;
+  height: 90px;
+  margin-top: -1px;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.wave-divider--flip {
+  transform: rotate(180deg);
+}
+
+.wave-divider svg {
+  width: 200%;
+  height: 100%;
+}
+
+.wave {
+  animation: wave-drift 18s linear infinite;
+}
+
+.wave--mid {
+  animation-duration: 12s;
+  animation-direction: reverse;
+}
+
+.wave--front {
+  animation-duration: 8s;
+}
+
+.wave-divider--light .wave--back {
+  fill: rgba(79, 195, 232, 0.25);
+}
+.wave-divider--light .wave--mid {
+  fill: rgba(11, 111, 164, 0.25);
+}
+.wave-divider--light .wave--front {
+  fill: var(--ocean-100);
+}
+
+.wave-divider--dark .wave--back {
+  fill: rgba(34, 228, 255, 0.2);
+}
+.wave-divider--dark .wave--mid {
+  fill: rgba(11, 111, 164, 0.55);
+}
+.wave-divider--dark .wave--front {
+  fill: var(--ocean-950);
+}
+
+@keyframes wave-drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wave {
+    animation: none;
+  }
+}

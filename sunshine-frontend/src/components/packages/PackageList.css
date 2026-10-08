@@ -1,0 +1,262 @@
+/* Scoped so these generic class names cannot leak into other pages. */
+@scope (.package-list) {
+  .packages-section {
+    background-color: #ffffffff;
+    padding: 3rem 1rem;
+  }
+  .packages-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+  .packages-header h1 {
+    font-weight: 700;
+    color: #333;
+  }
+  .packages-header p {
+    color: #666;
+    max-width: 600px;
+    margin: 0.5rem auto 0;
+  }
+
+  .packages-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  /* Center cards when there's only one column (mobile view) */
+  @media (max-width: 768px) {
+    .packages-grid {
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Centers cards horizontally */
+    }
+
+    .package-card {
+      max-width: 360px;
+      width: 100%;
+    }
+  }
+
+  .package-card {
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+    position: relative;
+  }
+  .package-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+  }
+
+  .card-carousel-container {
+    height: 220px;
+    background-color: #e9ecef;
+  }
+  .carousel-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+  }
+
+  .card-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  .package-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #333;
+  }
+
+  .price-wrapper {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 1rem;
+  }
+  .current-price {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #28a745;
+  }
+  .original-price {
+    font-size: 1rem;
+    color: #6c757d;
+    text-decoration: line-through;
+  }
+  .discount-badge {
+    font-size: 0.6rem;
+    font-weight: bold;
+    color: #28a745;
+    background-color: #d1e7dd;
+    padding: 4px 8px;
+    border-radius: 6px;
+  }
+
+  .package-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 1rem;
+    /* Truncate to 3 lines */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Number of lines to show */
+    -webkit-box-orient: vertical;
+  }
+
+  .activities-list {
+    list-style: none;
+    padding: 0;
+    font-size: 0.9rem;
+    color: #555;
+  }
+  .activities-list li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0.25rem;
+  }
+  .activities-list svg {
+    color: #28a745;
+  }
+
+  .rating-display {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-bottom: 1rem;
+  }
+
+  .card-actions {
+    display: flex;
+    gap: 10px;
+    padding-top: 1.5rem;
+    border-top: 1px solid #eee;
+    margin-top: auto;
+  }
+  .card-actions .btn {
+    flex-grow: 1;
+    font-weight: 600;
+    border-radius: 8px;
+  }
+
+  .admin-actions {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+    display: flex;
+    gap: 8px;
+  }
+  .admin-actions .btn {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(4px);
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+  }
+
+  .delete-confirm-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  .delete-confirm-box {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+  }
+  .delete-btn {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  /* ---------- Redesign ---------- */
+  .packages-section {
+    background: transparent;
+    padding: 4rem 1rem;
+  }
+
+  .packages-header h1,
+  .packages-header h2 {
+    font-family: var(--font-display);
+    color: var(--ocean-900);
+  }
+
+  .package-card {
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(11, 111, 164, 0.08);
+  }
+
+  .package-card:hover {
+    box-shadow: var(--shadow-lift);
+  }
+
+  .current-price {
+    background: var(--gradient-sunset);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .card-actions .btn-primary {
+    border: 0;
+    background: var(--gradient-sunset);
+    box-shadow: 0 8px 20px rgba(255, 107, 74, 0.35);
+  }
+
+  /* Cards rise into place as they enter the viewport (scroll-driven, no JS).
+     Uses individual `translate`/`rotate` so it composes with the 3D tilt `transform`. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .package-card {
+        animation: card-rise linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 30%;
+      }
+    }
+  }
+}
+
+@keyframes card-rise {
+  from {
+    opacity: 0;
+    translate: 0 80px;
+    rotate: x 25deg;
+    scale: 0.92;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    rotate: x 0deg;
+    scale: 1;
+  }
+}

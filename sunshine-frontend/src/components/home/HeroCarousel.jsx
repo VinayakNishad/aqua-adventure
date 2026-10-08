@@ -3,22 +3,13 @@ import useAuth from "../../hooks/useAuth";
 import { deleteAd, getAds } from "../../services/adService";
 import { ToastContainer, toast } from "react-toastify";
 import ConfirmationModal from "../common/ConfirmationModal"; // Adjust path if needed
+import { SECTION_IDS } from "../../constants/home";
 import "./HeroCarousel.css"; // Import the CSS file
 import "react-toastify/dist/ReactToastify.css";
 import { getOptimizedCloudinaryUrl } from "../../utils/cloudinary";
+import { HeroCarouselDeleteIcon } from "../icons";
 
 // SVG Icon for Delete (No changes needed here)
-const DeleteIcon = () => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
-    fill="currentColor"
-    viewBox="0 0 16 16"
-  >
-    <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-  </svg>
-);
 
 const HeroCarousel = () => {
   const [ads, setAds] = useState([]);
@@ -111,7 +102,7 @@ const HeroCarousel = () => {
   }
 
   return (
-    <section id="carousal">
+    <section id={SECTION_IDS.ADS} className="ads-section">
       <ToastContainer />
       <div
         className="carousel-container"
@@ -143,7 +134,7 @@ const HeroCarousel = () => {
                 className="delete-ad-btn"
                 aria-label={`Delete ad ${index + 1}`}
               >
-                <DeleteIcon />
+                <HeroCarouselDeleteIcon />
               </button>
             )}
           </div>

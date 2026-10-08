@@ -1,0 +1,115 @@
+.admin-login-page {
+  font-family: "Poppins", sans-serif;
+  background-color: #f0f2f5;
+}
+
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 450px;
+  background-color: #ffffff;
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 2.5rem;
+  margin: 1rem;
+  animation: fadeInUp 0.7s ease-in-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.login-card .logo-container {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.login-card .logo-container img {
+  height: 70px;
+  width: auto;
+}
+
+.login-card .form-title {
+  font-weight: 700;
+  color: #1a2c5e;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.form-control-custom {
+  border-radius: 0.5rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid #ced4da;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.form-control-custom:focus {
+  border-color: #4d82f5;
+  box-shadow: 0 0 0 3px rgba(77, 130, 245, 0.2);
+  outline: none;
+}
+
+.password-input-wrapper {
+  position: relative;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  top: 70%;
+  right: 15px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #6c757d;
+  font-size: 1rem; /* Adjusted size */
+  line-height: 1; /* Ensure proper alignment */
+  transition: color 0.3s ease;
+}
+
+.password-toggle-icon:hover {
+  color: #1a2c5e;
+}
+
+.btn-submit {
+  background: linear-gradient(90deg, #4d82f5, #3a70e2);
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.9rem;
+  font-weight: 600;
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(77, 130, 245, 0.3);
+}
+
+.btn-submit:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(77, 130, 245, 0.4);
+}
+
+.btn-link-custom {
+  font-weight: 500;
+  color: #4d82f5;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.btn-link-custom:hover {
+  color: #1a2c5e;
+  text-decoration: underline;
+}

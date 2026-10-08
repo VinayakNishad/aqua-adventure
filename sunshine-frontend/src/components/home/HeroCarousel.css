@@ -149,3 +149,33 @@
   cursor: not-allowed;
   opacity: 0.7;
 }
+
+/* ---------- 3D hero: the banner tilts back into the page as you scroll ---------- */
+.ads-section {
+  perspective: 1200px;
+}
+
+.ads-section .carousel-container {
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-lift);
+  transform-origin: 50% 0;
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .ads-section .carousel-container {
+      animation: hero-recede linear both;
+      animation-timeline: view();
+      animation-range: exit-crossing 0% exit-crossing 100%;
+    }
+  }
+}
+
+@keyframes hero-recede {
+  to {
+    transform: rotateX(18deg) scale(0.9);
+    opacity: 0.4;
+    filter: saturate(1.3);
+  }
+}

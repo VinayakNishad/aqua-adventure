@@ -4,6 +4,7 @@ import { BsWhatsapp } from "react-icons/bs"; // fixed
 import { MdEmail } from "react-icons/md";
 import { GiWaveCrest } from "react-icons/gi";
 import { FaCheckCircle } from "react-icons/fa";
+import { buildWhatsAppUrl } from "../../utils/whatsapp";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -20,10 +21,9 @@ const ContactForm = () => {
     e.preventDefault();
 
     const { name, phone, message } = formData;
-    const phoneNumber = "9763703724"; // Your WhatsApp number
 
     const whatsappMessage = `Hello, my name is ${name}. My phone number is ${phone}. Message: ${message}`;
-    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(whatsappMessage)}`;
+    const url = buildWhatsAppUrl(whatsappMessage);
 
     window.open(url, "_blank");
   };
