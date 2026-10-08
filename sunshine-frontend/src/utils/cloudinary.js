@@ -15,11 +15,7 @@ const stripVersionedTransformations = (pathAfterUpload) => {
 };
 
 export const getOptimizedCloudinaryUrl = (url, options = {}) => {
-  if (
-    typeof url !== "string" ||
-    !url.includes(CLOUDINARY_HOST) ||
-    !url.includes(UPLOAD_SEGMENT)
-  ) {
+  if (typeof url !== "string" || !url.includes(CLOUDINARY_HOST) || !url.includes(UPLOAD_SEGMENT)) {
     return url;
   }
 
