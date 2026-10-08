@@ -1,5 +1,5 @@
 import { Modal } from "react-bootstrap";
-import BookingForm from "../packages/BookingForm";
+import BookingForm from "./BookingForm";
 
 /** Enquiry form for a package, in an accessible modal. */
 export default function BookingModal({ pkg, show, onClose }) {

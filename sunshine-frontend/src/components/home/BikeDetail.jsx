@@ -1,7 +1,10 @@
 import React from "react";
 import "./BikeDetail.css";
 import { Phone } from "lucide-react";
-import rentimage from "../../assets/rentcar.webp";
+import { MEDIA } from "../../constants/media";
+import { getOptimizedCloudinaryUrl } from "../../utils/cloudinary";
+
+const rentimage = getOptimizedCloudinaryUrl(MEDIA.carRentalPromo, { width: 1200, crop: "limit" });
 import { buildWhatsAppUrl } from "../../utils/whatsapp";
 
 const BikeDetail = () => {

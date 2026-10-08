@@ -1,11 +1,9 @@
 import { Container, Row, Col, Image, Carousel } from "react-bootstrap"; // Import Carousel
-import aboutImg1 from "../../assets/ab1.jpg";
-import aboutImg2 from "../../assets/ab2.jpg";
-import aboutImg3 from "../../assets/ab3.jpg";
-import aboutImg4 from "../../assets/ab5.jpg";
-const About = () => {
-  const carouselImages = [aboutImg1, aboutImg2, aboutImg3, aboutImg4];
+import { ABOUT_SLIDES } from "../../constants/media";
+import { buildCloudinarySrcSet, getOptimizedCloudinaryUrl } from "../../utils/cloudinary";
 
+const SLIDE_WIDTHS = [480, 800, 1200];
+const About = () => {
   return (
     <section id="about" className="py-5 ">
       <Container>
@@ -13,11 +11,14 @@ const About = () => {
           {/* Left Side - Image Carousel */}
           <Col md={6} className="mb-4 mb-md-0">
             <Carousel fade indicators={false} controls interval={2000} className="shadow">
-              {carouselImages.map((image, index) => (
-                <Carousel.Item key={index}>
+              {ABOUT_SLIDES.map((slide, index) => (
+                <Carousel.Item key={slide.src}>
                   <Image
-                    src={image}
-                    alt={`About Nerul Paradise slide ${index + 1}`}
+                    src={getOptimizedCloudinaryUrl(slide.src, { width: 800, height: 600 })}
+                    srcSet={buildCloudinarySrcSet(slide.src, SLIDE_WIDTHS)}
+                    sizes="(max-width: 767px) 100vw, 50vw"
+                    alt={slide.alt}
+                    loading={index === 0 ? "eager" : "lazy"}
                     fluid
                     rounded
                     style={{ height: "400px", objectFit: "cover", width: "100%" }} // Added styling for consistent height

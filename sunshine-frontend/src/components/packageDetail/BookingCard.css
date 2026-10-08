@@ -37,7 +37,7 @@
   font-size: 0.75rem;
   font-weight: 600;
   color: #fff;
-  background: var(--sunset-coral);
+  background: #198754;
 }
 
 .booking-card__perks {
@@ -89,7 +89,7 @@
   font-size: 1.2rem;
 }
 
-.booking-bar .btn-sunset {
+.booking-bar .btn-cta {
   padding: 0.65rem 1.3rem;
   border-radius: 999px;
 }

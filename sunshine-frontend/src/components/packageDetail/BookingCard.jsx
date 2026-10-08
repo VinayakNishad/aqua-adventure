@@ -23,14 +23,14 @@ export default function BookingCard({ pkg, onBook }) {
       <aside className="booking-card d-none d-lg-block" aria-label="Book this package">
         <span className="booking-card__label">Price per person</span>
         <PriceTag price={pkg.price} />
-        <button type="button" className="btn btn-sunset btn-lg w-100 mt-3" onClick={onBook}>
+        <button type="button" className="btn btn-cta btn-lg w-100 mt-3" onClick={onBook}>
           Book now
         </button>
         <a
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn btn-outline-success w-100 mt-2"
+          className="btn btn-outline-whatsapp w-100 mt-2"
         >
           <i className="bi bi-whatsapp" aria-hidden="true" /> Ask on WhatsApp
         </a>
@@ -53,12 +53,12 @@ export default function BookingCard({ pkg, onBook }) {
           href={whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn btn-outline-success booking-bar__wa"
+          className="btn btn-outline-whatsapp booking-bar__wa"
           aria-label="Ask on WhatsApp"
         >
           <i className="bi bi-whatsapp" aria-hidden="true" />
         </a>
-        <button type="button" className="btn btn-sunset" onClick={onBook}>
+        <button type="button" className="btn btn-cta" onClick={onBook}>
           Book now
         </button>
       </div>

@@ -85,3 +85,8 @@
   text-align: center;
   font-size: 0.9rem;
 }
+
+.footer-credits-link {
+  color: inherit;
+  text-decoration: underline;
+}

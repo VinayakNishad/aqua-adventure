@@ -8,6 +8,7 @@ import { ROUTES } from "./paths";
 
 const PackageDetailPage = lazy(() => import("../pages/public/PackageDetailPage"));
 const ReviewPage = lazy(() => import("../pages/public/ReviewPage"));
+const PhotoCreditsPage = lazy(() => import("../pages/public/PhotoCreditsPage"));
 const NotFoundPage = lazy(() => import("../pages/public/NotFoundPage"));
 
 const AdminLoginPage = lazy(() => import("../pages/admin/AdminLoginPage"));
@@ -39,6 +40,7 @@ export default function AppRoutes() {
         <Route path={ROUTES.PACKAGE_REVIEW} element={<ReviewPage />} />
         <Route path={ROUTES.ACTIVITY_REVIEW} element={<ReviewPage />} />
         <Route path={ROUTES.REVIEWS} element={<GoogleReviews />} />
+        <Route path={ROUTES.PHOTO_CREDITS} element={<PhotoCreditsPage />} />
         <Route path={ROUTES.ADMIN_LOGIN} element={<AdminLoginPage />} />
 
         {adminRoutes.map(([path, Page]) => (

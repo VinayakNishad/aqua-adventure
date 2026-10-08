@@ -1,0 +1,29 @@
+.photo-credits {
+  padding: 3rem 0 4rem;
+}
+
+.photo-credits__title {
+  margin-bottom: 0.5rem;
+}
+
+.photo-credits__list {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.photo-credits__list li {
+  display: flex;
+  flex-direction: column;
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--radius-md);
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+
+.photo-credits__list span {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}

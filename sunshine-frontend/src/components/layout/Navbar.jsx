@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Nav, Navbar, Offcanvas } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import logo from "../../assets/nerualparadise.webp";
+import { LOGO_SRC as logo } from "../../constants/media";
 import { NAV_LINKS, SECTION_IDS } from "../../constants/home";
 import useScrolled from "../../hooks/useScrolled";
 import "./Navbar.css";

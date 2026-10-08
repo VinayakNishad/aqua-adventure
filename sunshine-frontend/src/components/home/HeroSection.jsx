@@ -12,7 +12,8 @@ import {
   HERO_WORD_INTERVAL_MS,
   SECTION_IDS,
 } from "../../constants/home";
-import heroImage from "../../assets/ab5.jpg";
+import { MEDIA, RESPONSIVE_WIDTHS } from "../../constants/media";
+import { buildCloudinarySrcSet, getOptimizedCloudinaryUrl } from "../../utils/cloudinary";
 import "./HeroSection.css";
 
 const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -24,7 +25,14 @@ export default function HeroSection() {
   return (
     <section id={SECTION_IDS.HOME} className="hero" aria-labelledby="hero-title">
       <div className="hero__media" aria-hidden="true">
-        <img src={heroImage} alt="" className="hero__photo" fetchPriority="high" />
+        <img
+          src={getOptimizedCloudinaryUrl(MEDIA.hero, { width: 1600, crop: "limit" })}
+          srcSet={buildCloudinarySrcSet(MEDIA.hero, RESPONSIVE_WIDTHS)}
+          sizes="100vw"
+          alt=""
+          className="hero__photo"
+          fetchPriority="high"
+        />
         <div className="hero__overlay" />
         <div className="hero__light-rays" />
         <Bubbles />
@@ -58,7 +66,7 @@ export default function HeroSection() {
             href={buildWhatsAppUrl(HERO_BOOKING_MESSAGE)}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-sunset btn-lg"
+            className="btn btn-whatsapp btn-lg"
           >
             <i className="bi bi-whatsapp" aria-hidden="true" /> Book on WhatsApp
           </a>

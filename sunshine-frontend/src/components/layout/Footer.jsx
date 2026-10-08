@@ -1,8 +1,10 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import logo from "../../assets/nerualparadise.webp";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { LOGO_SRC as logo } from "../../constants/media";
+import { ROUTES } from "../../routes/paths";
 import "./Footer.css";
 import {
+  BUSINESS_NAME,
   EMAIL,
   EMAIL_DISPLAY,
   LOCATION_LABEL,
@@ -144,7 +146,12 @@ const Footer = () => {
         </div>
         <div className="footer-container">
           <div className="footer-bottom">
-            <p>© 2025 Paradise Scuba Goa. All Rights Reserved.</p>
+            <p>
+              © {new Date().getFullYear()} {BUSINESS_NAME}. All Rights Reserved. ·{" "}
+              <Link to={ROUTES.PHOTO_CREDITS} className="footer-credits-link">
+                Photo credits
+              </Link>
+            </p>
           </div>
         </div>
       </footer>

@@ -73,12 +73,12 @@
 }
 
 .site-navbar .nav-link-custom::after {
-  background: var(--gradient-sunset);
+  background: var(--ocean-500);
 }
 
 .site-navbar .nav-link-contact {
-  background: var(--gradient-sunset);
-  box-shadow: 0 6px 18px rgba(255, 107, 74, 0.35);
+  background: var(--ocean-500);
+  box-shadow: 0 6px 18px rgba(11, 111, 164, 0.25);
 }
 
 /* ---------- Right-side mobile drawer ---------- */
@@ -143,7 +143,7 @@
   .site-drawer .nav-link-custom.active {
     color: #fff !important;
     background: rgba(255, 255, 255, 0.08);
-    box-shadow: inset 3px 0 0 var(--sunset-coral);
+    box-shadow: inset 3px 0 0 var(--ocean-300);
   }
 
   .site-drawer .nav-link-contact {
@@ -189,6 +189,6 @@
 
 .site-drawer .nav-link-contact {
   width: 100%;
-  background: var(--gradient-sunset);
-  box-shadow: 0 8px 22px rgba(255, 107, 74, 0.4);
+  background: var(--ocean-500);
+  box-shadow: 0 8px 22px rgba(3, 26, 44, 0.35);
 }

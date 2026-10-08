@@ -5,7 +5,7 @@ import { auth } from "../../config/firebase";
 import useAuth from "../../hooks/useAuth";
 import { isAdminUser } from "../../utils/auth";
 import { toast, ToastContainer } from "react-toastify";
-import logo from "../../assets/nerualparadise.webp";
+import { LOGO_SRC as logo } from "../../constants/media";
 import "./AdminLoginPage.css";
 import { EyeIcon, EyeOffIcon } from "../../components/icons";
 

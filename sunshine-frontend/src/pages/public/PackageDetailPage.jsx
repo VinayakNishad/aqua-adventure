@@ -6,7 +6,7 @@ import VideoGallery from "../../components/home/VideoGallery";
 import Footer from "../../components/layout/Footer";
 import Navbar from "../../components/layout/Navbar";
 import BookingCard from "../../components/packageDetail/BookingCard";
-import BookingModal from "../../components/packageDetail/BookingModal";
+import BookingModal from "../../components/packages/BookingModal";
 import ImagePreview from "../../components/packageDetail/ImagePreview";
 import IncludedActivities from "../../components/packageDetail/IncludedActivities";
 import PackageHero from "../../components/packageDetail/PackageHero";

@@ -5,6 +5,7 @@ export const ROUTES = Object.freeze({
   PACKAGE_REVIEW: "/package/:id/review",
   ACTIVITY_REVIEW: "/activity/:id/review",
   REVIEWS: "/reviews",
+  PHOTO_CREDITS: "/photo-credits",
   ADMIN_LOGIN: "/admin-login",
   BOOKINGS: "/bookings",
   NEW_PACKAGE: "/packages/new",
