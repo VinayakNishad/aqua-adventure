@@ -7,7 +7,7 @@ import ContactForm from "../../components/home/ContactForm";
 import FAQ from "../../components/home/FAQ";
 import GoogleReviews from "../../components/home/GoogleReviews";
 import HeroCarousel from "../../components/home/HeroCarousel";
-import RetroHero from "../../components/home/RetroHero";
+import HeroSection from "../../components/home/HeroSection";
 import VideoGallery from "../../components/home/VideoGallery";
 import Footer from "../../components/layout/Footer";
 import Navbar from "../../components/layout/Navbar";
@@ -26,8 +26,7 @@ export default function HomePage() {
       <Navbar />
 
       <main>
-        <RetroHero />
-        <WaveDivider tone="dark" flip />
+        <HeroSection />
 
         <PackageList />
         <Reveal effect="zoom">

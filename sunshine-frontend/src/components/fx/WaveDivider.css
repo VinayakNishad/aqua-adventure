@@ -62,3 +62,13 @@
     animation: none;
   }
 }
+
+.wave-divider--sand .wave--back {
+  fill: rgba(255, 255, 255, 0.25);
+}
+.wave-divider--sand .wave--mid {
+  fill: rgba(255, 250, 243, 0.55);
+}
+.wave-divider--sand .wave--front {
+  fill: var(--sand-50);
+}

@@ -80,3 +80,115 @@
   background: var(--gradient-sunset);
   box-shadow: 0 6px 18px rgba(255, 107, 74, 0.35);
 }
+
+/* ---------- Right-side mobile drawer ---------- */
+.site-nav__icon {
+  display: none;
+}
+
+@media (max-width: 991.98px) {
+  .site-drawer.offcanvas {
+    z-index: 2100;
+    width: min(320px, 82vw);
+    color: #fff;
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    background:
+      linear-gradient(180deg, rgba(6, 42, 69, 0.96), rgba(11, 79, 124, 0.96)), var(--ocean-950);
+    box-shadow: -20px 0 50px rgba(3, 26, 44, 0.45);
+    backdrop-filter: blur(14px);
+  }
+
+  .site-drawer-backdrop {
+    z-index: 2090;
+  }
+
+  .site-drawer-backdrop.show {
+    opacity: 0.55;
+  }
+
+  .site-drawer .offcanvas-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .site-drawer__logo {
+    max-height: 40px;
+    padding: 4px 8px;
+    border-radius: 10px;
+    background: #fff;
+  }
+
+  .site-drawer .site-nav {
+    gap: 0.35rem;
+  }
+
+  .site-drawer .nav-link-custom,
+  .site-drawer .nav-link-contact {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin: 0;
+    padding: 0.85rem 1rem;
+    border-radius: var(--radius-md);
+    font-size: 1.05rem;
+    text-align: left;
+    color: rgba(255, 255, 255, 0.88) !important;
+    transform: none;
+  }
+
+  .site-drawer .nav-link-custom::after {
+    display: none;
+  }
+
+  .site-drawer .nav-link-custom:hover,
+  .site-drawer .nav-link-custom.active {
+    color: #fff !important;
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: inset 3px 0 0 var(--sunset-coral);
+  }
+
+  .site-drawer .nav-link-contact {
+    margin-top: 0.75rem;
+    justify-content: center;
+    color: #fff !important;
+  }
+
+  .site-nav__icon {
+    display: inline-block;
+    font-size: 1.15rem;
+    color: var(--sunset-gold);
+  }
+
+  .site-drawer .nav-link-contact .site-nav__icon {
+    color: #fff;
+  }
+
+  /* Links slide in one after another when the drawer opens. */
+  .site-drawer.showing .nav-link,
+  .site-drawer.show .nav-link {
+    animation: drawer-item-in 0.45s var(--ease-out-expo) both;
+    animation-delay: calc(var(--item-index) * 50ms + 80ms);
+  }
+}
+
+@keyframes drawer-item-in {
+  from {
+    opacity: 0;
+    translate: 24px 0;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-drawer .nav-link {
+    animation: none !important;
+  }
+}
+
+.site-drawer .nav-link-contact {
+  width: 100%;
+  background: var(--gradient-sunset);
+  box-shadow: 0 8px 22px rgba(255, 107, 74, 0.4);
+}

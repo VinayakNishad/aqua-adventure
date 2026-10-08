@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Container, Nav, Navbar, Offcanvas } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/nerualparadise.webp";
-import { SECTION_IDS } from "../../constants/home";
+import { NAV_LINKS, SECTION_IDS } from "../../constants/home";
 import useScrolled from "../../hooks/useScrolled";
 import "./Navbar.css";
 
@@ -52,56 +52,37 @@ const NavbarComp = () => {
             className="d-inline-block align-middle"
           />
         </Navbar.Brand>
-        <Navbar.Toggle
-          aria-controls="basic-navbar-nav"
-          onClick={() => setExpanded(expanded ? false : true)}
-        />
-        <Navbar.Collapse id="basic-navbar-nav" className="nav-link-data">
-          <Nav className="ms-auto text-center" style={{ gap: "2px" }}>
-            <Nav.Link
-              className="nav-link-custom"
-              onClick={() => handleNavClick(SECTION_IDS.HOME)}
-              active={activeLink === SECTION_IDS.HOME}
-            >
-              Home
-            </Nav.Link>
-            <Nav.Link
-              className="nav-link-custom"
-              onClick={() => handleNavClick(SECTION_IDS.PACKAGES)}
-              active={activeLink === SECTION_IDS.PACKAGES}
-            >
-              Packages
-            </Nav.Link>
-            <Nav.Link
-              className="nav-link-custom"
-              onClick={() => handleNavClick(SECTION_IDS.ABOUT)}
-              active={activeLink === SECTION_IDS.ABOUT}
-            >
-              About
-            </Nav.Link>
-            <Nav.Link
-              className="nav-link-custom"
-              onClick={() => handleNavClick(SECTION_IDS.CHANNEL)}
-              active={activeLink === SECTION_IDS.CHANNEL}
-            >
-              Channel
-            </Nav.Link>
-            <Nav.Link
-              className="nav-link-custom"
-              onClick={() => handleNavClick(SECTION_IDS.FAQ)}
-              active={activeLink === SECTION_IDS.FAQ}
-            >
-              FAQ
-            </Nav.Link>
-            <Nav.Link
-              className="nav-link-contact"
-              onClick={() => handleNavClick(SECTION_IDS.CONTACT)}
-              active={activeLink === SECTION_IDS.CONTACT}
-            >
-              Contact
-            </Nav.Link>
-          </Nav>
-        </Navbar.Collapse>
+        <Navbar.Toggle aria-controls="site-nav-drawer" onClick={() => setExpanded(true)} />
+        <Navbar.Offcanvas
+          id="site-nav-drawer"
+          placement="end"
+          aria-labelledby="site-nav-drawer-title"
+          className="site-drawer"
+          backdropClassName="site-drawer-backdrop"
+          onHide={() => setExpanded(false)}
+        >
+          <Offcanvas.Header closeButton closeVariant="white">
+            <Offcanvas.Title id="site-nav-drawer-title">
+              <img src={logo} alt="Paradise Scuba Goa" className="site-drawer__logo" />
+            </Offcanvas.Title>
+          </Offcanvas.Header>
+          <Offcanvas.Body>
+            <Nav className="ms-auto align-items-lg-center site-nav">
+              {NAV_LINKS.map((link, i) => (
+                <Nav.Link
+                  key={link.id}
+                  className={link.cta ? "nav-link-contact" : "nav-link-custom"}
+                  onClick={() => handleNavClick(link.id)}
+                  active={activeLink === link.id}
+                  style={{ "--item-index": i }}
+                >
+                  <i className={`bi ${link.icon} site-nav__icon`} aria-hidden="true" />
+                  {link.label}
+                </Nav.Link>
+              ))}
+            </Nav>
+          </Offcanvas.Body>
+        </Navbar.Offcanvas>
       </Container>
     </Navbar>
   );
