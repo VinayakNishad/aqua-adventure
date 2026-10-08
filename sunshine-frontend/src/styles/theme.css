@@ -125,6 +125,10 @@ main section h2,
   --bs-btn-active-color: #fff;
   --bs-btn-active-bg: var(--ocean-900);
   --bs-btn-active-border-color: var(--ocean-900);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: var(--ocean-500);
+  --bs-btn-disabled-border-color: var(--ocean-500);
+  --bs-btn-disabled-opacity: 0.55;
   font-weight: 600;
   box-shadow: 0 6px 18px rgba(11, 111, 164, 0.25);
 }
