@@ -216,3 +216,9 @@ main section h2,
 [data-tilt].is-tilting::after {
   opacity: 1;
 }
+
+/* Prices and numbers use the body font with even-width digits. */
+.price,
+[class*="price"] {
+  font-variant-numeric: tabular-nums lining-nums;
+}

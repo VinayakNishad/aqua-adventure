@@ -40,7 +40,7 @@ export default function PackageReviews({ pkg, onImageClick }) {
             </div>
           </div>
 
-          <ul className={`review-list ${showAll ? "review-list--all" : ""}`}>
+          <ul className="review-list">
             {visible.map((review) => (
               <li key={review._id} className="review-card">
                 <div className="review-card__head">

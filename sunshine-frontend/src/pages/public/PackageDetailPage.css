@@ -10,7 +10,11 @@
 }
 
 .detail-section {
-  margin-bottom: 2.25rem;
+  margin-bottom: 3.25rem;
+}
+
+.detail-section:last-child {
+  margin-bottom: 0;
 }
 
 .detail-section__head {
@@ -23,7 +27,7 @@
 }
 
 .detail-section__title {
-  margin: 0 0 1rem;
+  margin: 0 0 1.25rem;
   font-size: clamp(1.35rem, 3vw, 1.75rem);
 }
 

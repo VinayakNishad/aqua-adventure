@@ -18,7 +18,9 @@
 }
 
 .price-tag__now {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
   font-size: 2rem;
   font-weight: 700;
   color: var(--ocean-900);
@@ -101,4 +103,9 @@
   .booking-bar .price-tag__was {
     display: none;
   }
+}
+
+/* The struck-through price already signals the deal; keep the bar uncluttered. */
+.booking-bar .price-tag__badge {
+  display: none;
 }

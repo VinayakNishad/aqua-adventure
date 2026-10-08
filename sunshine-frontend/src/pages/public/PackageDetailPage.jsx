@@ -68,8 +68,8 @@ export default function PackageDetailPage() {
         <Container className="py-3 py-lg-4">
           <PackageHero pkg={pkg} onImageClick={setPreviewImage} />
 
-          <Row className="g-4 g-lg-5 mt-1">
-            <Col lg={8}>
+          <Row className="gx-lg-5 gy-4 mt-3 mt-lg-4">
+            <Col lg={7} xl={8}>
               <section className="detail-section" aria-label="Overview">
                 <ExpandableText text={pkg.description} lines={3} />
               </section>
@@ -82,7 +82,7 @@ export default function PackageDetailPage() {
               <PackageInfoAccordion />
             </Col>
 
-            <Col lg={4}>
+            <Col lg={5} xl={4}>
               <div className="package-detail__aside">
                 <BookingCard pkg={pkg} onBook={() => setShowBooking(true)} />
                 <LocationMap className="d-none d-lg-block" />

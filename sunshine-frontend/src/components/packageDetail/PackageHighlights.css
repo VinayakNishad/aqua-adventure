@@ -1,7 +1,7 @@
 .package-highlights {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 0.6rem 1.25rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem 2rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -25,4 +25,10 @@
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+}
+
+@media (max-width: 575.98px) {
+  .package-highlights {
+    grid-template-columns: 1fr;
+  }
 }
