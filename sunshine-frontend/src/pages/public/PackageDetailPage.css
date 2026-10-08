@@ -30,3 +30,16 @@
 .detail-section__head .detail-section__title {
   margin: 0;
 }
+
+/* Price card and map stay in view together while the content scrolls. */
+.package-detail__aside {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@media (min-width: 992px) {
+  .package-detail__aside {
+    position: sticky;
+    top: calc(var(--nav-height) + 1rem);
+  }
+}

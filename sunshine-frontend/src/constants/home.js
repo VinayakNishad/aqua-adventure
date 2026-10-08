@@ -1,6 +1,5 @@
 export const SECTION_IDS = Object.freeze({
   HOME: "home",
-  ADS: "carousal",
   PACKAGES: "packages",
   ABOUT: "about",
   CHANNEL: "channel",

@@ -1,6 +1,4 @@
 .booking-card {
-  position: sticky;
-  top: calc(var(--nav-height) + 1rem);
   padding: 1.5rem;
   border-radius: var(--radius-lg);
   background: #fff;

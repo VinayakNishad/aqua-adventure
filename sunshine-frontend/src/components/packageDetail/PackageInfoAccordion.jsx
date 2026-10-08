@@ -2,12 +2,12 @@ import { Accordion } from "react-bootstrap";
 import faqData from "../../data/FAQDetails.json";
 import {
   BOOKING_POLICIES,
-  MAP_EMBED_URL,
   PICKUP_LOCATIONS,
   SAFETY_TIPS,
   WHAT_TO_BRING,
   googleMapsSearchUrl,
 } from "../../constants/packageInfo";
+import LocationMap from "./LocationMap";
 import "./PackageInfoAccordion.css";
 
 const CheckList = ({ items, icon }) => (
@@ -49,7 +49,7 @@ export default function PackageInfoAccordion() {
 
         <Accordion.Item eventKey="pickup">
           <Accordion.Header>
-            <i className="bi bi-geo-alt" aria-hidden="true" /> Pickup points &amp; map
+            <i className="bi bi-geo-alt" aria-hidden="true" /> Pickup points
           </Accordion.Header>
           <Accordion.Body>
             <p className="small text-muted mb-2">Available for selected packages.</p>
@@ -63,15 +63,7 @@ export default function PackageInfoAccordion() {
                 </li>
               ))}
             </ul>
-            <div className="ratio ratio-16x9 mt-3 rounded overflow-hidden">
-              <iframe
-                src={MAP_EMBED_URL}
-                title="Paradise Watersports location"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                allowFullScreen
-              />
-            </div>
+            <LocationMap className="mt-3 d-lg-none" />
           </Accordion.Body>
         </Accordion.Item>
 

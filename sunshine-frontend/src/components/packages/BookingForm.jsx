@@ -1,128 +1,187 @@
-import React, { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { useState } from "react";
+import { packageEnquiryMessage } from "../../constants/messages";
+import { getErrorMessage } from "../../services/apiClient";
 import { createEnquiry } from "../../services/enquiryService";
+import { getOptimizedCloudinaryUrl } from "../../utils/cloudinary";
+import { formatPrice } from "../../utils/format";
+import { buildWhatsAppUrl } from "../../utils/whatsapp";
 import "./BookingForm.css";
 
-const BookingForm = ({ activityId, packageId, title, onClose }) => {
-  const [enquiry, setEnquiry] = useState({ name: "", phone: "" });
-  const [submitting, setSubmitting] = useState(false);
+const COUNTRY_CODE = "+91";
+const INDIAN_MOBILE = /^[6-9]\d{9}$/;
 
-  const validateForm = () => {
-    if (!enquiry.name || enquiry.name.trim().length < 5) {
-      toast.error("Name must be at least 5 characters long.");
-      return false;
-    }
+const validate = ({ name, phone }) => {
+  const errors = {};
+  if (name.trim().length < 2) errors.name = "Please enter your name.";
+  if (!INDIAN_MOBILE.test(phone)) errors.phone = "Enter a valid 10-digit mobile number.";
+  return errors;
+};
 
-    const phoneRegex = /^[6-9]\d{9}$/;
-    if (!phoneRegex.test(enquiry.phone)) {
-      toast.error("Enter a valid phone number (10 digits).");
-      return false;
-    }
+/** Booking enquiry form for one package; shows a confirmation screen when sent. */
+export default function BookingForm({ pkg, onClose }) {
+  const [values, setValues] = useState({ name: "", phone: "" });
+  const [errors, setErrors] = useState({});
+  const [status, setStatus] = useState("idle"); // idle | submitting | sent
+  const [submitError, setSubmitError] = useState("");
 
-    return true;
+  const cover = pkg.images?.[0];
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    const next = name === "phone" ? value.replace(/\D/g, "").slice(0, 10) : value;
+    setValues((v) => ({ ...v, [name]: next }));
+    if (errors[name]) setErrors((errs) => ({ ...errs, [name]: undefined }));
   };
 
-  const handleEnquirySubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    const found = validate(values);
+    setErrors(found);
+    if (Object.keys(found).length > 0) return;
 
-    setSubmitting(true);
+    setStatus("submitting");
+    setSubmitError("");
     try {
-      const payload = {
-        name: enquiry.name,
-        countryCode: "+91", // fixed country code
-        phone: enquiry.phone,
-        ...(activityId ? { activityId } : { packageId }),
-      };
-
-      await createEnquiry(payload);
-      toast.success("Enquiry sent successfully! We'll contact you soon.");
-      setEnquiry({ name: "", phone: "" });
-
-      setTimeout(() => {
-        onClose();
-      }, 2000);
+      await createEnquiry({
+        packageId: pkg._id,
+        name: values.name.trim(),
+        countryCode: COUNTRY_CODE,
+        phone: values.phone,
+      });
+      setStatus("sent");
     } catch (err) {
-      console.error("Error sending enquiry", err);
-      toast.error("Failed to send enquiry. Please try again.");
-    } finally {
-      setSubmitting(false);
+      setSubmitError(getErrorMessage(err, "Could not send your request. Please try again."));
+      setStatus("idle");
     }
   };
 
   return (
-    <>
-      <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar />
+    <div className="booking-form">
+      <header className="booking-form__head">
+        {cover && (
+          <img
+            src={getOptimizedCloudinaryUrl(cover, { width: 160, height: 160, crop: "fill" })}
+            alt=""
+            className="booking-form__thumb"
+          />
+        )}
+        <div className="booking-form__heading">
+          <span className="booking-form__eyebrow">Book your trip</span>
+          <h2 className="booking-form__title">{pkg.name}</h2>
+          {typeof pkg.price === "number" && (
+            <span className="booking-form__price">
+              {formatPrice(pkg.price)} <small>per person</small>
+            </span>
+          )}
+        </div>
+        <button type="button" className="btn-close" onClick={onClose} aria-label="Close" />
+      </header>
 
-      <div className="booking-form-wrapper">
-        <form onSubmit={handleEnquirySubmit}>
-          <div className="form-header">
-            <h5 className="form-header-title">{title}</h5>
-            <button type="button" className="form-close-btn" onClick={onClose}>
-              &times;
-            </button>
-          </div>
-
-          <div className="form-body">
-            {/* Name */}
-            <div className="form-group">
-              <label htmlFor="nameInput" className="form-label">
-                Name
-              </label>
+      {status === "sent" ? (
+        <div className="booking-form__done" role="status">
+          <span className="booking-form__done-icon">
+            <i className="bi bi-check-lg" aria-hidden="true" />
+          </span>
+          <h3>Request sent!</h3>
+          <p>
+            Thanks, {values.name.trim().split(" ")[0]}. We&rsquo;ll contact you on{" "}
+            <strong>
+              {COUNTRY_CODE} {values.phone}
+            </strong>{" "}
+            shortly to confirm your booking.
+          </p>
+          <button type="button" className="btn btn-cta w-100" onClick={onClose}>
+            Done
+          </button>
+        </div>
+      ) : (
+        <form className="booking-form__body" onSubmit={handleSubmit} noValidate>
+          <div className="booking-field">
+            <label htmlFor="booking-name">Your name</label>
+            <div className={`booking-field__control ${errors.name ? "has-error" : ""}`}>
+              <i className="bi bi-person" aria-hidden="true" />
               <input
-                id="nameInput"
-                type="text"
-                className="form-control"
-                value={enquiry.name}
-                onChange={(e) => setEnquiry({ ...enquiry, name: e.target.value })}
-                required
+                id="booking-name"
+                name="name"
+                autoComplete="name"
+                placeholder="e.g. Priya Sharma"
+                value={values.name}
+                onChange={handleChange}
+                aria-invalid={Boolean(errors.name)}
+                aria-describedby={errors.name ? "booking-name-error" : undefined}
               />
             </div>
+            {errors.name && (
+              <span id="booking-name-error" className="booking-field__error">
+                {errors.name}
+              </span>
+            )}
+          </div>
 
-            {/* Phone */}
-            <div className="form-group">
-              <label htmlFor="phoneInput" className="form-label">
-                Phone Number
-              </label>
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control country-code-fixed"
-                  value="+91"
-                  disabled
-                  style={{
-                    maxWidth: "80px",
-                    borderRadius: "8px 0 0 8px",
-                    backgroundColor: "#e9ecef",
-                    color: "#6c757d",
-                    textAlign: "center",
-                  }}
-                />
-                <input
-                  id="phoneInput"
-                  type="tel"
-                  className="form-control phone-input"
-                  value={enquiry.phone}
-                  onChange={(e) => setEnquiry({ ...enquiry, phone: e.target.value })}
-                  required
-                />
-              </div>
+          <div className="booking-field">
+            <label htmlFor="booking-phone">Mobile number</label>
+            <div className={`booking-field__control ${errors.phone ? "has-error" : ""}`}>
+              <span className="booking-field__prefix">{COUNTRY_CODE}</span>
+              <input
+                id="booking-phone"
+                name="phone"
+                type="tel"
+                inputMode="numeric"
+                autoComplete="tel-national"
+                placeholder="10-digit number"
+                value={values.phone}
+                onChange={handleChange}
+                aria-invalid={Boolean(errors.phone)}
+                aria-describedby={errors.phone ? "booking-phone-error" : "booking-phone-hint"}
+              />
             </div>
+            {errors.phone ? (
+              <span id="booking-phone-error" className="booking-field__error">
+                {errors.phone}
+              </span>
+            ) : (
+              <span id="booking-phone-hint" className="booking-field__hint">
+                We&rsquo;ll call or WhatsApp you to confirm. No payment now.
+              </span>
+            )}
           </div>
 
-          {/* Footer */}
-          <div className="form-footer">
-            <button type="button" className="btn btn-secondary" onClick={onClose}>
-              Cancel
-            </button>
-            <button type="submit" className="btn btn-primary" disabled={submitting}>
-              {submitting ? "Sending..." : "Send Enquiry"}
-            </button>
+          {submitError && (
+            <div className="alert alert-danger py-2 small" role="alert">
+              {submitError}
+            </div>
+          )}
+
+          <button
+            type="submit"
+            className="btn btn-cta btn-lg w-100"
+            disabled={status === "submitting"}
+          >
+            {status === "submitting" ? (
+              <>
+                <span className="spinner-border spinner-border-sm me-2" aria-hidden="true" />
+                Sending…
+              </>
+            ) : (
+              "Request booking"
+            )}
+          </button>
+
+          <div className="booking-form__or">
+            <span>or</span>
           </div>
+
+          <a
+            href={buildWhatsAppUrl(packageEnquiryMessage(pkg))}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-outline-whatsapp w-100"
+          >
+            <i className="bi bi-whatsapp me-2" aria-hidden="true" />
+            Chat with us on WhatsApp
+          </a>
         </form>
-      </div>
-    </>
+      )}
+    </div>
   );
-};
-
-export default BookingForm;
+}

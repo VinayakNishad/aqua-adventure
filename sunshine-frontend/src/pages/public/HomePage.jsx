@@ -6,7 +6,6 @@ import BikeDetail from "../../components/home/BikeDetail";
 import ContactForm from "../../components/home/ContactForm";
 import FAQ from "../../components/home/FAQ";
 import GoogleReviews from "../../components/home/GoogleReviews";
-import HeroCarousel from "../../components/home/HeroCarousel";
 import HeroSection from "../../components/home/HeroSection";
 import VideoGallery from "../../components/home/VideoGallery";
 import Footer from "../../components/layout/Footer";
@@ -29,9 +28,6 @@ export default function HomePage() {
         <HeroSection />
 
         <PackageList />
-        <Reveal effect="zoom">
-          <HeroCarousel />
-        </Reveal>
 
         <Reveal effect="up">
           <About />

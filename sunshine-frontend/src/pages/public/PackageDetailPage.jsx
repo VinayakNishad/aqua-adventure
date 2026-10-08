@@ -9,6 +9,7 @@ import BookingCard from "../../components/packageDetail/BookingCard";
 import BookingModal from "../../components/packages/BookingModal";
 import ImagePreview from "../../components/packageDetail/ImagePreview";
 import IncludedActivities from "../../components/packageDetail/IncludedActivities";
+import LocationMap from "../../components/packageDetail/LocationMap";
 import PackageHero from "../../components/packageDetail/PackageHero";
 import PackageHighlights from "../../components/packageDetail/PackageHighlights";
 import PackageInfoAccordion from "../../components/packageDetail/PackageInfoAccordion";
@@ -82,7 +83,10 @@ export default function PackageDetailPage() {
             </Col>
 
             <Col lg={4}>
-              <BookingCard pkg={pkg} onBook={() => setShowBooking(true)} />
+              <div className="package-detail__aside">
+                <BookingCard pkg={pkg} onBook={() => setShowBooking(true)} />
+                <LocationMap className="d-none d-lg-block" />
+              </div>
             </Col>
           </Row>
         </Container>

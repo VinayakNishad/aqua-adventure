@@ -1,23 +1,29 @@
-// ConfirmationModal.jsx
-import React from "react";
+import { Button, Modal } from "react-bootstrap";
 
-const ConfirmationModal = ({ onConfirm, onCancel, isDeleting }) => {
+/** Accessible yes/no confirmation dialog for destructive actions. */
+export default function ConfirmationModal({
+  show = true,
+  title = "Confirm delete",
+  message = "Are you sure you want to delete this item?",
+  confirmLabel = "Delete",
+  isDeleting = false,
+  onConfirm,
+  onCancel,
+}) {
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <h5>Confirm Delete</h5>
-        <p>Are you sure you want to delete this ad?</p>
-        <div className="modal-actions">
-          <button onClick={onCancel} className="modal-button cancel" disabled={isDeleting}>
-            Cancel
-          </button>
-          <button onClick={onConfirm} className="modal-button confirm" disabled={isDeleting}>
-            {isDeleting ? "Deleting..." : "Delete"}
-          </button>
-        </div>
-      </div>
-    </div>
+    <Modal show={show} onHide={onCancel} centered>
+      <Modal.Header closeButton>
+        <Modal.Title as="h5">{title}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>{message}</Modal.Body>
+      <Modal.Footer>
+        <Button variant="outline-secondary" onClick={onCancel} disabled={isDeleting}>
+          Cancel
+        </Button>
+        <Button variant="danger" onClick={onConfirm} disabled={isDeleting}>
+          {isDeleting ? "Deleting…" : confirmLabel}
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
-};
-
-export default ConfirmationModal;
+}
