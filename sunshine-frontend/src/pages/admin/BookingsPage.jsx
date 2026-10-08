@@ -1,583 +1,399 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "react-toastify";
-import useAuth from "../../hooks/useAuth";
-import { createAd } from "../../services/adService";
+import ConfirmationModal from "../../components/common/ConfirmationModal";
+import useStoredSet from "../../hooks/useStoredSet";
+import { ENQUIRY_STATUS, REVIEW_REQUESTS_STORAGE_KEY } from "../../constants/admin";
+import { getErrorMessage } from "../../services/apiClient";
 import { approveEnquiry, deleteEnquiry, getEnquiries } from "../../services/enquiryService";
-import "./BookingsPage.css";
 import {
-  AddIcon,
-  BookingsIcon,
-  CalendarIcon,
-  CheckIcon,
-  ClockIcon,
-  CloseIcon,
-  FilterIcon,
-  LogoutIcon,
-} from "../../components/icons";
+  approvalWhatsAppUrl,
+  bookingItemName,
+  chatWhatsAppUrl,
+  reviewRequestWhatsAppUrl,
+  telUrl,
+} from "../../utils/bookingMessages";
+import "./BookingsPage.css";
 
-// *** NEW ICONS ***
+const STATUS_FILTERS = [
+  { value: "all", label: "All" },
+  { value: "pending", label: "Pending" },
+  { value: "approved", label: "Approved" },
+];
 
-// --- Existing Icons ---
-const LoadingSpinner = () => (
-  <div className="spinner-container">
-    <div className="spinner"></div>
-    <p>Loading bookings...</p>
-  </div>
-);
+const REVIEW_FILTERS = [
+  { value: "all", label: "Any review status" },
+  { value: "sent", label: "Review requested" },
+  { value: "not_sent", label: "Review not requested" },
+];
 
-const ErrorAlert = ({ message }) => (
-  <div className="error-alert">
-    <strong>Error:</strong> {message}
-  </div>
-);
+const EMPTY_FILTERS = { search: "", status: "all", review: "all", from: "", to: "" };
 
-const EmptyState = ({ isFiltered }) => (
-  <div className="empty-state">
-    <h3>{isFiltered ? "No Bookings Found for these Filters" : "No Bookings Found"}</h3>
-    <p>
-      {isFiltered
-        ? "Please select different filter options or clear the filters."
-        : "There are no bookings to display at the moment."}
-    </p>
-  </div>
-);
+const isApproved = (e) => e.status === ENQUIRY_STATUS.APPROVED;
+const startOfDay = (value) => new Date(`${value}T00:00:00`);
+const endOfDay = (value) => new Date(`${value}T23:59:59.999`);
+const isToday = (date) => new Date(date).toDateString() === new Date().toDateString();
 
-// --- Feedback Functions ---
-const sendReview = (phone, item) => {
-  const isPackage = !!item.packageId;
-  const itemType = isPackage ? "package" : "activity";
-  const itemId = isPackage ? item.packageId._id : item.activityId._id;
-  const itemTitle = isPackage ? item.packageId.name : item.activityId.title;
-  const reviewLink = `${window.location.origin}/${itemType}/${itemId}/review`;
-  const message = `Hi! Hope you enjoyed your recent ${itemTitle} ${itemType}. Please share your feedback here: ${reviewLink}`;
+const formatDate = (value) =>
+  new Date(value).toLocaleString("en-IN", {
+    day: "numeric",
+    month: "short",
+    hour: "numeric",
+    minute: "2-digit",
+  });
 
-  const encodedMessage = encodeURIComponent(message);
-  const whatsappUrl = `https://wa.me/${phone}?text=${encodedMessage}`;
-  window.open(whatsappUrl, "_blank");
-};
+const openInNewTab = (url) => window.open(url, "_blank", "noopener,noreferrer");
 
-const sendApprovalMessage = (enquiry) => {
-  if (!enquiry) return;
-  const customerName = enquiry.name;
-  const phone = `${enquiry.countryCode}${enquiry.phone}`;
-  const itemName = enquiry.packageId?.name || enquiry.activityId?.title || "your booking";
-  const message = `Hello ${customerName}, your booking for "${itemName}" has been confirmed! We look forward to serving you.`;
-  const encodedMessage = encodeURIComponent(message);
-  const whatsappUrl = `https://wa.me/${phone}?text=${encodedMessage}`;
-  window.open(whatsappUrl, "_blank");
-};
+function StatusBadge({ enquiry }) {
+  return isApproved(enquiry) ? (
+    <span className="admin-badge admin-badge--approved">
+      <i className="bi bi-check-circle-fill" aria-hidden="true" /> Approved
+    </span>
+  ) : (
+    <span className="admin-badge admin-badge--pending">
+      <i className="bi bi-clock-fill" aria-hidden="true" /> Pending
+    </span>
+  );
+}
 
-const DisplayBookings = () => {
+function BookingActions({ enquiry, reviewSent, onApprove, onReject, onRequestReview }) {
+  return (
+    <div className="booking-actions">
+      {!isApproved(enquiry) && (
+        <button type="button" className="btn btn-cta btn-sm" onClick={() => onApprove(enquiry)}>
+          <i className="bi bi-check2 me-1" aria-hidden="true" /> Approve
+        </button>
+      )}
+      {isApproved(enquiry) && (
+        <button
+          type="button"
+          className={`btn btn-sm ${reviewSent ? "btn-light" : "btn-outline-primary"}`}
+          onClick={() => onRequestReview(enquiry)}
+          title={reviewSent ? "Review already requested — send again" : "Ask for a review"}
+        >
+          <i className={`bi ${reviewSent ? "bi-star-fill" : "bi-star"} me-1`} aria-hidden="true" />
+          {reviewSent ? "Review asked" : "Ask review"}
+        </button>
+      )}
+      <a
+        href={chatWhatsAppUrl(enquiry)}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="btn btn-outline-whatsapp btn-sm booking-actions__icon"
+        aria-label={`WhatsApp ${enquiry.name}`}
+      >
+        <i className="bi bi-whatsapp" aria-hidden="true" />
+      </a>
+      <a
+        href={telUrl(enquiry)}
+        className="btn btn-outline-secondary btn-sm booking-actions__icon"
+        aria-label={`Call ${enquiry.name}`}
+      >
+        <i className="bi bi-telephone" aria-hidden="true" />
+      </a>
+      <button
+        type="button"
+        className="btn btn-outline-danger btn-sm booking-actions__icon"
+        onClick={() => onReject(enquiry)}
+        aria-label={`Reject booking from ${enquiry.name}`}
+      >
+        <i className="bi bi-trash" aria-hidden="true" />
+      </button>
+    </div>
+  );
+}
+
+export default function BookingsPage() {
   const [enquiries, setEnquiries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [showOverlay, setShowOverlay] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [uploading, setUploading] = useState(false);
-  const [sentFeedbackIds, setSentFeedbackIds] = useState(new Set());
-  const navigate = useNavigate();
-  const { logout } = useAuth();
-
-  // States for advanced filtering
-  const [showFilters, setShowFilters] = useState(false);
-  const [filterType, setFilterType] = useState("single"); // 'single' or 'range'
-  const [singleDate, setSingleDate] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [feedbackFilter, setFeedbackFilter] = useState("all"); // 'all', 'sent', or 'not_sent'
-
-  // *** NEW FILTER STATES ***
-  const [filterStatus, setFilterStatus] = useState("all"); // 'all', 'approved', 'pending'
-  const [filterSearch, setFilterSearch] = useState(""); // Search term
+  const [filters, setFilters] = useState(EMPTY_FILTERS);
+  const [toReject, setToReject] = useState(null);
+  const [rejecting, setRejecting] = useState(false);
+  const [reviewSentIds, markReviewSent] = useStoredSet(REVIEW_REQUESTS_STORAGE_KEY);
 
   useEffect(() => {
-    const fetchEnquiries = async () => {
-      try {
-        const data = await getEnquiries();
-        // Sort by creation date, newest first
-        const sortedData = data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        setEnquiries(sortedData);
-      } catch (err) {
-        console.error("Error fetching enquiries:", err);
-        setError("Failed to fetch bookings. Please try again later.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchEnquiries();
+    getEnquiries()
+      .then((data) =>
+        setEnquiries(data.toSorted((a, b) => new Date(b.createdAt) - new Date(a.createdAt))),
+      )
+      .catch((err) => setError(getErrorMessage(err, "Failed to load bookings.")))
+      .finally(() => setLoading(false));
   }, []);
 
-  // *** MODIFIED: useMemo for filtering ***
-  const filteredEnquiries = useMemo(() => {
-    let filtered = [...enquiries];
+  const setFilter = (key, value) => setFilters((f) => ({ ...f, [key]: value }));
+  const hasFilters = JSON.stringify(filters) !== JSON.stringify(EMPTY_FILTERS);
 
-    // Date Filtering
-    if (filterType === "single" && singleDate) {
-      const selectedDate = new Date(singleDate);
-      filtered = filtered.filter((e) => {
-        const enquiryDate = new Date(e.createdAt);
-        return (
-          enquiryDate.getFullYear() === selectedDate.getFullYear() &&
-          enquiryDate.getMonth() === selectedDate.getMonth() &&
-          enquiryDate.getDate() === selectedDate.getDate()
-        );
-      });
-    } else if (filterType === "range" && startDate && endDate) {
-      const start = new Date(startDate);
-      start.setHours(0, 0, 0, 0);
-      const end = new Date(endDate);
-      end.setHours(23, 59, 59, 999);
-
-      filtered = filtered.filter((e) => {
-        const enquiryDate = new Date(e.createdAt);
-        return enquiryDate >= start && enquiryDate <= end;
-      });
-    }
-
-    // Feedback Filtering
-    if (feedbackFilter === "sent") {
-      filtered = filtered.filter((e) => sentFeedbackIds.has(e._id));
-    } else if (feedbackFilter === "not_sent") {
-      filtered = filtered.filter((e) => !sentFeedbackIds.has(e._id));
-    }
-
-    // *** NEW: Status Filtering ***
-    if (filterStatus === "approved") {
-      filtered = filtered.filter((e) => e.status === 1);
-    } else if (filterStatus === "pending") {
-      filtered = filtered.filter((e) => e.status !== 1);
-    }
-
-    // *** NEW: Search Filtering ***
-    if (filterSearch) {
-      const lowerSearch = filterSearch.toLowerCase();
-      filtered = filtered.filter(
-        (e) =>
-          e.name.toLowerCase().includes(lowerSearch) ||
-          e.phone.toLowerCase().includes(lowerSearch) ||
-          (e.packageId?.name || "").toLowerCase().includes(lowerSearch) ||
-          (e.activityId?.title || "").toLowerCase().includes(lowerSearch),
-      );
-    }
-
-    return filtered;
-  }, [
-    enquiries,
-    filterType,
-    singleDate,
-    startDate,
-    endDate,
-    feedbackFilter,
-    sentFeedbackIds,
-    filterStatus,
-    filterSearch, // <-- New dependencies
-  ]);
-
-  // *** MODIFIED: useMemo for dashboard stats ***
-  const dashboardStats = useMemo(() => {
-    const totalBookings = filteredEnquiries.length;
-    const approvedBookings = filteredEnquiries.filter((e) => e.status === 1).length;
-    const pendingBookings = totalBookings - approvedBookings;
-    const latestBookingDate =
-      totalBookings > 0 ? new Date(filteredEnquiries[0].createdAt).toLocaleDateString() : "N/A";
-
-    return { totalBookings, approvedBookings, pendingBookings, latestBookingDate };
-  }, [filteredEnquiries]);
-
-  const handleLogout = async () => {
-    try {
-      await logout();
-      toast.success("Logged out successfully");
-      navigate("/", { replace: true });
-    } catch (err) {
-      toast.error(err.message);
-    }
-  };
-
-  const handleUploadAd = async (e) => {
-    e.preventDefault();
-    if (!selectedFile) return toast.error("Please select an image");
-    const formData = new FormData();
-    formData.append("image", selectedFile);
-
-    try {
-      setUploading(true);
-      await createAd(formData);
-      toast.success("Ad uploaded successfully");
-      setShowOverlay(false);
-      setSelectedFile(null);
-    } catch (err) {
-      console.error("Error uploading ad:", err);
-      toast.error("Failed to upload ad");
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  const handleApprove = async (enquiryToApprove) => {
-    try {
-      await approveEnquiry(enquiryToApprove._id);
-      setEnquiries((prevEnquiries) =>
-        prevEnquiries.map((enquiry) =>
-          enquiry._id === enquiryToApprove._id ? { ...enquiry, status: 1 } : enquiry,
-        ),
-      );
-      toast.success("Booking approved successfully!");
-      sendApprovalMessage(enquiryToApprove);
-    } catch (err) {
-      console.error("Error approving booking:", err);
-      toast.error("Failed to approve booking.");
-    }
-  };
-
-  const handleReject = async (id) => {
-    if (window.confirm("Are you sure you want to reject and delete this booking?")) {
-      try {
-        await deleteEnquiry(id);
-        setEnquiries((prevEnquiries) => prevEnquiries.filter((enquiry) => enquiry._id !== id));
-        toast.success("Booking rejected and deleted successfully!");
-      } catch (err) {
-        console.error("Error rejecting booking:", err);
-        toast.error("Failed to reject booking.");
+  const filtered = useMemo(() => {
+    const search = filters.search.trim().toLowerCase();
+    return enquiries.filter((e) => {
+      const created = new Date(e.createdAt);
+      if (filters.from && created < startOfDay(filters.from)) return false;
+      if (filters.to && created > endOfDay(filters.to)) return false;
+      if (filters.status === "approved" && !isApproved(e)) return false;
+      if (filters.status === "pending" && isApproved(e)) return false;
+      if (filters.review === "sent" && !reviewSentIds.has(e._id)) return false;
+      if (filters.review === "not_sent" && reviewSentIds.has(e._id)) return false;
+      if (search) {
+        const haystack = `${e.name} ${e.phone} ${bookingItemName(e)}`.toLowerCase();
+        if (!haystack.includes(search)) return false;
       }
+      return true;
+    });
+  }, [enquiries, filters, reviewSentIds]);
+
+  const stats = useMemo(
+    () => [
+      { label: "Total bookings", value: enquiries.length, icon: "bi-calendar3" },
+      {
+        label: "Pending",
+        value: enquiries.filter((e) => !isApproved(e)).length,
+        icon: "bi-hourglass-split",
+      },
+      { label: "Approved", value: enquiries.filter(isApproved).length, icon: "bi-check2-circle" },
+      {
+        label: "Today",
+        value: enquiries.filter((e) => isToday(e.createdAt)).length,
+        icon: "bi-lightning-charge",
+      },
+    ],
+    [enquiries],
+  );
+
+  const handleApprove = async (enquiry) => {
+    try {
+      await approveEnquiry(enquiry._id);
+      setEnquiries((list) =>
+        list.map((e) => (e._id === enquiry._id ? { ...e, status: ENQUIRY_STATUS.APPROVED } : e)),
+      );
+      toast.success(`Booking for ${enquiry.name} approved. Opening WhatsApp to confirm…`);
+      openInNewTab(approvalWhatsAppUrl(enquiry));
+    } catch (err) {
+      toast.error(getErrorMessage(err, "Failed to approve booking."));
     }
   };
 
-  const handleSendReview = (phone, item, id) => {
-    sendReview(phone, item);
-    setSentFeedbackIds((prev) => new Set(prev).add(id));
+  const handleReject = async () => {
+    setRejecting(true);
+    try {
+      await deleteEnquiry(toReject._id);
+      setEnquiries((list) => list.filter((e) => e._id !== toReject._id));
+      toast.success("Booking rejected and deleted.");
+      setToReject(null);
+    } catch (err) {
+      toast.error(getErrorMessage(err, "Failed to reject booking."));
+    } finally {
+      setRejecting(false);
+    }
   };
 
-  // *** MODIFIED: Clear all filters ***
-  const clearAllFilters = () => {
-    setFilterType("single");
-    setSingleDate("");
-    setStartDate("");
-    setEndDate("");
-    setFeedbackFilter("all");
-    setFilterStatus("all"); // <-- New
-    setFilterSearch(""); // <-- New
+  const handleRequestReview = (enquiry) => {
+    openInNewTab(reviewRequestWhatsAppUrl(enquiry));
+    markReviewSent(enquiry._id);
   };
 
-  if (loading) return <LoadingSpinner />;
-  if (error) return <ErrorAlert message={error} />;
-
-  // *** MODIFIED: Check for any active filter ***
-  const isAnyFilterActive =
-    singleDate ||
-    (startDate && endDate) ||
-    feedbackFilter !== "all" ||
-    filterStatus !== "all" ||
-    filterSearch !== "";
+  const actionProps = {
+    onApprove: handleApprove,
+    onReject: setToReject,
+    onRequestReview: handleRequestReview,
+  };
 
   return (
     <>
-      <div className="bookings-dashboard">
-        {/* ... Header ... */}
-        <div className="dashboard-header">
-          <h1>Admin Dashboard</h1>
-          <div className="header-actions">
-            <Link to="/packages/new" className="btn-custom btn-primary">
-              <AddIcon /> Add Package
-            </Link>
-            <Link to="/videos" className="btn-custom btn-primary">
-              <AddIcon /> Add Video
-            </Link>
-            <Link to="/add-activity" className="btn-custom btn-primary">
-              <AddIcon /> Add Activity
-            </Link>
-            <Link to="/show-activity" className="btn-custom btn-primary">
-              <AddIcon /> Edit Activity
-            </Link>
-            <button className="btn-custom btn-primary" onClick={() => setShowOverlay(true)}>
-              <AddIcon /> Add Ads
-            </button>
-            <button className="btn-custom btn-danger" onClick={handleLogout}>
-              <LogoutIcon /> Logout
-            </button>
+      <header className="admin-page-header">
+        <div>
+          <h1>Bookings</h1>
+          <p>Approve requests, contact guests and ask for reviews.</p>
+        </div>
+      </header>
+
+      <section className="admin-stats" aria-label="Summary">
+        {stats.map((s) => (
+          <div key={s.label} className="admin-stat">
+            <span className="admin-stat__icon">
+              <i className={`bi ${s.icon}`} aria-hidden="true" />
+            </span>
+            <div>
+              <span className="admin-stat__value">{loading ? "–" : s.value}</span>
+              <span className="admin-stat__label">{s.label}</span>
+            </div>
           </div>
+        ))}
+      </section>
+
+      <section className="admin-card bookings-toolbar" aria-label="Filters">
+        <div className="bookings-toolbar__search">
+          <i className="bi bi-search" aria-hidden="true" />
+          <input
+            type="search"
+            className="form-control"
+            placeholder="Search name, phone or package"
+            value={filters.search}
+            onChange={(e) => setFilter("search", e.target.value)}
+            aria-label="Search bookings"
+          />
         </div>
 
-        {enquiries.length === 0 && !loading ? (
-          <EmptyState isFiltered={false} />
-        ) : (
-          <>
-            {/* *** MODIFIED: Stats Grid with new cards *** */}
-            <div className="stats-grid">
-              <div className="stat-card">
-                <div className="icon total">
-                  <BookingsIcon />
-                </div>
-                <div>
-                  <div className="value">{dashboardStats.totalBookings}</div>
-                  <div className="label">Total Bookings (Filtered)</div>
-                </div>
-              </div>
-
-              <div className="stat-card">
-                <div className="icon approved">
-                  <CheckIcon />
-                </div>
-                <div>
-                  <div className="value">{dashboardStats.approvedBookings}</div>
-                  <div className="label">Approved Bookings</div>
-                </div>
-              </div>
-
-              <div className="stat-card">
-                <div className="icon pending">
-                  <ClockIcon />
-                </div>
-                <div>
-                  <div className="value">{dashboardStats.pendingBookings}</div>
-                  <div className="label">Pending Bookings</div>
-                </div>
-              </div>
-
-              <div className="stat-card">
-                <div className="icon calendar">
-                  <CalendarIcon />
-                </div>
-                <div>
-                  <div className="value">{dashboardStats.latestBookingDate}</div>
-                  <div className="label">Latest Booking Date</div>
-                </div>
-              </div>
-            </div>
-            {/* ... (End Stats Grid) ... */}
-
-            <div className="toolbar">
-              <button
-                className="btn-custom btn-secondary"
-                onClick={() => setShowFilters(!showFilters)}
-              >
-                <FilterIcon /> {showFilters ? "Hide Filters" : "Show Filters"}
-              </button>
-            </div>
-
-            {/* *** MODIFIED: Filter Panel with new filters *** */}
-            {showFilters && (
-              <div className="filter-panel">
-                <div className="filter-grid">
-                  {/* --- NEW: Search Bar --- */}
-                  <div className="filter-group search-bar">
-                    <label htmlFor="search-filter">Search by Name, Phone, or Item</label>
-                    <input
-                      type="text"
-                      id="search-filter"
-                      placeholder="e.g. John Doe, +91..., or 'Scuba Diving'"
-                      value={filterSearch}
-                      onChange={(e) => setFilterSearch(e.target.value)}
-                    />
-                  </div>
-
-                  {/* --- Date Filter Type --- */}
-                  <div className="filter-group">
-                    <label>Date Filter Type</label>
-                    <select value={filterType} onChange={(e) => setFilterType(e.target.value)}>
-                      <option value="single">Single Day</option>
-                      <option value="range">Date Range</option>
-                    </select>
-                  </div>
-
-                  {/* --- Single/Range Date Inputs --- */}
-                  {filterType === "single" ? (
-                    <div className="filter-group">
-                      <label htmlFor="single-date">Select Date</label>
-                      <input
-                        type="date"
-                        id="single-date"
-                        value={singleDate}
-                        onChange={(e) => setSingleDate(e.target.value)}
-                      />
-                    </div>
-                  ) : (
-                    <>
-                      <div className="filter-group">
-                        <label htmlFor="start-date">Start Date</label>
-                        <input
-                          type="date"
-                          id="start-date"
-                          value={startDate}
-                          onChange={(e) => setStartDate(e.target.value)}
-                        />
-                      </div>
-                      <div className="filter-group">
-                        <label htmlFor="end-date">End Date</label>
-                        <input
-                          type="date"
-                          id="end-date"
-                          value={endDate}
-                          onChange={(e) => setEndDate(e.target.value)}
-                        />
-                      </div>
-                    </>
-                  )}
-
-                  {/* --- NEW: Status Filter --- */}
-                  <div className="filter-group">
-                    <label>Booking Status</label>
-                    <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
-                      <option value="all">All Statuses</option>
-                      <option value="approved">Approved</option>
-                      <option value="pending">Pending</option>
-                    </select>
-                  </div>
-
-                  {/* --- Feedback Status Filter --- */}
-                  <div className="filter-group">
-                    <label>Feedback Status</label>
-                    <select
-                      value={feedbackFilter}
-                      onChange={(e) => setFeedbackFilter(e.target.value)}
-                    >
-                      <option value="all">All</option>
-                      <option value="sent">Sent</option>
-                      <option value="not_sent">Not Sent</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="filter-actions">
-                  <button className="btn-custom btn-danger" onClick={clearAllFilters}>
-                    Clear All Filters
-                  </button>
-                </div>
-              </div>
-            )}
-            {/* ... (End Filter Panel) ... */}
-
-            {/* ... Table / Empty State ... */}
-            {filteredEnquiries.length === 0 ? (
-              <EmptyState isFiltered={isAnyFilterActive} />
-            ) : (
-              <div className="bookings-table-container">
-                <table className="bookings-table">
-                  <thead>
-                    <tr>
-                      <th>Customer Name</th>
-                      <th>Phone</th>
-                      <th>Item Booked</th>
-                      <th>Booking Date</th>
-                      <th>Status</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredEnquiries.map((enquiry) => (
-                      <tr key={enquiry._id}>
-                        <td>{enquiry.name}</td>
-                        <td>
-                          {enquiry.countryCode} {enquiry.phone}
-                        </td>
-                        <td>{enquiry.packageId?.name || enquiry.activityId?.title || "N/A"}</td>
-                        <td>{new Date(enquiry.createdAt).toLocaleDateString()}</td>
-                        <td>
-                          {enquiry.status === 1 ? (
-                            <span className="status-badge badge-approved">Approved</span>
-                          ) : (
-                            <span className="status-badge badge-pending">Pending</span>
-                          )}
-                        </td>
-                        <td>
-                          <div className="action-buttons">
-                            {enquiry.status !== 1 && (
-                              <>
-                                <button
-                                  className="btn-custom btn-success"
-                                  style={{ padding: "0.4rem 0.8rem", fontSize: "0.8rem" }}
-                                  onClick={() => handleApprove(enquiry)}
-                                >
-                                  Approve
-                                </button>
-                                <button
-                                  className="btn-custom btn-danger"
-                                  style={{ padding: "0.4rem 0.8rem", fontSize: "0.8rem" }}
-                                  onClick={() => handleReject(enquiry._id)}
-                                >
-                                  Reject
-                                </button>
-                              </>
-                            )}
-                            <button
-                              className="btn-custom btn-primary"
-                              style={{ padding: "0.4rem 0.8rem", fontSize: "0.8rem" }}
-                              onClick={() =>
-                                handleSendReview(
-                                  `${enquiry.countryCode}${enquiry.phone}`,
-                                  enquiry,
-                                  enquiry._id,
-                                )
-                              }
-                              disabled={
-                                (!enquiry.activityId && !enquiry.packageId) ||
-                                sentFeedbackIds.has(enquiry._id)
-                              }
-                            >
-                              {sentFeedbackIds.has(enquiry._id) ? "Feedback Sent" : "Send Feedback"}
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
-          </>
-        )}
-      </div>
-
-      {/* ... Overlay/Modal for adding Ads ... */}
-      {showOverlay && (
-        <div className="overlay">
-          <div className="overlay-content">
-            <button className="close-btn" onClick={() => setShowOverlay(false)}>
-              <CloseIcon />
+        <div className="btn-group bookings-toolbar__status" role="group" aria-label="Status">
+          {STATUS_FILTERS.map((f) => (
+            <button
+              key={f.value}
+              type="button"
+              className={`btn btn-sm ${filters.status === f.value ? "btn-primary" : "btn-outline-primary"}`}
+              onClick={() => setFilter("status", f.value)}
+              aria-pressed={filters.status === f.value}
+            >
+              {f.label}
             </button>
-            <h2>Add New Ad</h2>
-            <form onSubmit={handleUploadAd}>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setSelectedFile(e.target.files[0])}
-              />
-              <button
-                type="submit"
-                className="btn-custom btn-primary"
-                disabled={uploading}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: "0.5rem",
-                }}
-              >
-                {uploading ? (
-                  <>
-                    <div
-                      className="spinner"
-                      style={{
-                        border: "2px solid #f3f3f3",
-                        borderTop: "2px solid white",
-                        borderRadius: "50%",
-                        width: "16px",
-                        height: "16px",
-                        animation: "spin 1s linear infinite",
-                      }}
-                    ></div>
-                    Uploading...
-                  </>
-                ) : (
-                  "Upload"
-                )}
-              </button>
-            </form>
-          </div>
+          ))}
+        </div>
+
+        <div className="bookings-toolbar__dates">
+          <label>
+            <span>From</span>
+            <input
+              type="date"
+              className="form-control form-control-sm"
+              value={filters.from}
+              max={filters.to || undefined}
+              onChange={(e) => setFilter("from", e.target.value)}
+            />
+          </label>
+          <label>
+            <span>To</span>
+            <input
+              type="date"
+              className="form-control form-control-sm"
+              value={filters.to}
+              min={filters.from || undefined}
+              onChange={(e) => setFilter("to", e.target.value)}
+            />
+          </label>
+        </div>
+
+        <select
+          className="form-select form-select-sm bookings-toolbar__review"
+          value={filters.review}
+          onChange={(e) => setFilter("review", e.target.value)}
+          aria-label="Review request status"
+        >
+          {REVIEW_FILTERS.map((f) => (
+            <option key={f.value} value={f.value}>
+              {f.label}
+            </option>
+          ))}
+        </select>
+
+        {hasFilters && (
+          <button
+            type="button"
+            className="btn btn-link btn-sm"
+            onClick={() => setFilters(EMPTY_FILTERS)}
+          >
+            Clear filters
+          </button>
+        )}
+      </section>
+
+      {error && (
+        <div className="alert alert-danger" role="alert">
+          {error}
         </div>
       )}
+
+      {loading ? (
+        <div className="admin-empty">
+          <div className="spinner-border text-primary" role="status">
+            <span className="visually-hidden">Loading bookings…</span>
+          </div>
+        </div>
+      ) : filtered.length === 0 ? (
+        <div className="admin-card admin-empty">
+          <i className="bi bi-inbox" aria-hidden="true" />
+          {hasFilters ? "No bookings match these filters." : "No bookings yet."}
+        </div>
+      ) : (
+        <>
+          <p className="bookings-count">
+            Showing {filtered.length} of {enquiries.length}
+          </p>
+
+          {/* Desktop table */}
+          <div className="admin-table-wrap d-none d-lg-block">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Guest</th>
+                  <th>Package</th>
+                  <th>Requested</th>
+                  <th>Status</th>
+                  <th className="text-end">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((e) => (
+                  <tr key={e._id}>
+                    <td>
+                      <strong className="d-block">{e.name}</strong>
+                      <span className="text-muted small">
+                        {e.countryCode} {e.phone}
+                      </span>
+                    </td>
+                    <td>{bookingItemName(e)}</td>
+                    <td className="text-nowrap">{formatDate(e.createdAt)}</td>
+                    <td>
+                      <StatusBadge enquiry={e} />
+                    </td>
+                    <td>
+                      <BookingActions
+                        enquiry={e}
+                        reviewSent={reviewSentIds.has(e._id)}
+                        {...actionProps}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile cards */}
+          <ul className="booking-cards d-lg-none">
+            {filtered.map((e) => (
+              <li key={e._id} className="booking-card-item">
+                <div className="booking-card-item__head">
+                  <div>
+                    <strong>{e.name}</strong>
+                    <span className="text-muted small d-block">
+                      {e.countryCode} {e.phone}
+                    </span>
+                  </div>
+                  <StatusBadge enquiry={e} />
+                </div>
+                <p className="booking-card-item__meta">
+                  <i className="bi bi-box-seam" aria-hidden="true" /> {bookingItemName(e)}
+                  <br />
+                  <i className="bi bi-clock" aria-hidden="true" /> {formatDate(e.createdAt)}
+                </p>
+                <BookingActions
+                  enquiry={e}
+                  reviewSent={reviewSentIds.has(e._id)}
+                  {...actionProps}
+                />
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+
+      <ConfirmationModal
+        show={Boolean(toReject)}
+        title="Reject booking?"
+        message={toReject && `This deletes the booking from ${toReject.name}. It cannot be undone.`}
+        confirmLabel="Reject & delete"
+        isDeleting={rejecting}
+        onConfirm={handleReject}
+        onCancel={() => setToReject(null)}
+      />
     </>
   );
-};
-
-export default DisplayBookings;
+}

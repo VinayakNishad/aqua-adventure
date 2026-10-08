@@ -9,7 +9,7 @@ import "./PackageCard.css";
 const MAX_ACTIVITY_CHIPS = 3;
 
 /** Package summary card: cover photo, key facts, price and booking actions. */
-export default function PackageCard({ pkg, priority = false, onBook, adminActions = null }) {
+export default function PackageCard({ pkg, priority = false, onBook }) {
   const detailUrl = `/package/${pkg._id}`;
   const cover = pkg.images?.[0];
   const activities = pkg.activities ?? [];
@@ -50,8 +50,6 @@ export default function PackageCard({ pkg, priority = false, onBook, adminAction
           </span>
         )}
       </Link>
-
-      {adminActions}
 
       <div className="pkg-card__body">
         <h3 className="pkg-card__title">

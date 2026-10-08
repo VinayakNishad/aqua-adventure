@@ -1,7 +1,7 @@
 import Bubbles from "../fx/Bubbles";
 import Reveal from "../fx/Reveal";
 import WaveDivider from "../fx/WaveDivider";
-import useRotatingItem from "../../hooks/useRotatingItem";
+import useTypewriter from "../../hooks/useTypewriter";
 import { buildWhatsAppUrl } from "../../utils/whatsapp";
 import { LOCATION_LABEL } from "../../constants/contact";
 import { REVEAL_STAGGER_MS } from "../../constants/animation";
@@ -9,7 +9,6 @@ import {
   HERO_BOOKING_MESSAGE,
   HERO_HIGHLIGHTS,
   HERO_ROTATING_WORDS,
-  HERO_WORD_INTERVAL_MS,
   SECTION_IDS,
 } from "../../constants/home";
 import { MEDIA, RESPONSIVE_WIDTHS } from "../../constants/media";
@@ -20,7 +19,7 @@ const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior:
 
 /** Full-screen photo hero aimed at holiday-makers: clear headline, WhatsApp booking first. */
 export default function HeroSection() {
-  const word = useRotatingItem(HERO_ROTATING_WORDS, HERO_WORD_INTERVAL_MS);
+  const typed = useTypewriter(HERO_ROTATING_WORDS);
 
   return (
     <section id={SECTION_IDS.HOME} className="hero" aria-labelledby="hero-title">
@@ -46,10 +45,14 @@ export default function HeroSection() {
         </Reveal>
 
         <Reveal effect="up" delay={120}>
-          <h2 id="hero-title" className="hero__title">
-            Dive into{" "}
-            <span key={word} className="hero__word">
-              {word}
+          <h2
+            id="hero-title"
+            className="hero__title"
+            aria-label={`Dive into ${HERO_ROTATING_WORDS[0]}`}
+          >
+            <span aria-hidden="true">
+              Dive into <span className="hero__word">{typed}</span>
+              <span className="hero__caret" />
             </span>
           </h2>
         </Reveal>

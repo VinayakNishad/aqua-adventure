@@ -19,9 +19,12 @@ const CreateActivityPage = lazy(() => import("../pages/admin/CreateActivityPage"
 const EditActivityPage = lazy(() => import("../pages/admin/EditActivityPage"));
 const ActivitiesSection = lazy(() => import("../components/activities/ActivitiesSection"));
 const AddVideoPage = lazy(() => import("../pages/admin/AddVideoPage"));
+const AdminPackagesPage = lazy(() => import("../pages/admin/AdminPackagesPage"));
+const AdminLayout = lazy(() => import("../components/admin/AdminLayout"));
 
 const adminRoutes = [
   [ROUTES.BOOKINGS, BookingsPage],
+  [ROUTES.ADMIN_PACKAGES, AdminPackagesPage],
   [ROUTES.NEW_PACKAGE, CreatePackagePage],
   [ROUTES.EDIT_PACKAGE, EditPackagePage],
   [ROUTES.NEW_ACTIVITY, CreateActivityPage],
@@ -43,17 +46,17 @@ export default function AppRoutes() {
         <Route path={ROUTES.PHOTO_CREDITS} element={<PhotoCreditsPage />} />
         <Route path={ROUTES.ADMIN_LOGIN} element={<AdminLoginPage />} />
 
-        {adminRoutes.map(([path, Page]) => (
-          <Route
-            key={path}
-            path={path}
-            element={
-              <ProtectedRoute>
-                <Page />
-              </ProtectedRoute>
-            }
-          />
-        ))}
+        <Route
+          element={
+            <ProtectedRoute>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
+          {adminRoutes.map(([path, Page]) => (
+            <Route key={path} path={path} element={<Page />} />
+          ))}
+        </Route>
 
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

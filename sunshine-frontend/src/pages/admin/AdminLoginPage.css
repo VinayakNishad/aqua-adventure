@@ -1,115 +1,134 @@
-.admin-login-page {
-  font-family: "Poppins", sans-serif;
-  background-color: #f0f2f5;
-}
-
-.login-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.admin-login {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
   min-height: 100vh;
-  padding: 1rem;
+  background: #fff;
 }
 
-.login-card {
+/* ---------- Photo side ---------- */
+.admin-login__visual {
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-login__visual img {
   width: 100%;
-  max-width: 450px;
-  background-color: #ffffff;
-  border: none;
-  border-radius: 1rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-  padding: 2.5rem;
-  margin: 1rem;
-  animation: fadeInUp 0.7s ease-in-out;
+  height: 100%;
+  object-fit: cover;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.admin-login__visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(3, 26, 44, 0.1) 40%, rgba(3, 26, 44, 0.8));
 }
 
-.login-card .logo-container {
-  text-align: center;
-  margin-bottom: 1.5rem;
+.admin-login__visual-text {
+  position: absolute;
+  inset: auto 2.5rem 2.5rem;
+  z-index: 1;
+  color: #fff;
 }
 
-.login-card .logo-container img {
-  height: 70px;
-  width: auto;
-}
-
-.login-card .form-title {
+.admin-login__visual-text span {
+  font-family: var(--font-display);
+  font-size: 2rem;
   font-weight: 700;
-  color: #1a2c5e;
-  text-align: center;
-  margin-bottom: 2rem;
 }
 
-.form-control-custom {
-  border-radius: 0.5rem;
-  padding: 0.9rem 1rem;
-  border: 1px solid #ced4da;
-  transition:
-    border-color 0.3s ease,
-    box-shadow 0.3s ease;
+.admin-login__visual-text p {
+  max-width: 380px;
+  margin: 0.4rem 0 0;
+  color: rgba(255, 255, 255, 0.85);
 }
 
-.form-control-custom:focus {
-  border-color: #4d82f5;
-  box-shadow: 0 0 0 3px rgba(77, 130, 245, 0.2);
-  outline: none;
+/* ---------- Form side ---------- */
+.admin-login__panel {
+  display: grid;
+  place-items: center;
+  padding: 2rem 1.25rem;
 }
 
-.password-input-wrapper {
+.admin-login__form {
+  display: grid;
+  gap: 1.1rem;
+  width: 100%;
+  max-width: 380px;
+}
+
+.admin-login__logo img {
+  height: 44px;
+}
+
+.admin-login__form h1 {
+  margin: 0.5rem 0 0;
+  font-family: var(--font-body);
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.admin-login__sub {
+  margin: -0.6rem 0 0.25rem;
+  color: var(--text-muted);
+}
+
+.admin-login .admin-field label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.admin-login .form-control {
+  padding: 0.7rem 0.9rem;
+  border: 1.5px solid #d7e1ea;
+  border-radius: 10px;
+}
+
+.admin-login .form-control:focus {
+  border-color: var(--ocean-500);
+  box-shadow: 0 0 0 4px rgba(11, 111, 164, 0.12);
+}
+
+.admin-login__password {
   position: relative;
 }
 
-.password-toggle-icon {
+.admin-login__password .form-control {
+  padding-right: 3rem;
+}
+
+.admin-login__password button {
   position: absolute;
-  top: 70%;
-  right: 15px;
+  top: 50%;
+  right: 0.5rem;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  background: transparent;
   transform: translateY(-50%);
-  cursor: pointer;
-  color: #6c757d;
-  font-size: 1rem; /* Adjusted size */
-  line-height: 1; /* Ensure proper alignment */
-  transition: color 0.3s ease;
 }
 
-.password-toggle-icon:hover {
-  color: #1a2c5e;
-}
-
-.btn-submit {
-  background: linear-gradient(90deg, #4d82f5, #3a70e2);
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.9rem;
-  font-weight: 600;
-  color: white;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(77, 130, 245, 0.3);
-}
-
-.btn-submit:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 7px 20px rgba(77, 130, 245, 0.4);
-}
-
-.btn-link-custom {
-  font-weight: 500;
-  color: #4d82f5;
+.admin-login__back {
+  justify-self: center;
+  font-size: 0.9rem;
+  color: var(--text-muted);
   text-decoration: none;
-  transition: color 0.3s ease;
 }
 
-.btn-link-custom:hover {
-  color: #1a2c5e;
-  text-decoration: underline;
+@media (max-width: 899.98px) {
+  .admin-login {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-login__visual {
+    display: none;
+  }
 }

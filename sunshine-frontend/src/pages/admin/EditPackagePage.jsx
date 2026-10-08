@@ -1,330 +1,106 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { getActivities } from "../../services/activityService";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import Spinner from "react-bootstrap/Spinner";
+import { toast } from "react-toastify";
+import PackageForm from "../../components/admin/PackageForm";
 import { getPackage, updatePackage } from "../../services/packageService";
+import { getErrorMessage } from "../../services/apiClient";
+import { ROUTES } from "../../routes/paths";
 
-const EditPackage = () => {
+const toInitialValues = (pkg) => ({
+  name: pkg.name ?? "",
+  description: pkg.description ?? "",
+  price: pkg.price ?? "",
+  duration: pkg.duration ?? "",
+  category: pkg.category ?? "",
+  pickupTime: pkg.pickupTime ?? "",
+  dropTime: pkg.dropTime ?? "",
+  points: (pkg.points ?? []).filter((p) => typeof p === "string" && p.trim()),
+  activities: (pkg.activities ?? []).map((a) => (typeof a === "string" ? a : a._id)),
+  existingImages: pkg.images ?? [],
+});
+
+export default function EditPackagePage() {
   const { id } = useParams();
   const navigate = useNavigate();
-
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [pickupTime, setPickupTime] = useState("");
-  const [dropTime, setDropTime] = useState("");
-  const [description, setDescription] = useState("");
-  const [points, setPoints] = useState([""]);
-
-  // --- New state for managing activities ---
-  const [allActivities, setAllActivities] = useState([]); // Holds all possible activities
-  const [selectedActivities, setSelectedActivities] = useState([]); // Holds IDs of selected activities
-  // --- End of new state ---
-
-  const [images, setImages] = useState([]);
-  const [imagePreviews, setImagePreviews] = useState([]);
-  const [existingImages, setExistingImages] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loaded, setLoaded] = useState({ id: null, values: null, error: "" });
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
-  // Fetch both the package details and all available activities
   useEffect(() => {
-    const fetchPackageAndActivities = async () => {
-      try {
-        // Fetch package and activities data in parallel for efficiency
-        const [pkg, activityList] = await Promise.all([getPackage(id), getActivities()]);
-
-        // Set package-specific state
-        setName(pkg.name);
-        setPrice(pkg.price);
-        setDescription(pkg.description);
-        setPickupTime(pkg.pickupTime || "");
-        setDropTime(pkg.dropTime || "");
-        setPoints(pkg.points?.length > 0 ? pkg.points : [""]);
-        setExistingImages(pkg.images || []);
-
-        // Set activities state
-        setAllActivities(activityList);
-
-        // Initialize selected activities from the package's existing data
-        // The backend populates 'activities', so we map over the array of objects to get their IDs
-        const initialActivityIds = pkg.activities?.map((act) => act._id) || [];
-        setSelectedActivities(initialActivityIds);
-      } catch (err) {
-        console.error("Error fetching data", err);
-        setError("Failed to load package details or activities");
-      } finally {
-        setLoading(false);
-      }
+    let active = true;
+    getPackage(id)
+      .then((pkg) => active && setLoaded({ id, values: toInitialValues(pkg), error: "" }))
+      .catch(
+        (err) =>
+          active &&
+          setLoaded({ id, values: null, error: getErrorMessage(err, "Package not found") }),
+      );
+    return () => {
+      active = false;
     };
-    fetchPackageAndActivities();
   }, [id]);
 
-  const handlePointChange = (index, value) => {
-    const newPoints = [...points];
-    newPoints[index] = value;
-    setPoints(newPoints);
-  };
-
-  const addPoint = () => setPoints([...points, ""]);
-
-  const removePoint = (index) => {
-    if (points.length > 1) {
-      setPoints(points.filter((_, i) => i !== index));
-    } else {
-      setPoints([""]);
-    }
-  };
-
-  // --- New handler for activity checkbox changes ---
-  const handleActivityChange = (activityId) => {
-    setSelectedActivities(
-      (prevSelected) =>
-        prevSelected.includes(activityId)
-          ? prevSelected.filter((id) => id !== activityId) // If already selected, uncheck it
-          : [...prevSelected, activityId], // Otherwise, check it
-    );
-  };
-  // --- End of new handler ---
-
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    setImages(files);
-    const previews = files.map((file) => URL.createObjectURL(file));
-    setImagePreviews(previews);
-  };
-
-  const handleRemoveExistingImage = (index) => {
-    const confirmDelete = window.confirm("Are you sure you want to remove this image?");
-    if (confirmDelete) {
-      setExistingImages((prev) => prev.filter((_, i) => i !== index));
-    }
-  };
-
-  const handleUpdate = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (formData) => {
     setSubmitting(true);
-    setError("");
-    setSuccess("");
-
     try {
-      const formData = new FormData();
-      formData.append("name", name);
-      formData.append("price", price);
-      formData.append("description", description);
-      formData.append("pickupTime", pickupTime);
-      formData.append("dropTime", dropTime);
-
-      const validPoints = points.filter((p) => p.trim() !== "");
-      formData.append("points", JSON.stringify(validPoints));
-      formData.append("existingImages", JSON.stringify(existingImages));
-
-      // --- Append selected activities to FormData ---
-      formData.append("activities", JSON.stringify(selectedActivities));
-      // --- End of append ---
-
-      images.forEach((img) => formData.append("images", img));
-
       await updatePackage(id, formData);
-
-      setSuccess("Package updated successfully!");
-      setTimeout(() => navigate(`/`), 2000); // Redirect after success
+      toast.success("Package updated");
+      navigate(ROUTES.ADMIN_PACKAGES);
     } catch (err) {
-      console.error(err);
-      setError(err.response?.data?.message || "Failed to update package");
-    } finally {
+      toast.error(getErrorMessage(err, "Failed to update package"));
       setSubmitting(false);
     }
   };
 
-  if (loading) {
-    return <div className="text-center my-5">Loading package...</div>;
+  const isCurrent = loaded.id === id;
+  const initialValues = isCurrent ? loaded.values : null;
+  const loadError = isCurrent ? loaded.error : "";
+
+  let body;
+  if (loadError) {
+    body = (
+      <div className="admin-card package-form-state" role="alert">
+        <i className="bi bi-exclamation-circle fs-2 text-muted" aria-hidden="true" />
+        <h2 className="admin-card__title mt-2">We couldn&apos;t load this package</h2>
+        <p className="text-muted">{loadError}. It may have been deleted.</p>
+        <Link to={ROUTES.ADMIN_PACKAGES} className="btn btn-cta">
+          Back to packages
+        </Link>
+      </div>
+    );
+  } else if (!initialValues) {
+    body = (
+      <div className="admin-card package-form-state">
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading package…</span>
+        </Spinner>
+      </div>
+    );
+  } else {
+    body = (
+      <PackageForm
+        key={id}
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        submitting={submitting}
+        submitLabel="Save changes"
+      />
+    );
   }
 
   return (
-    <div className="container my-5">
-      <h2>Edit Package</h2>
-      {error && <div className="alert alert-danger">{error}</div>}
-      {success && <div className="alert alert-success">{success}</div>}
-
-      <form onSubmit={handleUpdate} encType="multipart/form-data">
-        {/* Package Name, Price, Times, and Description fields remain unchanged... */}
-        <div className="mb-3">
-          <label className="form-label">Package Name</label>
-          <input
-            className="form-control"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
+    <>
+      <header className="admin-page-header">
+        <div>
+          <h1>Edit package</h1>
+          <p>{initialValues?.name || "Update details, activities and photos."}</p>
         </div>
-
-        <div className="row">
-          <div className="col-md-4 mb-3">
-            <label className="form-label">Price</label>
-            <input
-              className="form-control"
-              type="number"
-              min="0"
-              value={price}
-              onChange={(e) => setPrice(e.target.value)}
-              required
-            />
-          </div>
-          <div className="col-md-4 mb-3">
-            <label className="form-label">Pickup Time</label>
-            <input
-              className="form-control"
-              type="time"
-              value={pickupTime}
-              onChange={(e) => setPickupTime(e.target.value)}
-              required
-            />
-          </div>
-          <div className="col-md-4 mb-3">
-            <label className="form-label">Drop Time</label>
-            <input
-              className="form-control"
-              type="time"
-              value={dropTime}
-              onChange={(e) => setDropTime(e.target.value)}
-              required
-            />
-          </div>
-        </div>
-
-        <div className="mb-3">
-          <label className="form-label">Description</label>
-          <textarea
-            className="form-control"
-            rows={4}
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
-
-        {/* --- Section for Including Activities --- */}
-        <div className="mb-4 p-3 border rounded">
-          <label className="form-label fw-bold">Include Activities</label>
-          <div className="row">
-            {allActivities.length > 0 ? (
-              allActivities.map((activity) => (
-                <div key={activity._id} className="col-md-4 col-sm-6">
-                  <div className="form-check">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      id={activity._id}
-                      checked={selectedActivities.includes(activity._id)}
-                      onChange={() => handleActivityChange(activity._id)}
-                    />
-                    <label className="form-check-label" htmlFor={activity._id}>
-                      {activity.title}
-                    </label>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p>No activities available.</p>
-            )}
-          </div>
-        </div>
-        {/* --- End of Activities Section --- */}
-
-        <div className="mb-4 p-3 border rounded">
-          <label className="form-label fw-bold">Package Points/Highlights</label>
-          {points.map((point, index) => (
-            <div key={index} className="d-flex mb-2 align-items-center">
-              <input
-                className="form-control me-2"
-                value={point}
-                onChange={(e) => handlePointChange(index, e.target.value)}
-                placeholder={`Point ${index + 1}`}
-              />
-              <button
-                type="button"
-                className="btn btn-sm btn-outline-danger"
-                onClick={() => removePoint(index)}
-                style={{ minWidth: "80px" }}
-              >
-                {points.length > 1 ? "Remove" : "Clear"}
-              </button>
-            </div>
-          ))}
-          <button type="button" className="btn btn-sm btn-outline-primary" onClick={addPoint}>
-            + Add New Point
-          </button>
-        </div>
-
-        {/* Image upload and preview sections remain unchanged... */}
-        <div className="mb-3">
-          <label className="form-label">Upload New Images</label>
-          <input
-            type="file"
-            className="form-control"
-            multiple
-            accept="image/*"
-            onChange={handleImageChange}
-          />
-        </div>
-
-        {existingImages.length > 0 && (
-          <div className="mb-3 p-3 border rounded">
-            <h6 className="fw-bold">Existing Images (Click ✕ to remove)</h6>
-            <div className="d-flex gap-2 flex-wrap">
-              {existingImages.map((src, i) => (
-                <div key={i} className="position-relative" style={{ display: "inline-block" }}>
-                  <img
-                    src={src}
-                    alt="existing"
-                    className="rounded"
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      objectFit: "cover",
-                    }}
-                  />
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-danger position-absolute top-0 end-0"
-                    style={{ borderRadius: "50%", padding: "0 6px", lineHeight: "1.2" }}
-                    onClick={() => handleRemoveExistingImage(i)}
-                  >
-                    ✕
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {imagePreviews.length > 0 && (
-          <div className="mb-3 p-3 border rounded">
-            <h6 className="fw-bold">New Images Preview</h6>
-            <div className="d-flex gap-2 flex-wrap">
-              {imagePreviews.map((src, i) => (
-                <img
-                  key={i}
-                  src={src}
-                  alt="preview"
-                  className="rounded"
-                  style={{
-                    width: "100px",
-                    height: "100px",
-                    objectFit: "cover",
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-
-        <button className="btn btn-primary" type="submit" disabled={submitting}>
-          {submitting ? "Updating..." : "Update Package"}
-        </button>
-      </form>
-    </div>
+        <Link to={ROUTES.ADMIN_PACKAGES} className="btn btn-link px-0">
+          <i className="bi bi-arrow-left me-1" aria-hidden="true" />
+          Back to packages
+        </Link>
+      </header>
+      {body}
+    </>
   );
-};
-
-export default EditPackage;
+}

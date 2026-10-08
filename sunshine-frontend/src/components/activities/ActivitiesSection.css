@@ -1,219 +1,82 @@
-/* Scoped so these generic class names cannot leak into other pages. */
-@scope (.activities-section-container) {
-  .activities-section-container {
-    font-family: "Poppins", sans-serif;
-    padding: 3rem 1rem;
-    background-color: #ffffffff;
-  }
-  .activities-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-  }
-  .activity-card {
-    background: #fff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    cursor: pointer;
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-  }
-  .activity-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  }
-  .card-image-container {
-    height: 200px;
-  }
-  .card-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .card-content {
-    padding: 1rem;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  .card-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #333;
-  }
-  .card-description {
-    font-size: 0.9rem;
-    color: #6c757d;
-    flex-grow: 1;
-    margin-bottom: 1rem;
-  }
-  .card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid #f0f0f0;
-    padding-top: 1rem;
-    margin-top: auto;
-  }
-  .price {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #007bff;
-  }
-  .rating {
-    font-size: 0.9rem;
-    color: #ffc107;
-  }
+.admin-activities {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
 
-  /* Admin Icons */
-  .admin-actions {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 10;
-    display: flex;
-    gap: 8px;
-  }
-  .admin-btn {
-    background-color: rgba(255, 255, 255, 0.8);
-    border: none;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition:
-      background-color 0.3s,
-      color 0.3s;
-    color: #333;
-  }
-  .update-btn:hover {
-    background-color: #0d6efd;
-    color: white;
-  }
-  .delete-btn:hover {
-    background-color: #dc3545;
-    color: white;
-  }
+.admin-activity {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--admin-border, #e3e9ef);
+  border-radius: 14px;
+}
 
-  .activities-section-container {
-    font-family: "Poppins", sans-serif;
-    padding: 3rem 1rem;
-  }
-  .activities-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-  }
-  .activity-card {
-    background: #fff;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    cursor: pointer;
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-  }
-  .activity-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  }
-  .card-image-container {
-    height: 220px;
-    background-color: #f0f0f0;
-  }
-  .carousel,
-  .carousel-inner,
-  .carousel-item,
-  .card-img {
-    height: 100%;
-  }
-  .card-img {
-    object-fit: cover;
-  }
-  .no-image-placeholder {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    color: #6c757d;
-  }
+.admin-activity__media {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  background: var(--ocean-100, #eaf4fb);
+}
 
-  .card-content {
-    padding: 1.25rem;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-  }
-  .card-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: #333;
-  }
-  .card-description {
-    font-size: 0.9rem;
-    color: #6c757d;
-    flex-grow: 1;
-    margin-bottom: 1rem;
-  }
-  .card-footer-details {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid #f0f0f0;
-    padding-top: 1rem;
-    margin-top: auto;
-  }
-  .price {
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: #007bff;
-  }
-  .rating {
-    font-size: 0.9rem;
-    color: #ffc107;
-  }
+.admin-activity__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
-  .admin-actions {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    display: flex;
-    gap: 8px;
-    z-index: 10;
-  }
-  .admin-btn {
-    background-color: rgba(255, 255, 255, 0.8);
-    border: none;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: 0.3s;
-    color: #333;
-  }
-  .update-btn:hover {
-    background-color: #0d6efd;
-    color: white;
-  }
-  .delete-btn:hover {
-    background-color: #dc3545;
-    color: white;
-  }
+.admin-activity__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  height: 100%;
+  color: var(--text-muted, #6c757d);
+}
+
+.admin-activity__count {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  color: #fff;
+  background: rgb(0 0 0 / 0.55);
+}
+
+.admin-activity__body {
+  flex: 1;
+  padding: 0.9rem 1rem 0.5rem;
+}
+
+.admin-activity__title {
+  margin: 0.4rem 0 0.3rem;
+  font-size: 1.05rem;
+}
+
+.admin-activity__desc {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  font-size: 0.9rem;
+  color: var(--text-muted, #6c757d);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.admin-activity__actions {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem 1rem;
+}
+
+.admin-activity__actions .btn {
+  flex: 1;
+  min-height: 40px;
 }

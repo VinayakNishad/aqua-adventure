@@ -1,0 +1,20 @@
+.activity-form__current {
+  margin-bottom: 1.25rem;
+}
+
+.activity-form__thumbs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 0.6rem;
+  margin: 0.5rem 0;
+  padding: 0;
+  list-style: none;
+}
+
+.activity-form__thumbs img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 10px;
+}

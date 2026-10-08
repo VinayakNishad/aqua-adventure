@@ -81,6 +81,8 @@
 }
 
 .hero__title {
+  /* Reserve two lines so typing never shifts the content below. */
+  min-height: 2.16em;
   margin: 1.1rem 0 0.9rem;
   font-size: clamp(2.4rem, 8vw, 5rem);
   line-height: 1.08;
@@ -88,9 +90,25 @@
 }
 
 .hero__word {
-  display: inline-block;
   color: var(--sunset-gold);
-  animation: hero-word-in 0.8s var(--ease-out-expo) both;
+}
+
+/* Blinking typewriter caret. */
+.hero__caret {
+  display: inline-block;
+  width: 0.08em;
+  height: 0.95em;
+  margin-left: 0.06em;
+  vertical-align: -0.08em;
+  border-radius: 2px;
+  background: var(--sunset-gold);
+  animation: hero-caret 1s steps(1) infinite;
+}
+
+@keyframes hero-caret {
+  50% {
+    opacity: 0;
+  }
 }
 
 .hero__lead {
@@ -209,17 +227,6 @@
   }
 }
 
-@keyframes hero-word-in {
-  from {
-    opacity: 0;
-    transform: translateY(0.3em);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
 /* ---------- Responsive ---------- */
 @media (max-width: 991.98px) {
   .hero__highlights {
@@ -248,7 +255,7 @@
 @media (prefers-reduced-motion: reduce) {
   .hero__photo,
   .hero__light-rays,
-  .hero__word {
+  .hero__caret {
     animation: none;
   }
 }

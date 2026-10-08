@@ -15,14 +15,13 @@ export const HERO_HIGHLIGHTS = Object.freeze([
   { icon: "bi-car-front", label: "Pickup, lunch & snacks" },
 ]);
 
-/** Words cycled in the hero headline: "Dive into ___". */
+/** Words typed out in the hero headline: "Dive into ___". */
 export const HERO_ROTATING_WORDS = Object.freeze([
   "Paradise",
   "Grand Island",
   "Blue Waters",
   "Adventure",
 ]);
-export const HERO_WORD_INTERVAL_MS = 3000;
 
 /** Main navigation entries; the last one renders as the highlighted call-to-action. */
 export const NAV_LINKS = Object.freeze([

@@ -1,235 +1,65 @@
-import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { FiUpload, FiXCircle } from "react-icons/fi";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import ActivityForm from "../../components/admin/ActivityForm";
 import { getActivity, updateActivity } from "../../services/activityService";
-import "./EditActivityPage.css";
+import { getErrorMessage } from "../../services/apiClient";
+import { ROUTES } from "../../routes/paths";
 
-const EditActivity = () => {
+export default function EditActivityPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-
-  // States
-  const [formData, setFormData] = useState({});
-  const [originalData, setOriginalData] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-
-  // Images
-  const [newImages, setNewImages] = useState([]);
-  const [existingImages, setExistingImages] = useState([]);
-  const [originalImages, setOriginalImages] = useState([]);
-  const [imagePreviews, setImagePreviews] = useState([]);
+  const [activity, setActivity] = useState(null);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchActivity = async () => {
-      try {
-        const res = { data: await getActivity(id) };
-        setFormData(res.data);
-        setOriginalData(res.data); // Save original data
-        setExistingImages(res.data.images || []);
-        setOriginalImages(res.data.images || []);
-      } catch (err) {
-        console.error("Failed to fetch activity", err);
-        toast.error("Could not load activity data.");
-      } finally {
-        setLoading(false);
-      }
+    let active = true;
+    getActivity(id)
+      .then((data) => active && setActivity(data))
+      .catch((err) => active && setError(getErrorMessage(err, "Could not load activity.")));
+    return () => {
+      active = false;
     };
-    fetchActivity();
   }, [id]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleImageChange = (e) => {
-    const files = Array.from(e.target.files);
-    setNewImages((prev) => [...prev, ...files]);
-    const previews = files.map((file) => URL.createObjectURL(file));
-    setImagePreviews((prev) => [...prev, ...previews]);
-  };
-
-  const handleRemoveExistingImage = (imageUrl) => {
-    setExistingImages((prev) => prev.filter((img) => img !== imageUrl));
-  };
-
-  const handleRemoveNewImage = (index) => {
-    setNewImages((prev) => prev.filter((_, i) => i !== index));
-    setImagePreviews((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-
+  const handleSubmit = async (formData) => {
     try {
-      const submissionData = new FormData();
-
-      // Compare fields and append only changed ones
-      Object.keys(formData).forEach((key) => {
-        if (key !== "images" && formData[key] !== originalData[key]) {
-          submissionData.append(key, formData[key]);
-        }
-      });
-
-      // Handle existing images (only if changed)
-      if (JSON.stringify(existingImages) !== JSON.stringify(originalImages)) {
-        existingImages.forEach((imgUrl) => submissionData.append("existingImages", imgUrl));
-      }
-
-      // Handle new images
-      if (newImages.length > 0) {
-        newImages.forEach((imgFile) => submissionData.append("images", imgFile));
-      }
-
-      // If no changes at all → stop
-      if (
-        submissionData.entries().next().done &&
-        newImages.length === 0 &&
-        JSON.stringify(existingImages) === JSON.stringify(originalImages)
-      ) {
-        toast.info("No changes detected!");
-        setSubmitting(false);
-        return;
-      }
-
-      // Send update request
-      await updateActivity(id, submissionData);
-
-      toast.success("Activity updated successfully!");
-      setTimeout(() => navigate("/"), 2000);
+      await updateActivity(id, formData);
+      toast.success("Activity updated");
+      navigate(ROUTES.ACTIVITIES);
     } catch (err) {
-      console.error("Update failed", err);
-      toast.error(err.response?.data?.message || "Failed to update activity.");
-    } finally {
-      setSubmitting(false);
+      toast.error(getErrorMessage(err, "Failed to update activity."));
     }
   };
 
-  if (loading)
-    return (
-      <div className="d-flex justify-content-center align-items-center vh-100">
-        <div className="spinner-border"></div>
-      </div>
-    );
-
   return (
     <>
-      <div className="edit-page">
-        <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} />
-        <div className="edit-form-container">
-          <div className="form-header">
-            <h2>Edit Activity: {formData.title || ""}</h2>
-          </div>
-
-          <form onSubmit={handleSubmit}>
-            <div className="form-group full-width">
-              <label className="form-label">Title</label>
-              <input
-                type="text"
-                name="title"
-                value={formData.title || ""}
-                onChange={handleChange}
-                className="form-control"
-                required
-              />
-            </div>
-
-            <div className="form-group full-width">
-              <label className="form-label">Full Description</label>
-              <textarea
-                name="description"
-                value={formData.description || ""}
-                onChange={handleChange}
-                className="form-control"
-                rows="4"
-              ></textarea>
-            </div>
-
-            <div className="form-grid">
-              <div className="form-group">
-                <label className="form-label">Duration</label>
-                <input
-                  type="text"
-                  name="duration"
-                  value={formData.duration || ""}
-                  onChange={handleChange}
-                  className="form-control"
-                />
-              </div>
-              <div className="form-group">
-                <label className="form-label">Category</label>
-                <input
-                  type="text"
-                  name="category"
-                  value={formData.category || ""}
-                  onChange={handleChange}
-                  className="form-control"
-                />
-              </div>
-            </div>
-
-            <div className="form-group full-width image-management-section">
-              <label className="form-label">Manage Images</label>
-              {existingImages.length > 0 && (
-                <p className="text-muted small mb-1">Existing Images:</p>
-              )}
-              <div className="preview-grid">
-                {existingImages.map((url) => (
-                  <div key={url} className="image-preview-item">
-                    <img src={url.url} alt="Existing" className="preview-image" />
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveExistingImage(url)}
-                      className="remove-image-btn"
-                    >
-                      <FiXCircle size={16} />
-                    </button>
-                  </div>
-                ))}
-              </div>
-
-              <label className="form-label mt-3">Upload New Images</label>
-              <label htmlFor="file-upload" className="image-upload-box">
-                <FiUpload size={24} />
-                <span>Click to browse or drag & drop</span>
-              </label>
-              <input
-                id="file-upload"
-                type="file"
-                multiple
-                accept="image/*"
-                onChange={handleImageChange}
-                style={{ display: "none" }}
-              />
-
-              <div className="preview-grid">
-                {imagePreviews.map((src, i) => (
-                  <div key={i} className="image-preview-item">
-                    <img src={src} alt="Preview" className="preview-image" />
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveNewImage(i)}
-                      className="remove-image-btn"
-                    >
-                      <FiXCircle size={16} />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <button type="submit" className="submit-btn mt-3" disabled={submitting}>
-              {submitting ? "Saving..." : "Save Changes"}
-            </button>
-          </form>
+      <header className="admin-page-header">
+        <div>
+          <h1>Edit activity</h1>
+          <p>{activity?.title || "Update details and photos."}</p>
         </div>
-      </div>
+      </header>
+      {error ? (
+        <div className="admin-empty" role="alert">
+          <i className="bi bi-exclamation-triangle" aria-hidden="true" />
+          <p>{error}</p>
+        </div>
+      ) : !activity ? (
+        <div className="text-center py-5" role="status">
+          <span className="spinner-border" aria-hidden="true" />
+          <span className="visually-hidden">Loading activity…</span>
+        </div>
+      ) : (
+        <ActivityForm
+          key={activity._id}
+          initialValues={activity}
+          existingImages={activity.images || []}
+          submitLabel="Save changes"
+          onSubmit={handleSubmit}
+          onCancel={() => navigate(ROUTES.ACTIVITIES)}
+        />
+      )}
     </>
   );
-};
-
-export default EditActivity;
+}
