@@ -1,35 +1,39 @@
 {
   "name": "sunshine-activities",
   "version": "1.0.0",
-  "main": "index.js",
-  "dev": "nodemon server.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "set-admin": "node scripts/setAdminRole.js"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "REST API for Paradise Scuba Goa (packages, activities, bookings, reviews)",
   "dependencies": {
-    "bootstrap": "^5.3.8",
-    "chart.js": "^4.5.0",
-    "cloudinary": "^1.41.3",
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.2",
-    "express": "^5.1.0",
-    "firebase-admin": "^13.5.0",
-    "helmet": "^8.1.0",
-    "mongodb": "^6.20.0",
-    "mongoose": "^8.18.1",
-    "morgan": "^1.10.1",
-    "multer": "^2.0.2",
-    "multer-storage-cloudinary": "^4.0.0",
-    "react-chartjs-2": "^5.3.0",
-    "twilio": "^5.9.0"
+    "cloudinary": "^2.11.0",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.6",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.7.1",
+    "firebase-admin": "^14.5.0",
+    "helmet": "^8.3.0",
+    "mongoose": "^9.11.1",
+    "morgan": "^1.12.1",
+    "multer": "^2.4.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.10"
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0",
+    "prettier": "^3.9.9"
+  },
+  "private": true,
+  "engines": {
+    "node": ">=24"
   }
 }
