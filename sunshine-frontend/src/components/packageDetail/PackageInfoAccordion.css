@@ -18,31 +18,10 @@
 }
 
 .info-checklist,
-.pickup-list {
-  display: grid;
-  gap: 0.55rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
 .info-checklist li {
   display: flex;
   gap: 0.6rem;
   align-items: flex-start;
-}
-
-.pickup-list li {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 0.55rem 0;
-  border-bottom: 1px dashed rgba(11, 111, 164, 0.15);
-}
-
-.pickup-list__type {
-  font-size: 0.8rem;
-  color: var(--text-muted);
 }
 
 .policy-list {

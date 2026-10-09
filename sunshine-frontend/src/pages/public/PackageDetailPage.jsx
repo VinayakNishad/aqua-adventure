@@ -6,6 +6,7 @@ import VideoGallery from "../../components/home/VideoGallery";
 import Footer from "../../components/layout/Footer";
 import Navbar from "../../components/layout/Navbar";
 import BookingCard from "../../components/packageDetail/BookingCard";
+import DayItinerary from "../../components/packageDetail/DayItinerary";
 import BookingModal from "../../components/packages/BookingModal";
 import ImagePreview from "../../components/packageDetail/ImagePreview";
 import IncludedActivities from "../../components/packageDetail/IncludedActivities";
@@ -13,6 +14,7 @@ import LocationMap from "../../components/packageDetail/LocationMap";
 import PackageHero from "../../components/packageDetail/PackageHero";
 import PackageHighlights from "../../components/packageDetail/PackageHighlights";
 import PackageInfoAccordion from "../../components/packageDetail/PackageInfoAccordion";
+import PickupLocations from "../../components/packageDetail/PickupLocations";
 import PackageReviews from "../../components/packageDetail/PackageReviews";
 import WhyChooseUs from "../../components/packageDetail/WhyChooseUs";
 import useTilt3D from "../../hooks/useTilt3D";
@@ -75,10 +77,12 @@ export default function PackageDetailPage() {
               </section>
               <IncludedActivities activities={pkg.activities} onImageClick={setPreviewImage} />
               <PackageHighlights points={pkg.points} />
+              <DayItinerary />
               <section className="detail-section">
                 <WhyChooseUs />
               </section>
               <PackageReviews pkg={pkg} onImageClick={setPreviewImage} />
+              <PickupLocations />
               <PackageInfoAccordion />
             </Col>
 

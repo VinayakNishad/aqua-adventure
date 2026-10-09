@@ -1,13 +1,6 @@
 import { Accordion } from "react-bootstrap";
 import faqData from "../../data/FAQDetails.json";
-import {
-  BOOKING_POLICIES,
-  PICKUP_LOCATIONS,
-  SAFETY_TIPS,
-  WHAT_TO_BRING,
-  googleMapsSearchUrl,
-} from "../../constants/packageInfo";
-import LocationMap from "./LocationMap";
+import { BOOKING_POLICIES, SAFETY_TIPS, WHAT_TO_BRING } from "../../constants/packageInfo";
 import "./PackageInfoAccordion.css";
 
 const CheckList = ({ items, icon }) => (
@@ -44,26 +37,6 @@ export default function PackageInfoAccordion() {
           </Accordion.Header>
           <Accordion.Body>
             <CheckList items={SAFETY_TIPS} icon="bi-exclamation-circle-fill text-warning" />
-          </Accordion.Body>
-        </Accordion.Item>
-
-        <Accordion.Item eventKey="pickup">
-          <Accordion.Header>
-            <i className="bi bi-geo-alt" aria-hidden="true" /> Pickup points
-          </Accordion.Header>
-          <Accordion.Body>
-            <p className="small text-muted mb-2">Available for selected packages.</p>
-            <ul className="pickup-list">
-              {PICKUP_LOCATIONS.map((location) => (
-                <li key={location.name}>
-                  <span className="pickup-list__type">{location.type}</span>
-                  <a href={googleMapsSearchUrl(location)} target="_blank" rel="noopener noreferrer">
-                    {location.name} <i className="bi bi-box-arrow-up-right" aria-hidden="true" />
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <LocationMap className="mt-3 d-lg-none" />
           </Accordion.Body>
         </Accordion.Item>
 

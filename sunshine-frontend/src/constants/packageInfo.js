@@ -54,6 +54,48 @@ export const MAP_EMBED_URL =
 export const googleMapsSearchUrl = ({ name, address }) =>
   `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${name}, ${address}`)}`;
 
-export const REVIEWS_PREVIEW_COUNT = 3;
+export const REVIEWS_PREVIEW_COUNT = 4;
 
 export const HIGHLIGHTS_PREVIEW_COUNT = 5;
+
+/** A typical day, shown as a timeline so guests can picture the trip. */
+export const DAY_ITINERARY = Object.freeze([
+  {
+    time: "Morning",
+    icon: "bi-car-front",
+    title: "Hotel pickup",
+    text: "Our team collects you from Candolim, Calangute or Baga (selected packages) and drives you to the jetty.",
+  },
+  {
+    time: "At the jetty",
+    icon: "bi-life-preserver",
+    title: "Safety briefing & gear-up",
+    text: "Certified instructors fit your life jacket and walk you through every activity before you head out.",
+  },
+  {
+    time: "On the water",
+    icon: "bi-water",
+    title: "Adventure time",
+    text: "Cruise past Sinquerim and Aguada Fort, spot dolphins in the Arabian Sea and enjoy each activity in your package.",
+  },
+  {
+    time: "Along the way",
+    icon: "bi-camera",
+    title: "Photos & memories",
+    text: "Plenty of stops for photos with the Goan coastline as your backdrop. Bring a waterproof pouch for your phone.",
+  },
+  {
+    time: "Afternoon",
+    icon: "bi-house-heart",
+    title: "Drop back",
+    text: "Relax on the ride back. You are home in time for a sunset on the beach.",
+  },
+]);
+
+/** Short selling points shown as chips under the itinerary. */
+export const TRIP_FACTS = Object.freeze([
+  { icon: "bi-calendar-check", text: "Best season: October to May" },
+  { icon: "bi-people", text: "Great for families, couples & groups" },
+  { icon: "bi-emoji-smile", text: "No experience needed" },
+  { icon: "bi-shield-check", text: "Life jackets & insured boats" },
+]);

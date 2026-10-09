@@ -1,0 +1,76 @@
+.day-itinerary {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.day-itinerary__step {
+  position: relative;
+  display: flex;
+  gap: 1rem;
+  padding-bottom: 1.4rem;
+}
+
+/* Dotted line joining each step to the next. */
+.day-itinerary__step:not(:last-child)::before {
+  position: absolute;
+  top: 46px;
+  bottom: 0;
+  left: 22px;
+  border-left: 2px dashed rgba(11, 111, 164, 0.3);
+  content: "";
+}
+
+.day-itinerary__icon {
+  display: grid;
+  flex: 0 0 46px;
+  height: 46px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--gradient-ocean);
+  box-shadow: var(--shadow-soft);
+  color: #fff;
+  font-size: 1.15rem;
+}
+
+.day-itinerary__time {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--sunset-coral);
+}
+
+.day-itinerary__title {
+  margin: 0.1rem 0 0.25rem;
+  font-size: 1.05rem;
+}
+
+.day-itinerary__text {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+
+.trip-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trip-facts li {
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  background: var(--ocean-100);
+  font-size: 0.85rem;
+  color: var(--ocean-900);
+}
+
+.trip-facts .bi {
+  margin-right: 0.3rem;
+  color: var(--ocean-500);
+}
