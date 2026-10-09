@@ -1,0 +1,78 @@
+.pickup-route {
+  padding: 1.25rem 1.4rem;
+  border: 1px solid rgba(11, 111, 164, 0.08);
+  border-radius: var(--radius-md);
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+
+.pickup-route__note {
+  margin: 0 0 1rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.pickup-route__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pickup-route__stop {
+  position: relative;
+  display: flex;
+  gap: 0.9rem;
+  padding-bottom: 1.1rem;
+}
+
+.pickup-route__stop:last-child {
+  padding-bottom: 0;
+}
+
+.pickup-route__stop:not(:last-child)::before {
+  position: absolute;
+  top: 36px;
+  bottom: 0;
+  left: 17px;
+  border-left: 2px solid var(--ocean-100);
+  content: "";
+}
+
+.pickup-route__icon {
+  display: grid;
+  flex: 0 0 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--ocean-100);
+  color: var(--ocean-500);
+}
+
+.pickup-route__stop:first-child .pickup-route__icon {
+  background: var(--sunset-coral);
+  color: #fff;
+}
+
+.pickup-route__type {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.pickup-route__name {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.pickup-route__name .bi {
+  font-size: 0.75rem;
+}
+
+.pickup-route__address {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
