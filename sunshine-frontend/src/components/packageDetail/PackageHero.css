@@ -1,0 +1,88 @@
+.package-hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lift);
+  background: var(--ocean-700);
+}
+
+.package-hero__img,
+.package-hero__placeholder {
+  display: block;
+  width: 100%;
+  height: clamp(280px, 55vh, 520px);
+  object-fit: cover;
+  cursor: zoom-in;
+}
+
+.package-hero .carousel-indicators {
+  bottom: auto;
+  top: 0.75rem;
+}
+
+.package-hero__overlay {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 2; /* above Bootstrap's active fade slide (z-index: 1) */
+  padding: 3.5rem 1.5rem 1.25rem;
+  color: #fff;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent, rgba(3, 26, 44, 0.85));
+}
+
+.package-hero__overlay a {
+  pointer-events: auto;
+}
+
+.package-hero__title {
+  margin: 0 0 0.4rem;
+  font-size: clamp(1.7rem, 4.5vw, 2.8rem);
+  line-height: 1.15;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
+}
+
+.package-hero__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: #fff;
+  text-decoration: none;
+}
+
+.package-hero__rating .star-rating__empty {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.package-hero__facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.package-hero__facts li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+@media (max-width: 575.98px) {
+  .package-hero {
+    border-radius: 0;
+    margin-inline: calc(var(--bs-gutter-x, 1.5rem) * -0.5);
+  }
+
+  .package-hero__overlay {
+    padding: 3rem 1rem 1rem;
+  }
+}

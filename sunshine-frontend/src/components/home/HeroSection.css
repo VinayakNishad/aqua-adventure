@@ -1,0 +1,261 @@
+/* Hero: photo > readability overlay > sun rays > bubbles > content > wave into the page. */
+.hero {
+  position: relative;
+  min-height: calc(100svh - var(--nav-height));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  isolation: isolate;
+  color: #fff;
+  background-color: var(--ocean-700);
+}
+
+.hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hero__photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 35%;
+  animation: hero-ken-burns 26s ease-in-out infinite alternate;
+}
+
+/* Keeps text readable while letting the blue water show through. */
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(3, 26, 44, 0.55) 0%,
+      rgba(3, 26, 44, 0.25) 40%,
+      rgba(3, 26, 44, 0.65) 100%
+    ),
+    radial-gradient(ellipse at 50% 45%, transparent 30%, rgba(3, 26, 44, 0.35) 100%);
+}
+
+/* Soft sunlight shimmering down through the water. */
+.hero__light-rays {
+  position: absolute;
+  inset: -20% -10% 30%;
+  background: repeating-linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 0 60px,
+    rgba(255, 255, 255, 0.07) 60px 90px,
+    rgba(255, 255, 255, 0) 90px 170px
+  );
+  -webkit-mask-image: linear-gradient(180deg, #000, transparent);
+  mask-image: linear-gradient(180deg, #000, transparent);
+  animation: hero-rays 14s ease-in-out infinite alternate;
+}
+
+.hero__content {
+  position: relative;
+  padding: clamp(2.5rem, 8vh, 5rem) 1rem clamp(5rem, 12vh, 8rem);
+  text-align: center;
+}
+
+.hero__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-strong);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 6px 20px rgba(3, 26, 44, 0.25);
+}
+
+.hero__badge .bi {
+  color: var(--sunset-coral);
+}
+
+.hero__title {
+  /* Reserve two lines so typing never shifts the content below. */
+  min-height: 2.16em;
+  margin: 1.1rem 0 0.9rem;
+  font-size: clamp(2.4rem, 8vw, 5rem);
+  line-height: 1.08;
+  text-shadow: 0 4px 24px rgba(3, 26, 44, 0.6);
+}
+
+.hero__word {
+  color: var(--sunset-gold);
+}
+
+/* Blinking typewriter caret. */
+.hero__caret {
+  display: inline-block;
+  width: 0.08em;
+  height: 0.95em;
+  margin-left: 0.06em;
+  vertical-align: -0.08em;
+  border-radius: 2px;
+  background: var(--sunset-gold);
+  animation: hero-caret 1s steps(1) infinite;
+}
+
+@keyframes hero-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+.hero__lead {
+  max-width: 600px;
+  margin: 0 auto 1.9rem;
+  font-size: clamp(1rem, 2.6vw, 1.2rem);
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 2px 12px rgba(3, 26, 44, 0.7);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.hero__actions .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding-inline: 1.6rem;
+  border-radius: 999px;
+}
+
+.hero__highlights {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.8rem;
+  max-width: 900px;
+  margin: clamp(2rem, 6vh, 3rem) auto 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hero__highlight {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.8rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.hero__highlight .bi {
+  font-size: 1.2rem;
+  color: var(--sunset-gold);
+}
+
+.hero__wave {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+}
+
+/* Scroll-linked parallax: the photo drifts and the content lifts away as the hero leaves. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__photo {
+      animation:
+        hero-ken-burns 26s ease-in-out infinite alternate,
+        hero-photo-parallax linear both;
+      animation-timeline: auto, scroll(root);
+      animation-range:
+        normal,
+        0 100vh;
+    }
+
+    .hero__content {
+      animation: hero-content-out linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 80vh;
+    }
+  }
+}
+
+@keyframes hero-ken-burns {
+  from {
+    scale: 1.04;
+  }
+  to {
+    scale: 1.14;
+  }
+}
+
+@keyframes hero-photo-parallax {
+  to {
+    translate: 0 18%;
+  }
+}
+
+@keyframes hero-content-out {
+  to {
+    opacity: 0;
+    translate: 0 -60px;
+  }
+}
+
+@keyframes hero-rays {
+  from {
+    translate: -4% 0;
+    opacity: 0.7;
+  }
+  to {
+    translate: 4% 0;
+    opacity: 1;
+  }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 991.98px) {
+  .hero__highlights {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 575.98px) {
+  .hero__actions .btn {
+    flex: 1 1 100%;
+  }
+
+  .hero__highlights {
+    gap: 0.55rem;
+  }
+
+  .hero__highlight {
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 0.7rem 0.5rem;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__photo,
+  .hero__light-rays,
+  .hero__caret {
+    animation: none;
+  }
+}

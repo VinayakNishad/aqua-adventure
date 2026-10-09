@@ -1,0 +1,39 @@
+.why-us {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.why-us li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 1rem 0.5rem;
+  border-radius: var(--radius-md);
+  text-align: center;
+  background: var(--ocean-100);
+}
+
+.why-us .bi {
+  font-size: 1.5rem;
+  color: var(--sunset-coral);
+}
+
+.why-us strong {
+  font-size: 1rem;
+}
+
+.why-us span {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+@media (max-width: 767.98px) {
+  .why-us {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

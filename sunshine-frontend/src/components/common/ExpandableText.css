@@ -1,0 +1,21 @@
+.expandable-text__body {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.expandable-text__body.is-clamped {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: var(--lines);
+  overflow: hidden;
+}
+
+.expandable-text__toggle {
+  margin-top: 0.35rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-weight: 600;
+  color: var(--ocean-500);
+}

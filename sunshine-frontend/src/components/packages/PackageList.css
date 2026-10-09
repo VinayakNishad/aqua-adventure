@@ -1,0 +1,56 @@
+.package-list {
+  padding: clamp(3rem, 8vw, 5rem) 0;
+}
+
+.package-list__header {
+  max-width: 640px;
+  margin: 0 auto 2.5rem;
+  text-align: center;
+}
+
+.package-list__eyebrow {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ocean-500);
+}
+
+.package-list__header h2 {
+  margin: 0.35rem 0 0.6rem;
+  color: var(--ocean-900);
+}
+
+.package-list__header p {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.package-list__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 380px));
+  justify-content: center;
+  gap: 1.75rem;
+}
+
+/* Cards rise into place as they enter the viewport (scroll-driven, no JS). */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .package-list .pkg-card {
+      animation: card-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 30%;
+    }
+  }
+}
+
+@keyframes card-rise {
+  from {
+    opacity: 0;
+    translate: 0 60px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}

@@ -15,11 +15,7 @@ const stripVersionedTransformations = (pathAfterUpload) => {
 };
 
 export const getOptimizedCloudinaryUrl = (url, options = {}) => {
-  if (
-    typeof url !== "string" ||
-    !url.includes(CLOUDINARY_HOST) ||
-    !url.includes(UPLOAD_SEGMENT)
-  ) {
+  if (typeof url !== "string" || !url.includes(CLOUDINARY_HOST) || !url.includes(UPLOAD_SEGMENT)) {
     return url;
   }
 
@@ -50,3 +46,12 @@ export const getOptimizedCloudinaryUrl = (url, options = {}) => {
 
   return `${prefix}${UPLOAD_SEGMENT}${transformations.join(",")}/${suffix}`;
 };
+
+/** Builds a `srcSet` string of Cloudinary renditions at the given widths. */
+export const buildCloudinarySrcSet = (url, widths, options = {}) =>
+  widths
+    .map(
+      (width) =>
+        `${getOptimizedCloudinaryUrl(url, { crop: "limit", ...options, width })} ${width}w`,
+    )
+    .join(", ");

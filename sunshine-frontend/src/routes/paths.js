@@ -1,0 +1,18 @@
+export const ROUTES = Object.freeze({
+  HOME: "/",
+  PACKAGES: "/packages",
+  PACKAGE_DETAIL: "/package/:id",
+  PACKAGE_REVIEW: "/package/:id/review",
+  ACTIVITY_REVIEW: "/activity/:id/review",
+  REVIEWS: "/reviews",
+  PHOTO_CREDITS: "/photo-credits",
+  ADMIN_LOGIN: "/admin-login",
+  BOOKINGS: "/bookings",
+  ADMIN_PACKAGES: "/admin/packages",
+  NEW_PACKAGE: "/packages/new",
+  EDIT_PACKAGE: "/admin/edit-package/:id",
+  NEW_ACTIVITY: "/add-activity",
+  ACTIVITIES: "/show-activity",
+  EDIT_ACTIVITY: "/admin/edit-activity/:id",
+  VIDEOS: "/videos",
+});

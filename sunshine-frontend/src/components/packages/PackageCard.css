@@ -1,0 +1,228 @@
+.pkg-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: #fff;
+  border: 1px solid rgba(11, 111, 164, 0.08);
+  box-shadow: var(--shadow-soft);
+  transition: box-shadow 0.3s ease;
+}
+
+.pkg-card:hover {
+  box-shadow: var(--shadow-lift);
+}
+
+/* ---------- Media ---------- */
+.pkg-card__media {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--ocean-100);
+}
+
+.pkg-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease-out-expo);
+}
+
+.pkg-card:hover .pkg-card__media img {
+  transform: scale(1.05);
+}
+
+.pkg-card__placeholder {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  font-size: 2rem;
+  color: var(--ocean-300);
+}
+
+.pkg-card__badge,
+.pkg-card__photos {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.pkg-card__badge--rating {
+  top: 0.75rem;
+  left: 0.75rem;
+  color: var(--text-strong);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.pkg-card__badge--rating .bi {
+  color: var(--sunset-gold);
+}
+
+.pkg-card__badge--rating small {
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.pkg-card__badge--deal {
+  top: 0.75rem;
+  right: 0.75rem;
+  color: #fff;
+  background: #198754;
+}
+
+.pkg-card__photos {
+  right: 0.75rem;
+  bottom: 0.75rem;
+  color: #fff;
+  background: rgba(3, 26, 44, 0.6);
+  backdrop-filter: blur(6px);
+}
+
+/* ---------- Body ---------- */
+.pkg-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.1rem 1.25rem 1.25rem;
+}
+
+.pkg-card__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  line-height: 1.25;
+}
+
+.pkg-card__title a {
+  color: var(--ocean-900);
+  text-decoration: none;
+}
+
+/* Whole card is clickable via the title link. */
+.pkg-card__title a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.pkg-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.pkg-card__desc {
+  display: -webkit-box;
+  margin: 0;
+  overflow: hidden;
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.pkg-card__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pkg-card__chips li {
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  color: var(--ocean-700);
+  background: var(--ocean-100);
+}
+
+.pkg-card__chips .is-more {
+  color: var(--text-muted);
+  background: #f1f3f5;
+}
+
+/* ---------- Footer ---------- */
+.pkg-card__footer {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 0.9rem;
+  border-top: 1px solid rgba(11, 111, 164, 0.08);
+}
+
+.pkg-card__price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 0.4rem;
+}
+
+.pkg-card__price-now {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--ocean-900);
+}
+
+.pkg-card__price del {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.pkg-card__price small {
+  flex-basis: 100%;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Actions sit above the full-card link overlay. */
+.pkg-card__actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pkg-card__wa {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 1.1rem;
+}
+
+.pkg-card__actions .btn-cta {
+  padding-inline: 1.2rem;
+  border-radius: 999px;
+}
+
+.pkg-card__actions {
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.pkg-card__actions .btn {
+  white-space: nowrap;
+}
+
+.pkg-card__wa {
+  flex-shrink: 0;
+}

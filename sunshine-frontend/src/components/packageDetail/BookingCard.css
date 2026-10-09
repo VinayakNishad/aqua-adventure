@@ -1,0 +1,111 @@
+.booking-card {
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  background: #fff;
+  box-shadow: var(--shadow-lift);
+}
+
+.booking-card__label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.price-tag {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.price-tag__now {
+  font-family: var(--font-body);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--ocean-900);
+}
+
+.price-tag__was {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.price-tag__badge {
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  background: #198754;
+}
+
+.booking-card__perks {
+  display: grid;
+  gap: 0.35rem;
+  margin: 1.1rem 0 0;
+  padding: 1rem 0 0;
+  border-top: 1px solid rgba(11, 111, 164, 0.1);
+  list-style: none;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.booking-card__perks .bi {
+  color: var(--ocean-500);
+}
+
+/* ---------- Mobile bottom bar ---------- */
+.booking-bar {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 1030;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 -8px 24px rgba(6, 42, 69, 0.12);
+}
+
+.booking-bar > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.booking-bar .price-tag__now {
+  font-size: 1.4rem;
+}
+
+.booking-bar__wa {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 1.2rem;
+}
+
+.booking-bar .btn-cta {
+  padding: 0.65rem 1.3rem;
+  border-radius: 999px;
+}
+
+.booking-bar .price-tag {
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+@media (max-width: 359.98px) {
+  .booking-bar .price-tag__was {
+    display: none;
+  }
+}
+
+/* The struck-through price already signals the deal; keep the bar uncluttered. */
+.booking-bar .price-tag__badge {
+  display: none;
+}
