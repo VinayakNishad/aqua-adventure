@@ -12,6 +12,11 @@ coverage/
 !.env.example
 *firebase-adminsdk*.json
 
+# Postman local workspace (personal workspace id, environments may hold tokens)
+.postman/
+postman/environments/
+postman/globals/
+
 # Logs and OS / editor files
 *.log
 .DS_Store
