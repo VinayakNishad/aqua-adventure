@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { getGoogleReviews } from "../../services/reviewService";
+import { GOOGLE_RATING, MAP_EMBED_URL } from "../../constants/packageInfo";
 import "./GoogleReviews.css";
-import { ChevronDownIcon, StarIcon, WriteReviewIcon } from "../icons";
+import { ChevronDownIcon, ExternalLinkIcon, StarIcon, WriteReviewIcon } from "../icons";
+
+const PLACE_ID = "ChIJ3X6yPX3BvzsRG1hll88VYaQ";
+const WRITE_REVIEW_URL = `https://search.google.com/local/writereview?placeid=${PLACE_ID}`;
+const ALL_REVIEWS_URL = `https://search.google.com/local/reviews?placeid=${PLACE_ID}`;
 
 // --- Helper Icons (Self-contained SVG Components) ---
 
@@ -29,19 +34,16 @@ const GoogleReviews = () => {
   const [reviews, setReviews] = useState([]);
 
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [expandedReviews, setExpandedReviews] = useState([]);
   const [visibleReviewsCount, setVisibleReviewsCount] = useState(3);
-
-  const placeId = "ChIJ3X6yPX3BvzsRG1hll88VYaQ"; // ⚠️ Replace with your actual Place ID
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setReviews(await getGoogleReviews());
       } catch (err) {
-        console.error("Failed to fetch Google data:", err);
-        setError("Could not load Google reviews and photos at this time.");
+        // Without review data (e.g. Places API billing off) the map embed below still shows the rating.
+        console.warn("Google reviews unavailable, showing map instead:", err.message);
       } finally {
         setLoading(false);
       }
@@ -60,28 +62,58 @@ const GoogleReviews = () => {
     );
   };
 
-  const writeReviewUrl = `https://search.google.com/local/writereview?placeid=${placeId}`;
-
   if (loading) return <div className="text-center p-5">Loading Google Reviews...</div>;
-  if (error) return <div className="alert alert-warning text-center">{error}</div>;
 
   return (
     <>
       <section id="reviews" className="google-reviews-section">
         <div className="container">
-          {/* --- MODIFIED: Header with new button --- */}
           <div className="section-header mb-5">
             <h2 className="fw-bold">What Our Guests Say on Google</h2>
-            <a
-              href={writeReviewUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="write-review-btn"
-            >
-              <WriteReviewIcon />
-              <span>Write a Review</span>
-            </a>
+            <div className="section-header__actions">
+              <a
+                href={ALL_REVIEWS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="google-reviews-link"
+              >
+                <span>See all reviews</span>
+                <ExternalLinkIcon />
+              </a>
+              <a
+                href={WRITE_REVIEW_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="write-review-btn"
+              >
+                <WriteReviewIcon />
+                <span>Write a Review</span>
+              </a>
+            </div>
           </div>
+
+          {reviews.length === 0 && (
+            <div className="reviews-fallback">
+              {/* The map's place card shows the live rating, but Google hides it on narrow screens. */}
+              <div className="reviews-fallback__summary">
+                <span className="reviews-fallback__rating">
+                  <StarIcon /> {GOOGLE_RATING} on Google
+                </span>
+                <p className="reviews-fallback__text">
+                  Read every guest review on Google, or find us on the map.
+                </p>
+              </div>
+              <div className="reviews-fallback__map">
+                <iframe
+                  src={MAP_EMBED_URL}
+                  title="Paradise Watersports rating on Google Maps"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  allowFullScreen
+                />
+              </div>
+            </div>
+          )}
 
           {/* --- Reviews Grid --- */}
           <div className="row">

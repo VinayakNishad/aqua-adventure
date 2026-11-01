@@ -3,9 +3,12 @@
 /** Shown as a struck-through "original" price; packages are advertised at this discount. */
 export const PACKAGE_DISCOUNT_PERCENT = 10;
 
+/** The business's star rating on Google Maps. Not fetched live: update it when Google's changes. */
+export const GOOGLE_RATING = 4.8;
+
 export const WHY_CHOOSE_US = Object.freeze([
   { icon: "bi-award", title: "10+ years", text: "of water sports experience" },
-  { icon: "bi-star-fill", title: "4.8 / 5", text: "average guest rating" },
+  { icon: "bi-star-fill", title: `${GOOGLE_RATING} / 5`, text: "average guest rating" },
   { icon: "bi-person-badge", title: "Instructor-led", text: "safety-first trips" },
   { icon: "bi-headset", title: "24/7 support", text: "before and after your trip" },
 ]);
