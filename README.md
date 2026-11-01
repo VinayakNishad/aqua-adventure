@@ -35,9 +35,9 @@ npm run dev               # http://localhost:3000
 - `FIREBASE_SERVICE_ACCOUNT` must be the full service-account JSON on **one line**, starting with
   `{` and ending with `}`. In a local `.env` you may wrap it in single quotes; on Render paste
   only the JSON itself, without quotes. A malformed value makes every admin route return 500.
-- On Windows, if the API fails with `querySrv ECONNREFUSED` while `nslookup` works, Node is
-  using a broken local DNS server (often a VPN or local DNS proxy on `127.0.0.1`). Point the
-  network adapter's DNS at a working resolver such as `1.1.1.1`.
+- Some Windows machines (VPNs, security agents) give Node a loopback DNS server that refuses
+  the `mongodb+srv://` lookup (`querySrv ECONNREFUSED`). Outside production the API detects
+  this and switches to `1.1.1.1` / `8.8.8.8` automatically.
 - On Windows, `npm run dev` (`node --watch`) can crash with
   `Assertion failed ... fs-event.c`. Use `npm start` and restart manually if it happens.
 
