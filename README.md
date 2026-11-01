@@ -38,6 +38,10 @@ npm run dev               # http://localhost:3000
 - Some Windows machines (VPNs, security agents) give Node a loopback DNS server that refuses
   the `mongodb+srv://` lookup (`querySrv ECONNREFUSED`). Outside production the API detects
   this and switches to `1.1.1.1` / `8.8.8.8` automatically.
+- Google reviews use the **Places API (New)**; the legacy Places API cannot be enabled on new
+  Cloud projects. The key's project needs that API enabled and billing on. Without it the home
+  page shows the Google Maps embed and the hand-maintained `GOOGLE_RATING` from
+  `sunshine-frontend/src/constants/packageInfo.js` instead of review cards.
 - On Windows, `npm run dev` (`node --watch`) can crash with
   `Assertion failed ... fs-event.c`. Use `npm start` and restart manually if it happens.
 

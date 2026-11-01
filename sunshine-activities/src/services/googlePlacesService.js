@@ -1,48 +1,42 @@
 import env from "../config/env.js";
 import ApiError from "../utils/ApiError.js";
 
-const DETAILS_URL = "https://maps.googleapis.com/maps/api/place/details/json";
-const PHOTO_URL = "https://maps.googleapis.com/maps/api/place/photo";
+// Places API (New). The legacy Places API cannot be enabled on new Google Cloud projects.
+const PLACES_URL = "https://places.googleapis.com/v1/places";
+const MEDIA_URL = "https://places.googleapis.com/v1";
 
-const fetchPlaceDetails = async (fields) => {
+const fetchPlaceDetails = async (fieldMask) => {
   const { placesApiKey, placeId } = env.google;
   if (!placesApiKey || !placeId) {
     throw ApiError.serviceUnavailable("Google Places is not configured");
   }
 
-  const url = new URL(DETAILS_URL);
-  url.search = new URLSearchParams({ place_id: placeId, fields, key: placesApiKey });
-
-  const response = await fetch(url);
+  const response = await fetch(`${PLACES_URL}/${encodeURIComponent(placeId)}`, {
+    headers: { "X-Goog-Api-Key": placesApiKey, "X-Goog-FieldMask": fieldMask },
+  });
   const data = await response.json();
-  if (data.status !== "OK") {
-    throw new Error(data.error_message || `Google Places error: ${data.status}`);
+  if (!response.ok) {
+    throw new Error(data.error?.message || `Google Places error: HTTP ${response.status}`);
   }
-  return data.result;
+  return data;
 };
 
 export const getReviews = async () => {
-  const result = await fetchPlaceDetails(
-    "reviews(author_name,profile_photo_url,rating,relative_time_description,text)",
-  );
-  return (result.reviews ?? []).map((review) => ({
-    authorName: review.author_name,
-    profilePhotoUrl: review.profile_photo_url,
+  const place = await fetchPlaceDetails("reviews");
+  return (place.reviews ?? []).map((review) => ({
+    authorName: review.authorAttribution?.displayName,
+    profilePhotoUrl: review.authorAttribution?.photoUri,
     rating: review.rating,
-    relativeTimeDescription: review.relative_time_description,
-    text: review.text,
+    relativeTimeDescription: review.relativePublishTimeDescription,
+    text: review.text?.text ?? review.originalText?.text ?? "",
   }));
 };
 
 export const getPhotos = async () => {
-  const result = await fetchPlaceDetails("photos");
-  return (result.photos ?? []).map((photo) => {
-    const url = new URL(PHOTO_URL);
-    url.search = new URLSearchParams({
-      maxwidth: "800",
-      photo_reference: photo.photo_reference,
-      key: env.google.placesApiKey,
-    });
+  const place = await fetchPlaceDetails("photos");
+  return (place.photos ?? []).map((photo) => {
+    const url = new URL(`${MEDIA_URL}/${photo.name}/media`);
+    url.search = new URLSearchParams({ maxWidthPx: "800", key: env.google.placesApiKey });
     return { photoUrl: url.toString() };
   });
 };
